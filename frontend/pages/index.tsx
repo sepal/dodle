@@ -2,47 +2,73 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react';
-import Canvas from "../components/canvas";
 import styled from 'styled-components'
+import Canvas from "../components/Canvas";
+import Board from "../components/guesses";
+import Input from "../components/Input";
 
 const Title = styled.h1`
   max-width: 256px;
   font-size: 50px;
   margin: 0 auto;
   color: ${({ theme }) => theme.colors.text};
+  text-align: center;
 `
+
+const StyledMain = styled.main`
+  max-width: 256px;
+  margin: 0 auto;
+`
+
+enum PlayState {
+  playing,
+  success,
+  fail,
+}
 
 type Game = {
   word: string,
   prompt: string,
   scores: number,
   files: Array<string>,
-  guesses: Array<string>,
-
 };
 
 const Home: NextPage = () => {
-  const [game, setGame] = useState({
-      word: "toad",
-      prompt: "delicate orange toad doodle",
-      scores: [
-          19.11056137084961,
-          24.723907470703125,
-          26.59560775756836,
-          27.740201950073242,
-          28.941102981567383
-      ],
-      files: [
-          "/game/toad0.png",
-          "/game/toad1.png",
-          "/game/toad2.png",
-          "/game/toad3.png",
-          "/game/toad4.png"
-      ],
-      guesses: [],
-  });
+  const [guesses, setGuesses] = useState([]);
+  const [playState, setPlayState] = useState(PlayState.playing);
 
-  const level = game.guesses.length;
+  const game = {
+    word: "toad",
+    prompt: "delicate orange toad doodle",
+    scores: [
+        19.11056137084961,
+        24.723907470703125,
+        26.59560775756836,
+        27.740201950073242,
+        28.941102981567383
+    ],
+    files: [
+        "/game/toad0.png",
+        "/game/toad1.png",
+        "/game/toad2.png",
+        "/game/toad3.png",
+        "/game/toad4.png"
+    ],
+  }
+
+  let message = "";
+
+  switch (playState) {
+    case PlayState.success:
+      message = "🎉 Yay, you're correct! Congrats! 🍾";
+      break;
+    case PlayState.fail:
+      message = `🥺 Sorry, you're wrong. The correct word is "${game.word}"`;
+  }
+
+
+  
+  let image = game.files[guesses.length > 4 ? 4 : guesses.length];
 
   return (
     <div>
@@ -52,9 +78,28 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-      <Title>Dodle</Title>
-      </main>
+      <StyledMain>
+        <Title>Dodle</Title>
+        <Canvas image={image} />
+        <Board guesses={guesses} />
+        {(playState == PlayState.playing) ? 
+          <Input guessHandler={(guess) => {
+            if (guess.toLowerCase() != game.word) {
+              guess += " ❌";
+              if (guesses.length >= 4) {
+                setPlayState(PlayState.fail)
+              }
+            }
+            else {
+              guess += " ✔️";
+              setPlayState(PlayState.success)
+            }
+            setGuesses([...guesses, guess]);
+          }} />
+          :
+          <div>{message}</div>
+        }
+      </StyledMain>
 
       <footer>
       </footer>

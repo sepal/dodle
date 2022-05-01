@@ -8,6 +8,8 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
 
     font-family: Arial;
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   *, *:before, *:after {
@@ -19,7 +21,8 @@ const theme = {
   colors: {
     success: '##00b01a',
     wrong: "#a11d1d",
-    text: "#222"
+    text: "#222",
+    border: "#f0f0f0",
   },
 }
 
