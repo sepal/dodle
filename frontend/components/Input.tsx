@@ -19,18 +19,28 @@ const Form = styled.form`
 
 const StyledInput = styled.input`
   border: 0;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
   width: 80%;
   font-size: 16px;
   line-height: 1.5;
+    letter-spacing: 0.1em;
 `;
 
 const StyledSubmit = styled.button`
-  border: 1px sold #ccc;
-  margin-left: 5px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
   width: 20%;
   font-size: 16px;
   line-height: 1.5;
+  transition: color 0.1s, background-color 0.1s;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  &:hover, &:focus {
+    background-color: white;
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 const Input = ({ guessHandler }: InputProps) => {

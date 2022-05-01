@@ -37,6 +37,8 @@ const GameFrame = styled.div`
 
 const EndMessage = styled.div`
     text-align: center;
+    margin-top: 1.5em;
+    font-size: 1.5em;
 `
 
 const Game = () => {
