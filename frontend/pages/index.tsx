@@ -1,14 +1,23 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
+import Image from 'next/image'
 import Game from '../components/Game'
 
 const Title = styled.h1`
   max-width: 256px;
   font-size: 2em;
-  margin: 0 auto;
+  margin: 0 0 0 0;
   color: #333;
   text-align: center;
+`
+
+const Header = styled.header`
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 512px;
+  margin: 0.5em auto;
 `
 
 const Home: NextPage = () => {
@@ -20,9 +29,16 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header>
+      <Header>
+        <Image 
+          src="/android-chrome-192x192.png"
+          alt="dodle"
+          width={24}
+          height={24}
+          layout="fixed"
+        />
         <Title>Dodle</Title>
-      </header>
+      </Header>
       <main>
         <Game />
       </main>
