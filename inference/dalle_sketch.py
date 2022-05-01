@@ -1,3 +1,4 @@
+import os
 import random
 import jax
 import logging
@@ -11,6 +12,8 @@ from dalle_mini import DalleBartProcessor
 from flax.training.common_utils import shard_prng_key
 import numpy as np
 from PIL import Image
+
+os.environ['WANDB_MODE'] = "offline"
 
 DALLE_MODEL = "dalle-mini/dalle-mini/wzoooa1c:latest"  # can be wandb artifact or 🤗 Hub or local folder or google bucket
 DALLE_COMMIT_ID = None
