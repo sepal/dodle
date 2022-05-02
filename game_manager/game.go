@@ -3,6 +3,10 @@ package dodle
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"log"
+	"os"
+	"path/filepath"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -15,6 +19,8 @@ type GameData struct {
 	Prompt string    `json:"prompt"`
 	Scores []float64 `json:"scores"`
 	Files  []string  `json:"files"`
+	bucket string
+	name   string
 }
 
 func LoadGame(session *session.Session, bucket string, name string) (g *GameData, e error) {
@@ -40,5 +46,44 @@ func LoadGame(session *session.Session, bucket string, name string) (g *GameData
 		return nil, err
 	}
 
+	g.bucket = bucket
+	g.name = name
+
 	return g, e
+}
+
+func (g *GameData) LoadImages(session *session.Session) error {
+	downloader := s3manager.NewDownloader(session)
+
+	tempDir, err := os.MkdirTemp("", "dodle")
+
+	if err != nil {
+		return err
+	}
+
+	for i := range g.Files {
+		fileName := filepath.Join(tempDir, g.Files[i])
+		file, err := os.Create(fileName)
+
+		if err != nil {
+			return err
+		}
+
+		key := fmt.Sprintf("%s/%s", g.name, g.Files[i])
+
+		numBytes, err := downloader.Download(file, &s3.GetObjectInput{
+			Bucket: aws.String(g.bucket),
+			Key:    aws.String(key),
+		})
+
+		if err != nil {
+			return err
+		}
+
+		g.Files[i] = fileName
+
+		log.Printf("Downloaded %d bytes image %s for game %s\n", int(numBytes), g.Files[i], g.Word)
+	}
+
+	return nil
 }
