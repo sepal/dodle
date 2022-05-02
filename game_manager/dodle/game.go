@@ -73,15 +73,17 @@ func (g *GameData) LoadImages(session *session.Session) error {
 		return err
 	}
 
-	for i := range g.Files {
-		fileName := filepath.Join(tempDir, g.Files[i])
-		file, err := os.Create(fileName)
+	for i, f := range g.Files {
+		fileName := fmt.Sprintf("image%s.png", strconv.Itoa(i))
+
+		filePath := filepath.Join(tempDir, fileName)
+		file, err := os.Create(filePath)
 
 		if err != nil {
 			return err
 		}
 
-		key := fmt.Sprintf("%s/%s", g.prefix, g.Files[i])
+		key := fmt.Sprintf("%s/%s", g.prefix, f)
 
 		numBytes, err := downloader.Download(file, &s3.GetObjectInput{
 			Bucket: aws.String(g.bucket),
@@ -92,9 +94,9 @@ func (g *GameData) LoadImages(session *session.Session) error {
 			return err
 		}
 
-		g.Files[i] = fileName
+		g.Files[i] = filePath
 
-		log.Printf("Downloaded %d bytes image %s for game %s\n", int(numBytes), g.Files[i], g.Word)
+		log.Printf("Downloaded %d bytes image %s for game %s\n", int(numBytes), f, g.Word)
 	}
 
 	return nil
