@@ -64,6 +64,30 @@ func TestLoadGameImages(t *testing.T) {
 	}
 }
 
+func TestGetImage(t *testing.T) {
+	sess, err := GetSession()
+
+	if err != nil {
+		t.Fatalf(`Error while loading game: "%s"`, err)
+	}
+
+	game, err := LoadGame(sess, BUCKET, "1651363200")
+
+	if err != nil {
+		t.Fatalf(`Error while loading game: "%s"`, err)
+	}
+
+	buffer, err := game.GetImage(sess, 0)
+
+	if err != nil {
+		t.Fatalf(`Error while loading image: "%s"`, err)
+	}
+
+	if len(buffer) <= 0 {
+		t.Fatalf(`Expected an image buffer > 0 bytes got %d bytes`, len(buffer))
+	}
+}
+
 func TestListGames(t *testing.T) {
 	session, err := GetSession()
 

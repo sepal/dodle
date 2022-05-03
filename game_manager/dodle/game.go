@@ -64,6 +64,28 @@ func LoadGame(session *session.Session, bucket string, name string) (g *GameData
 	return g, e
 }
 
+func (g *GameData) GetImageKey(level int) string {
+	f := g.Files[level]
+
+	return fmt.Sprintf("%s/%s", g.prefix, f)
+}
+
+func (g *GameData) GetImage(session *session.Session, level int) ([]byte, error) {
+	writeBuf := &aws.WriteAtBuffer{}
+
+	downloader := s3manager.NewDownloader(session)
+	_, err := downloader.Download(writeBuf, &s3.GetObjectInput{
+		Bucket: aws.String(g.bucket),
+		Key:    aws.String(g.GetImageKey(level)),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return writeBuf.Bytes(), nil
+}
+
 func (g *GameData) LoadImages(session *session.Session) error {
 	downloader := s3manager.NewDownloader(session)
 
@@ -83,11 +105,9 @@ func (g *GameData) LoadImages(session *session.Session) error {
 			return err
 		}
 
-		key := fmt.Sprintf("%s/%s", g.prefix, f)
-
 		numBytes, err := downloader.Download(file, &s3.GetObjectInput{
 			Bucket: aws.String(g.bucket),
-			Key:    aws.String(key),
+			Key:    aws.String(g.GetImageKey(i)),
 		})
 
 		if err != nil {
