@@ -49,7 +49,7 @@ func LoadGame(session *session.Session, bucket string, name string) (g *GameData
 	}
 
 	if numBytes < 1 {
-		return nil, errors.New("Download game data with zero bytes")
+		return nil, errors.New("download game data with zero bytes")
 	}
 
 	err = json.Unmarshal(buff.Bytes(), &g)
@@ -169,7 +169,7 @@ func GetNextGame(session *session.Session, bucket string) (g *GameData, err erro
 	}
 
 	if next_game == 0 {
-		return nil, errors.New("No game found")
+		return nil, errors.New("no game found")
 	}
 
 	name := strconv.FormatInt(next_game, 10)
