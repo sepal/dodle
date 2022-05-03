@@ -14,24 +14,13 @@ import (
 const BUCKET = "dodle"
 
 type GameResponse struct {
-	Word   string `json:"word"`
-	Images string `json:"images"`
+	Word   string   `json:"word"`
+	Images []string `json:"images"`
 }
 
 var game dodle.GameData
 
 func HandleRequest(request events.APIGatewayProxyRequest) (g GameResponse, err error) {
-	g.Word = game.Word
-
-	for _, f := range game.Files {
-		fp := filepath.Base(f)
-		g.Images = fp
-	}
-
-	return g, err
-}
-
-func main() {
 	dodle.AWS_PREFIX = "testing/"
 
 	session, err := session.NewSession(&aws.Config{
@@ -54,5 +43,16 @@ func main() {
 		log.Fatalf("Could not load game images due to: %s", err)
 	}
 
+	g.Word = game.Word
+
+	for _, f := range game.Files {
+		fp := filepath.Base(f)
+		g.Images = append(g.Images, fp)
+	}
+
+	return g, err
+}
+
+func main() {
 	lambda.Start(HandleRequest)
 }
