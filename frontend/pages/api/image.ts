@@ -15,9 +15,10 @@ export default function handler(
     }
   }
 
+  console.log(`/${process.env.GAME_MANAGER_STAGE}/game/image?level=${level}`);
   https.get({
     host: URL,
-    path: `/testing/game/image?level=${level}`,
+    path: `/${process.env.GAME_MANAGER_STAGE}/game/image?level=${level}`,
     method: "GET",
     headers: {
       "X-API-Key": process.env.GAME_MANAGER_API_KEY,
@@ -32,6 +33,7 @@ export default function handler(
         buffer = Buffer.concat([buffer, data]);
       });
       resp.on("end", () => {
+        res.setHeader("max-age", "86400")
         res.setHeader("Content-type", "image/png");
         res.setHeader("Content-Disposition", 'inline; filename="image.png"')
         res.status(200).send(buffer);

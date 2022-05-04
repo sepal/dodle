@@ -44,10 +44,12 @@ const Game = ({game}: GameProps) => {
       message = `🥺 Sorry, you're wrong. The correct word is "${game.word}"`;
   }
 
+  let today = new Date();
+  let date = `date=${today.toISOString().split('T')[0]}`;
   let canvas = guesses.length < game.levels ? (
-    <Canvas image={`/api/image?level=${guesses.length}`} />
+    <Canvas image={`/api/image?level=${guesses.length}&${date}`} />
   ) : (
-    <Canvas image={`/api/image?level=${game.levels-1}}`} />
+    <Canvas image={`/api/image?level=${game.levels-1}}&${date}`} />
   )
 
   return (
