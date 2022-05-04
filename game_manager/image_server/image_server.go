@@ -36,7 +36,11 @@ func CreateErrorResponse(statusCode int, message string) (*events.APIGatewayProx
 }
 
 func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	dodle.AWS_PREFIX = "testing/"
+	env, ok := request.StageVariables["env"]
+
+	if ok {
+		dodle.AWS_PREFIX = env + "/"
+	}
 
 	session, err := session.NewSession(&aws.Config{
 		Region: aws.String("eu-central-1"),
