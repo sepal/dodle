@@ -1,8 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
-	"path/filepath"
+	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -14,14 +15,18 @@ import (
 const BUCKET = "dodle"
 
 type GameResponse struct {
-	Word   string   `json:"word"`
-	Images []string `json:"images"`
+	Word   string    `json:"word"`
+	Levels int       `json:"levels"`
+	Scores []float64 `json:"scores"`
+	Prompt string    `json:"prompt"`
 }
 
-var game dodle.GameData
+func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	env, ok := request.StageVariables["env"]
 
-func HandleRequest(request events.APIGatewayProxyRequest) (g GameResponse, err error) {
-	dodle.AWS_PREFIX = "testing/"
+	if ok {
+		dodle.AWS_PREFIX = env + "/"
+	}
 
 	session, err := session.NewSession(&aws.Config{
 		Region: aws.String("eu-central-1"),
@@ -43,14 +48,26 @@ func HandleRequest(request events.APIGatewayProxyRequest) (g GameResponse, err e
 		log.Fatalf("Could not load game images due to: %s", err)
 	}
 
-	g.Word = game.Word
-
-	for _, f := range game.Files {
-		fp := filepath.Base(f)
-		g.Images = append(g.Images, fp)
+	g := GameResponse{
+		Word:   game.Word,
+		Levels: len(game.Files),
+		Scores: game.Scores,
+		Prompt: game.Prompt,
 	}
 
-	return g, err
+	body, err := json.Marshal(g)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+		Body:       string(body),
+		Headers: map[string]string{
+			"Content-Type": "application/json",
+		},
+	}, nil
 }
 
 func main() {
