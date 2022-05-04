@@ -1,8 +1,8 @@
 import styled from "styled-components"
-import Input from "./Input"
+import {Guess} from "../models/game"
 
 type GuessesProps = {
-    guesses: Array<string>
+    guesses: Guess[]
 };
 
 const BoardFrame = styled.div`
@@ -12,7 +12,7 @@ const BoardFrame = styled.div`
     margin: 1.5em auto 0 auto;
 `
 
-const Guess = styled.div`
+const GuessWrapper = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.border};
     padding: 0.5em 1.5em;
     letter-spacing: 0.25em;
@@ -21,7 +21,7 @@ const Guess = styled.div`
 const Guesses =({guesses} : GuessesProps) => {
 
     const GuessesComps = guesses.map((guess, i) => (
-        <Guess key={i}>{i+1}: {guess}</Guess>
+        <GuessWrapper key={i}>{i+1}: {guess.word} {guess.correct ? "✔️" : "❌" }</GuessWrapper>
     ));
 
     return (
