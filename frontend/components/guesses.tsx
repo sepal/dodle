@@ -21,7 +21,7 @@ const Guess = styled.div`
 const Guesses =({guesses} : GuessesProps) => {
 
     const GuessesComps = guesses.map((guess, i) => (
-        <Guess key={i}>{guess}</Guess>
+        <Guess key={i}>{i+1}: {guess}</Guess>
     ));
 
     return (

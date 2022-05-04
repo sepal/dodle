@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Canvas from "../components/Canvas";
-import Board from "../components/guesses";
+import Board from "./guesses";
 import Input from "../components/Input";
 import { GameData } from "../models/game_manager";
 
