@@ -31,7 +31,7 @@ type GameProps = {
 };
 
 const Game = ({game}: GameProps) => {
-  const [guesses, setGuesses] = useState([]);
+  const [guesses, setGuesses] = useState<string[]>([]);
   const [playState, setPlayState] = useState(PlayState.playing);
 
   let message = "";
@@ -68,7 +68,7 @@ const Game = ({game}: GameProps) => {
               guess += " ✔️";
               setPlayState(PlayState.success)
             }
-            setGuesses([...guesses, [guess]]);
+            setGuesses([...guesses, guess]);
           }} />
           :
           <EndMessage>{message}</EndMessage>
