@@ -1,8 +1,9 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import styled from 'styled-components'
-import Image from 'next/image'
-import Game from '../components/Game'
+import type { NextPage } from "next";
+import Head from "next/head";
+import styled from "styled-components";
+import Image from "next/image";
+import Game from "../components/Game";
+import {GameData} from "../models/game_manager"
 
 const Title = styled.h1`
   max-width: 256px;
@@ -10,17 +11,21 @@ const Title = styled.h1`
   margin: 0 0 0 0;
   color: #333;
   text-align: center;
-`
+`;
 
 const Header = styled.header`
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   max-width: 512px;
   margin: 0.5em auto;
-`
+`;
 
-const Home: NextPage = () => {
+type HomeProps = {
+  game: GameData
+};
+
+const Home: NextPage<HomeProps> = ({game} : HomeProps) => {
   return (
     <div>
       <Head>
@@ -30,7 +35,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Header>
-        <Image 
+        <Image
           src="/android-chrome-192x192.png"
           alt="dodle"
           width={24}
@@ -40,13 +45,23 @@ const Home: NextPage = () => {
         <Title>Dodle</Title>
       </Header>
       <main>
-        <Game />
+        <Game game={game} />
       </main>
 
-      <footer>
-      </footer>
+      <footer></footer>
     </div>
-  )
+  );
+};
+
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch("http://localhost:3000/api/game");
+  const game = await res.json();
+
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {props: {game: game }};
 }
 
-export default Home
+export default Home;

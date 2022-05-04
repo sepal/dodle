@@ -3,28 +3,13 @@ import styled from "styled-components";
 import Canvas from "../components/Canvas";
 import Board from "../components/guesses";
 import Input from "../components/Input";
+import { GameData } from "../models/game_manager";
 
 enum PlayState {
   playing,
   success,
   fail,
 }
-
-const gameData = {
-  word: "toad",
-  prompt: "delicate orange toad doodle",
-  scores: [
-    19.11056137084961, 24.723907470703125, 26.59560775756836,
-    27.740201950073242, 28.941102981567383,
-  ],
-  files: [
-    "/game/toad0.png",
-    "/game/toad1.png",
-    "/game/toad2.png",
-    "/game/toad3.png",
-    "/game/toad4.png",
-  ],
-};
 
 const GameFrame = styled.div`
     max-width: 512px;
@@ -41,11 +26,13 @@ const EndMessage = styled.div`
     font-size: 1.5em;
 `
 
-const Game = () => {
+type GameProps = {
+  game: GameData
+};
+
+const Game = ({game}: GameProps) => {
   const [guesses, setGuesses] = useState([]);
   const [playState, setPlayState] = useState(PlayState.playing);
-
-  let image = gameData.files[guesses.length > 4 ? 4 : guesses.length];
 
   let message = "";
 
@@ -54,17 +41,22 @@ const Game = () => {
       message = "🎉 Yay, you're correct! Congrats! 🍾";
       break;
     case PlayState.fail:
-      message = `🥺 Sorry, you're wrong. The correct word is "${gameData.word}"`;
+      message = `🥺 Sorry, you're wrong. The correct word is "${game.word}"`;
   }
 
+  let canvas = guesses.length < game.levels ? (
+    <Canvas image={`/api/image?level=${guesses.length}`} />
+  ) : (
+    <Canvas image={`/api/image?level=${game.levels-1}}`} />
+  )
 
   return (
       <GameFrame>
-        <Canvas image={image} />
+        {canvas}
         {guesses.length > 0 && <Board guesses={guesses} />}
         {(playState == PlayState.playing) ? 
           <Input guessHandler={(guess) => {
-            if (guess.toLowerCase() != gameData.word) {
+            if (guess.toLowerCase() != game.word) {
               guess += " ❌";
               if (guesses.length >= 4) {
                 setPlayState(PlayState.fail)
@@ -74,7 +66,7 @@ const Game = () => {
               guess += " ✔️";
               setPlayState(PlayState.success)
             }
-            setGuesses([...guesses, guess]);
+            setGuesses([...guesses, [guess]]);
           }} />
           :
           <EndMessage>{message}</EndMessage>
