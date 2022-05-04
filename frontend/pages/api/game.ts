@@ -1,19 +1,42 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { getGame } from '../../utils/game'
+import { ClientRequest, IncomingMessage, RequestOptions } from "http";
+import https from "https";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { ErrorResponse, GameData, URL } from "../../models/game_manager";
 
-
-type GameData = {
-  word: string,
-  prompt: string,
-  scores: Array<number>,
-  files: Array<string>
-}
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<GameData>
+  res: NextApiResponse<GameData | ErrorResponse>
 ) {
-  let game = await getGame();
+  https.get(
+    {
+      host: URL,
+      path: `/${process.env.GAME_MANAGER_STAGE}/game`,
+      method: "GET",
+      headers: {
+        "X-API-Key": process.env.GAME_MANAGER_API_KEY,
+        Accept: "application/json",
+      },
+    },
+    (resp) => {
+      resp.setEncoding("utf-8");
+      let body = "";
+      resp.on("data", (data) => {
+        body += data;
+      });
+      resp.on("end", () => {
+        console.log(resp.statusCode);
 
-  res.status(200).json(game);
+        if (resp.statusCode != 200) {
+          console.log(
+            `Got ${resp.statusCode} error from game manager: ${body}`
+          );
+          res.status(500).json({ msg: "Internal server error." });
+        } else {
+          const game: GameData = JSON.parse(body);
+          res.status(200).json(game);
+        }
+      });
+    }
+  );
 }
