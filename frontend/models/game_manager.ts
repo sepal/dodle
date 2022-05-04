@@ -6,7 +6,3 @@ export type GameData = {
   scores: [number];
   prompt: string;
 };
-
-export type ErrorResponse = {
-  msg: string;
-};
