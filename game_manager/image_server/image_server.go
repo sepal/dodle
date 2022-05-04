@@ -16,8 +16,6 @@ import (
 
 const BUCKET = "dodle"
 
-var game dodle.GameData
-
 func CreateErrorResponse(statusCode int, message string) (*events.APIGatewayProxyResponse, error) {
 	body, err := json.Marshal(map[string]string{
 		"error": message,
