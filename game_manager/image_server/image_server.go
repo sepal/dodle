@@ -41,6 +41,7 @@ func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayPro
 	if ok {
 		dodle.AWS_PREFIX = env + "/"
 	}
+	log.Printf("Using environment %s", dodle.AWS_PREFIX)
 
 	session, err := session.NewSession(&aws.Config{
 		Region: aws.String("eu-central-1"),
@@ -51,6 +52,7 @@ func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayPro
 	}
 
 	game, err := dodle.GetNextGame(session, BUCKET)
+	log.Printf("fetched game %s", game.Word)
 
 	if err != nil {
 		return nil, err
