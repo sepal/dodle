@@ -163,7 +163,7 @@ func GetNextGame(session *session.Session, bucket string) (g *GameData, err erro
 			return nil, err
 		}
 
-		if next_game == 0 && !(epoch > ct) {
+		if !(epoch > ct) {
 			next_game = epoch
 		}
 	}

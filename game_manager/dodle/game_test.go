@@ -149,4 +149,18 @@ func TestGetNextGame(t *testing.T) {
 	if err == nil {
 		t.Fatalf("Should have not found a game, found %s", g.Word)
 	}
+
+	CurrentTime = func() time.Time {
+		return time.Date(2022, 05, 03, 23, 59, 59, 0, time.UTC)
+	}
+
+	g, err = GetNextGame(session, BUCKET)
+
+	if err != nil {
+		t.Fatalf(`Error while listing games: "%s"`, err)
+	}
+
+	if g.Word != "mattress" {
+		t.Fatalf(`Expected game with word "mattress", got "%s"`, g.Word)
+	}
 }
