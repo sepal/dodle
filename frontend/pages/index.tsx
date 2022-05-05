@@ -3,7 +3,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import Image from "next/image";
 import Game from "../components/Game";
-import {GameData} from "../models/game_manager"
+import { GameData } from "../models/game_manager";
 
 const Title = styled.h1`
   max-width: 256px;
@@ -22,10 +22,10 @@ const Header = styled.header`
 `;
 
 type HomeProps = {
-  game: GameData
+  game: GameData;
 };
 
-const Home: NextPage<HomeProps> = ({game} : HomeProps) => {
+const Home: NextPage<HomeProps> = ({ game }: HomeProps) => {
   return (
     <div>
       <Head>
@@ -54,7 +54,9 @@ const Home: NextPage<HomeProps> = ({game} : HomeProps) => {
 };
 
 export async function getServerSideProps() {
-  const url = process.env.VERCEL_URL ?? "http://localhost:3000";
+  const url = process.env.URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000";
   console.log(process.env.VERCEL_URL);
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
@@ -63,7 +65,7 @@ export async function getServerSideProps() {
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
-  return {props: {game: game }};
+  return { props: { game: game } };
 }
 
 export default Home;
