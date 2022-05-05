@@ -5,6 +5,7 @@ import Guesses from "./Guesses";
 import Input from "../components/Input";
 import { GameData } from "../models/game_manager";
 import { Guess } from "../models/game";
+import { useLocalStorage } from "../utils/useLocalStorage";
 
 enum PlayState {
   playing,
@@ -31,23 +32,11 @@ type GameProps = {
 };
 
 const Game = ({ game }: GameProps) => {
-  const [guesses, setGuesses] = useState<Guess[]>([]);
-  const [playState, setPlayState] = useState(PlayState.playing);
-
-  useEffect(() => {
-    let data = localStorage.getItem("guesses");
-    if (data != undefined) {
-      let g: Guess[] = JSON.parse(data);
-      setGuesses(g);
-
-      console.log(g[g.length - 1]);
-      if (g.length > 0 && g[g.length - 1].correct) {
-        setPlayState(PlayState.success);
-      } else if (g.length >= game.levels && !g[g.length - 1].correct) {
-        setPlayState(PlayState.fail);
-      }
-    }
-  }, []);
+  const [guesses, setGuesses] = useLocalStorage<Guess[]>("guesses", []);
+  const [playState, setPlayState] = useLocalStorage<PlayState>(
+    "playState",
+    PlayState.playing
+  );
 
   let message = "";
 
@@ -87,8 +76,6 @@ const Game = ({ game }: GameProps) => {
             }
             let nGuesses = [...guesses, guess];
             setGuesses(nGuesses);
-
-            localStorage.setItem("guesses", JSON.stringify(nGuesses));
           }}
         />
       ) : (
