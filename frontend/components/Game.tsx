@@ -6,6 +6,7 @@ import Input from "../components/Input";
 import { GameData } from "../models/game_manager";
 import { Guess } from "../models/game";
 import { useLocalStorage } from "../utils/useLocalStorage";
+import { get_date } from "../utils/datetime";
 
 enum PlayState {
   playing,
@@ -37,6 +38,17 @@ const Game = ({ game }: GameProps) => {
     "playState",
     PlayState.playing
   );
+
+  useEffect(() => {
+    const currentDate = get_date();
+    const lastDate = localStorage.getItem("last_played");
+
+    if (lastDate && lastDate < currentDate) {
+      setPlayState(PlayState.playing);
+      setGuesses([]);
+      localStorage.setItem("last_played", currentDate);
+    }
+  }, [])
 
   let message = "";
 
