@@ -53,7 +53,7 @@ const Home: NextPage<HomeProps> = ({game} : HomeProps) => {
   );
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // Call an external API endpoint to get posts.
   // You can use any data fetching library
   const res = await fetch("http://localhost:3000/api/game");
