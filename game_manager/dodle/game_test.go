@@ -35,6 +35,10 @@ func TestLoadGame(t *testing.T) {
 		t.Fatal(`Game not loaded`)
 	}
 
+	if game.GameDate != 1651363200 {
+		t.Fatalf("Expected game 1651363200, got %d", game.GameDate)
+	}
+
 	if game.Word != "toad" {
 		t.Fatalf(`Wanted game with word toad got "%s"`, game.Word)
 	}
@@ -122,8 +126,8 @@ func TestGetNextGame(t *testing.T) {
 		t.Fatalf(`Error while listing games: "%s"`, err)
 	}
 
-	if g.Word != "toad" {
-		t.Fatalf(`Expected game with word "toad", got "%s"`, g.Word)
+	if g.Word != "toad" || g.GameDate != 1651363200 {
+		t.Fatalf(`Expected game 1651363200 with word "toad", got game %d with word "%s"`, g.GameDate, g.Word)
 	}
 
 	CurrentTime = func() time.Time {
@@ -136,8 +140,8 @@ func TestGetNextGame(t *testing.T) {
 		t.Fatalf(`Error while listing games: "%s"`, err)
 	}
 
-	if g.Word != "toad" {
-		t.Fatalf(`Expected game with word "toad", got "%s"`, g.Word)
+	if g.Word != "toad" || g.GameDate != 1651363200 {
+		t.Fatalf(`Expected game 1651363200 with word "toad", got game %d with word "%s"`, g.GameDate, g.Word)
 	}
 
 	CurrentTime = func() time.Time {
@@ -160,7 +164,7 @@ func TestGetNextGame(t *testing.T) {
 		t.Fatalf(`Error while listing games: "%s"`, err)
 	}
 
-	if g.Word != "mattress" {
-		t.Fatalf(`Expected game with word "mattress", got "%s"`, g.Word)
+	if g.Word != "mattress" || g.GameDate != 1651536000 {
+		t.Fatalf(`Expected game 1651536000 with word "mattress", got game %d with word "%s"`, g.GameDate, g.Word)
 	}
 }

@@ -20,12 +20,13 @@ import (
 var AWS_PREFIX = "game/"
 
 type GameData struct {
-	Word   string    `json:"word"`
-	Prompt string    `json:"prompt"`
-	Scores []float64 `json:"scores"`
-	Files  []string  `json:"files"`
-	bucket string
-	prefix string
+	GameDate int64     `json:"gameDate"`
+	Word     string    `json:"word"`
+	Prompt   string    `json:"prompt"`
+	Scores   []float64 `json:"scores"`
+	Files    []string  `json:"files"`
+	bucket   string
+	prefix   string
 }
 
 var CurrentTime = func() time.Time {
@@ -58,6 +59,13 @@ func LoadGame(session *session.Session, bucket string, name string) (g *GameData
 		return nil, err
 	}
 
+	epoch, err := strconv.ParseInt(name, 10, 0)
+
+	if err != nil {
+		return nil, err
+	}
+
+	g.GameDate = epoch
 	g.bucket = bucket
 	g.prefix = AWS_PREFIX + name
 
@@ -163,6 +171,7 @@ func GetNextGame(session *session.Session, bucket string) (g *GameData, err erro
 			return nil, err
 		}
 
+		log.Printf("%d", epoch)
 		if !(epoch > ct) {
 			next_game = epoch
 		}
