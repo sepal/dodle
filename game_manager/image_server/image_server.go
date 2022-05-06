@@ -52,7 +52,7 @@ func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayPro
 	}
 
 	game, err := dodle.GetNextGame(session, BUCKET)
-	log.Printf("fetched game %s", game.Word)
+	log.Printf("Fetched game %d", game.GameDate)
 
 	if err != nil {
 		return nil, err
