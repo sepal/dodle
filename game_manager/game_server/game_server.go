@@ -15,10 +15,11 @@ import (
 const BUCKET = "dodle"
 
 type GameResponse struct {
-	Word   string    `json:"word"`
-	Levels int       `json:"levels"`
-	Scores []float64 `json:"scores"`
-	Prompt string    `json:"prompt"`
+	GameDate int64     `json:"gameDate"`
+	Word     string    `json:"word"`
+	Levels   int       `json:"levels"`
+	Scores   []float64 `json:"scores"`
+	Prompt   string    `json:"prompt"`
 }
 
 func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
@@ -42,17 +43,12 @@ func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayPro
 		log.Fatalf("Could not load next game due to: %s", err)
 	}
 
-	err = game.LoadImages(session)
-
-	if err != nil {
-		log.Fatalf("Could not load game images due to: %s", err)
-	}
-
 	g := GameResponse{
-		Word:   game.Word,
-		Levels: len(game.Files),
-		Scores: game.Scores,
-		Prompt: game.Prompt,
+		GameDate: game.GameDate,
+		Word:     game.Word,
+		Levels:   len(game.Files),
+		Scores:   game.Scores,
+		Prompt:   game.Prompt,
 	}
 
 	body, err := json.Marshal(g)

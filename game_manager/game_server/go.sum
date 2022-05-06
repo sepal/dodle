@@ -15,6 +15,10 @@ github.com/sepal/dodle/game_manager/dodle v0.0.0-20220502145912-90b7f3d89512 h1:
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220502145912-90b7f3d89512/go.mod h1:L1MRk9x5Ct/VnCiV8rS1IkotcUE20gHiZKnfrhq66aE=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220504204839-8467b4c13c39 h1:4efqGDZ1R3QISDx3stCEf3rUQMJ3qZu/uTnUwCEEMTE=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220504204839-8467b4c13c39/go.mod h1:L1MRk9x5Ct/VnCiV8rS1IkotcUE20gHiZKnfrhq66aE=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220505153420-1963016340f9 h1:BOc936u3mZ1+UvaWPMh4NMdoocQEV71u3BUJ6SPYGIw=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220505153420-1963016340f9/go.mod h1:L1MRk9x5Ct/VnCiV8rS1IkotcUE20gHiZKnfrhq66aE=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220506075258-2350677131f2 h1:P6q4ixWCCWszi/mZVwF3ft6m7zQIGOuDHLf0ozS38Dw=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220506075258-2350677131f2/go.mod h1:L1MRk9x5Ct/VnCiV8rS1IkotcUE20gHiZKnfrhq66aE=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
 golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd h1:O7DYs+zxREGLKzKoMQrtrEacpb0ZVXA5rIwylE2Xchk=
