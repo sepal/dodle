@@ -43,7 +43,7 @@ const Game = ({ game }: GameProps) => {
     const currentDate = get_date();
     const lastDate = localStorage.getItem("last_played");
 
-    if (lastDate && lastDate < currentDate) {
+    if (lastDate == null || lastDate && lastDate < currentDate) {
       setPlayState(PlayState.playing);
       setGuesses([]);
       localStorage.setItem("last_played", currentDate);
