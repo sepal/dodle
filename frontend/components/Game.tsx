@@ -4,15 +4,10 @@ import Canvas from "../components/Canvas";
 import Guesses from "./Guesses";
 import Input from "../components/Input";
 import { GameData } from "../models/game_manager";
-import { Guess } from "../models/game";
+import { Guess, PlayState } from "../models/game";
 import { useLocalStorage } from "../utils/useLocalStorage";
 import { get_date } from "../utils/datetime";
-
-enum PlayState {
-  playing,
-  success,
-  fail,
-}
+import { EndMessage, FailedMessage, SuccessMessage } from "./Messages";
 
 const GameFrame = styled.div`
   max-width: 512px;
@@ -20,12 +15,6 @@ const GameFrame = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-`;
-
-const EndMessage = styled.div`
-  text-align: center;
-  margin-top: 1.5em;
-  font-size: 1.5em;
 `;
 
 type GameProps = {
@@ -43,23 +32,17 @@ const Game = ({ game }: GameProps) => {
     const currentDate = get_date();
     const lastDate = localStorage.getItem("last_played");
 
-    if (lastDate == null || lastDate && lastDate < currentDate) {
+    if (lastDate == null || (lastDate && lastDate < currentDate)) {
       setPlayState(PlayState.playing);
       setGuesses([]);
       localStorage.setItem("last_played", currentDate);
     }
-  }, [])
+  }, []);
 
-  let message = "";
+  let message = <EndMessage {...game} state={playState} />;
 
-  switch (playState) {
-    case PlayState.success:
-      message = "🎉 Yay, you're correct! Congrats! 🍾";
-      break;
-    case PlayState.fail:
-      message = `🥺 Sorry, you're wrong. The correct word is "${game.word}"`;
-  }
 
+  // This allows us to circumvent the browser image cache for each day.
   let today = new Date();
   let date = `date=${today.toISOString().split("T")[0]}`;
   let canvas =
@@ -91,7 +74,7 @@ const Game = ({ game }: GameProps) => {
           }}
         />
       ) : (
-        <EndMessage>{message}</EndMessage>
+        <EndMessage state={playState} word={game.word} prompt={game.prompt} /> 
       )}
     </GameFrame>
   );
