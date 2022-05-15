@@ -45,6 +45,7 @@ class Game:
             "prompt": self.__prompt,
             "scores": self.__scores.tolist(),
             "files": self.__files,
+            "base_key": self.__base_key,
         }
         return json.dumps(data)
 
@@ -71,7 +72,6 @@ class Game:
 
         resp = sqs.send_message(
             QueueUrl=queue_url,
-            DelaySeconds=10,
             MessageAttributes= {
                 'Type': {
                     'DataType': 'String',
