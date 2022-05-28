@@ -15,11 +15,11 @@ const MessageWrapper = styled.div`
 `;
 
 export const SuccessMessage: FC<MessageProps> = ({word, prompt} : MessageProps) => (
-    <>🎉 Yay, you're correct! Congrats! 🍾</>
+    <>🎉 Yay, you&apos;re correct! Congrats! 🍾</>
 )
 
 export const FailedMessage: FC<MessageProps> = ({word, prompt} : MessageProps) => (
-    <>🥺 Sorry, you're wrong. The correct word is "${word}"</>
+    <>🥺 Sorry, you&apos;re wrong. The correct word is &quot;${word}&quot;</>
 )
 
 export const EndMessage: FC<MessageProps> = ({state, word, prompt} : MessageProps) => {
