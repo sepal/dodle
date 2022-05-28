@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import Canvas from "../components/Canvas";
 import Guesses from "./Guesses";
@@ -37,6 +37,8 @@ const Game = ({ game }: GameProps) => {
       setGuesses([]);
       localStorage.setItem("last_played", currentDate);
     }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   let message = <EndMessage {...game} state={playState} />;
