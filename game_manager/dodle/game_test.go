@@ -1,12 +1,19 @@
 package dodle
 
 import (
+	"context"
+	"database/sql"
+	"fmt"
 	"os"
 	"testing"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/joho/godotenv"
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/driver/pgdriver"
 )
 
 const BUCKET = "dodle"
@@ -16,6 +23,66 @@ func GetSession() (*session.Session, error) {
 	return session.NewSession(&aws.Config{
 		Region: aws.String("eu-central-1"),
 	})
+}
+
+func initDB() *bun.DB {
+	godotenv.Load(".env.local")
+
+	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_NAME"),
+	)
+
+	conn := pgdriver.NewConnector(pgdriver.WithDSN(dsn))
+	db := sql.OpenDB(conn)
+
+	ctx := context.Background()
+	return bun.NewDB(db, pgdialect.New())
+}
+
+func clearDB(ctx context.Context, db *bun.DB) {
+
+}
+
+func TestCreateScores(t *testing.T) {
+	var scores []float64
+	scores = append(scores, 48.0)
+	scores = append(scores, 56.0)
+	scores = append(scores, 89.0)
+
+	db := DBConnect()
+
+	err := CreateSchemas(ctx, db)
+
+	if err != nil {
+		t.Fatalf("Error while trying to insert scores: %s", err)
+	}
+
+	_, err = CreateImageScores(ctx, db, scores)
+
+	if err != nil {
+		t.Fatalf("Error while trying to insert scores: %s", err)
+	}
+}
+
+func TestCreateImageEntries(t *testing.T) {
+	var images []string
+	images = append(images, "testing/1651363200/toad0.png")
+	images = append(images, "testing/1651363200/toad1.png")
+	images = append(images, "testing/1651363200/toad2.png")
+	images = append(images, "testing/1651363200/toad3.png")
+	images = append(images, "testing/1651363200/toad4.png")
+
+	db := DBConnect()
+	ctx := context.Background()
+
+	entries, err := CreateImageEntries(ctx, db, BUCKET, images)
+
+	if err != nil {
+		t.Fatalf("Error while trying to insert scores: %s", err)
+	}
 }
 
 func TestLoadGame(t *testing.T) {

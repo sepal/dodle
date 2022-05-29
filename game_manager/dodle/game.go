@@ -1,6 +1,7 @@
 package dodle
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -15,6 +16,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/uptrace/bun"
 )
 
 var AWS_PREFIX = "game/"
@@ -29,8 +31,74 @@ type GameData struct {
 	prefix   string
 }
 
+type ImageScore struct {
+	ID          int64 `bun:",pk,autoincrement"`
+	Level       int
+	Score       float64
+	DailyGameID int64
+}
+
+type ImageEntries struct {
+	ID          int64 `bun:",pk,autoincrement"`
+	bucket      string
+	key         string
+	DailyGameID int64
+}
+
+type Round struct {
+	ID        int64 `bun:",pk,autoincrement"`
+	GameDate  int64 `bun:",unique"`
+	Word      string
+	Prompt    string
+	Scores    []*ImageScore   `bun:"rel:has-many,join:id=daily_game_id"`
+	Files     []*ImageEntries `bun:"rel:has-many,join:id=daily_game_id"`
+	CreatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
+}
+
 var CurrentTime = func() time.Time {
 	return time.Now()
+}
+
+func CreateSchemas(ctx context.Context, db *bun.DB) error {
+
+	if _, err := db.NewCreateTable().Model((*ImageScore)(nil)).IfNotExists().Exec(ctx); err != nil {
+		return err
+	}
+
+	if _, err := db.NewCreateTable().Model((*ImageEntries)(nil)).IfNotExists().Exec(ctx); err != nil {
+		return err
+	}
+
+	if _, err := db.NewCreateTable().Model((*Round)(nil)).IfNotExists().Exec(ctx); err != nil {
+		return err
+	}
+	return nil
+}
+
+func CreateImageScores(ctx context.Context, db *bun.DB, scores []float64) ([]*ImageScore, error) {
+	imageScores := make([]*ImageScore, len(scores))
+
+	for i, score := range scores {
+		imageScores[i] = &ImageScore{
+			Score: score,
+			Level: i,
+		}
+	}
+
+	_, err := db.NewInsert().Model(&imageScores).Exec(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return imageScores, nil
+}
+
+// CreateDailyGame inserts a new game into the database.
+func CreateDailyGame(word string, prompt string, scores []float64, files []string, bucket string) (*GameData, error) {
+
+	return nil, nil
 }
 
 func LoadGame(session *session.Session, bucket string, name string) (g *GameData, e error) {
