@@ -31,30 +31,7 @@ type GameData struct {
 	prefix   string
 }
 
-type ImageScore struct {
-	ID          int64 `bun:",pk,autoincrement"`
-	Level       int
-	Score       float64
-	DailyGameID int64
-}
 
-type ImageEntries struct {
-	ID          int64 `bun:",pk,autoincrement"`
-	bucket      string
-	key         string
-	DailyGameID int64
-}
-
-type Round struct {
-	ID        int64 `bun:",pk,autoincrement"`
-	GameDate  int64 `bun:",unique"`
-	Word      string
-	Prompt    string
-	Scores    []*ImageScore   `bun:"rel:has-many,join:id=daily_game_id"`
-	Files     []*ImageEntries `bun:"rel:has-many,join:id=daily_game_id"`
-	CreatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
-	UpdatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
-}
 
 var CurrentTime = func() time.Time {
 	return time.Now()
