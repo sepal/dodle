@@ -2,6 +2,7 @@ package dodle
 
 import (
 	"context"
+	"fmt"
 	"sort"
 	"time"
 
@@ -49,7 +50,7 @@ func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepositor
 // include the score caclulated by the model, which in turn determines the level of the image in a
 // round. Entries are always created as a bulk operation, since a round should have more than 1
 // image.
-func (r *RoundRepository) createImageEntries(ctx context.Context, input []*RoundImageFactory) (entries []*ImageEntry, err error) {
+func (r RoundRepository) createImageEntries(ctx context.Context, input []*RoundImageFactory) (entries []*ImageEntry, err error) {
 	sort.Slice(input, func(i, j int) bool {
 		return input[i].Score < input[j].Score
 	})
@@ -70,14 +71,41 @@ func (r *RoundRepository) createImageEntries(ctx context.Context, input []*Round
 	return entries, nil
 }
 
+func AddNDaysToEpoch(currentTime int64, days int64) int64 {
+	return (currentTime/86400)*86400 + (86400 * (days))
+}
+
 // getNextEmptyDate will return the next empty date for inserting a game.
 func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64) (int64, error) {
-	return 0, nil
+	var rounds []DBRound
+	err := r.db.NewSelect().
+		Model(&rounds).
+		Where("game_date > ?", currentTime).
+		Scan(ctx)
+
+	if err != nil {
+		return 0, err
+	}
+
+	if len(rounds) == 0 {
+		return AddNDaysToEpoch(currentTime, 1), nil
+	}
+
+	// Try to find gaps between the dates.
+	for i, round := range rounds[1:] {
+		fmt.Printf("Comparing %s with %s", round.Word, rounds[i].Word)
+		if round.GameDate-rounds[i].GameDate >= 86400*2 {
+			return AddNDaysToEpoch(rounds[i].GameDate, 1), nil
+		}
+	}
+
+	// Otherwise return the date after the last game in the DB.
+	return AddNDaysToEpoch(rounds[len(rounds)-1].GameDate, 1), nil
 }
 
 // CreateRound creates a new round based on the given round input data. The
 // round will get an id and a game date by beeing inserted.
-func (r *RoundRepository) CreateRound(ctx context.Context, input RoundFactory) (*Round, error) {
+func (r RoundRepository) CreateRound(ctx context.Context, input RoundFactory) (*Round, error) {
 	return nil, nil
 }
 
