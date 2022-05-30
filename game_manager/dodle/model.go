@@ -15,15 +15,15 @@ type RoundFactory struct {
 
 type RoundImage struct {
 	ID    int64   `json:"id"`
-	Level int64   `json:"level"`
-	Path  string  `json:"path"`
+	Level int     `json:"level"`
 	Score float64 `json:"score"`
 }
 
 type Round struct {
-	ID       int64        `json:"id"`
-	GameDate int64        `json:"gameDate"`
-	Word     string       `json:"word"`
-	Prompt   string       `json:"prompt"`
-	Images   []RoundImage `json:"images"`
+	ID        int64        `json:"id"`
+	GameDate  int64        `json:"gameDate"`
+	Word      string       `json:"word"`
+	Prompt    string       `json:"prompt"`
+	Images    []RoundImage `json:"images"`
+	CreatedAt int64        `json:"createdAt"`
 }

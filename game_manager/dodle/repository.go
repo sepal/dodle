@@ -24,7 +24,7 @@ type DBRound struct {
 	GameDate  int64 `bun:",unique"`
 	Word      string
 	Prompt    string
-	Files     []*ImageEntry `bun:"rel:has-many,join:id=daily_game_id"`
+	Images    []*ImageEntry `bun:"rel:has-many,join:id=daily_game_id"`
 	CreatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 }
@@ -35,7 +35,7 @@ type RoundRepository struct {
 }
 
 type Repository interface {
-	CreateRound(ctx context.Context, input RoundFactory) (*Round, error)
+	CreateRound(ctx context.Context, currentTime int64, input RoundFactory) (*Round, error)
 	GetRound(ctx context.Context, id int64) (*Round, error)
 	GetRoundByTime(ctx context.Context, date *time.Time) (*Round, error)
 	GetRoundImage(ctx context.Context, level int) ([]byte, error)
@@ -50,7 +50,7 @@ func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepositor
 // include the score caclulated by the model, which in turn determines the level of the image in a
 // round. Entries are always created as a bulk operation, since a round should have more than 1
 // image.
-func (r RoundRepository) createImageEntries(ctx context.Context, input []*RoundImageFactory) (entries []*ImageEntry, err error) {
+func (r RoundRepository) createImageEntries(ctx context.Context, input []RoundImageFactory) (entries []*ImageEntry, err error) {
 	sort.Slice(input, func(i, j int) bool {
 		return input[i].Score < input[j].Score
 	})
@@ -105,8 +105,54 @@ func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64
 
 // CreateRound creates a new round based on the given round input data. The
 // round will get an id and a game date by beeing inserted.
-func (r RoundRepository) CreateRound(ctx context.Context, input RoundFactory) (*Round, error) {
-	return nil, nil
+func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, input RoundFactory) (*Round, error) {
+	entries, err := r.createImageEntries(ctx, input.Images)
+
+	if err != nil {
+		return nil, err
+	}
+
+	date, err := r.getNextEmptyDate(ctx, currentTime)
+
+	if err != nil {
+		return nil, err
+	}
+
+	dbRound := DBRound{
+		GameDate: date,
+		Word:     input.Word,
+		Prompt:   input.Prompt,
+		Images:   entries,
+	}
+
+	_, err = r.db.NewInsert().
+		Model(&dbRound).
+		Exec(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var images []RoundImage
+
+	for _, img := range entries {
+		images = append(images, RoundImage{
+			ID:    img.ID,
+			Level: img.Level,
+			Score: img.Score,
+		})
+	}
+
+	round := Round{
+		ID:        dbRound.ID,
+		Word:      dbRound.Word,
+		Prompt:    dbRound.Prompt,
+		GameDate:  dbRound.GameDate,
+		Images:    images,
+		CreatedAt: dbRound.CreatedAt.Unix(),
+	}
+
+	return &round, nil
 }
 
 // GetRound gets a round by id.

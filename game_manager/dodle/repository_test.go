@@ -67,21 +67,21 @@ func TestCreateImageEntries(t *testing.T) {
 	r := setup()
 	defer tearDown(r)
 
-	var input []*RoundImageFactory
+	var input []RoundImageFactory
 
-	input = append(input, &RoundImageFactory{
+	input = append(input, RoundImageFactory{
 		Key:    "testing/1651363200/toad2.png",
 		Bucket: BUCKET,
 		Score:  0.85,
 	})
 
-	input = append(input, &RoundImageFactory{
+	input = append(input, RoundImageFactory{
 		Key:    "testing/1651363200/toad0.png",
 		Bucket: BUCKET,
 		Score:  0.456,
 	})
 
-	input = append(input, &RoundImageFactory{
+	input = append(input, RoundImageFactory{
 		Key:    "testing/1651363200/toad1.png",
 		Bucket: BUCKET,
 		Score:  0.75,
@@ -169,4 +169,38 @@ func TestGetNextEmptyDate(t *testing.T) {
 	if nextDate != 1654214400 {
 		t.Fatalf("Expected next date to be 1654214400, got %d", nextDate)
 	}
+}
+
+func TestCreateRound(t *testing.T) {
+	r := setup()
+	defer tearDown(r)
+	ctx := context.Background()
+
+	input := RoundFactory{
+		Word:   "toad",
+		Prompt: "fancy colorful toad doodle",
+		Images: []RoundImageFactory{
+			RoundImageFactory{
+				Key:    "testing/1651363200/toad0.png",
+				Bucket: BUCKET,
+				Score:  0.456,
+			},
+			RoundImageFactory{
+				Key:    "testing/1651363200/toad1.png",
+				Bucket: BUCKET,
+				Score:  0.78,
+			},
+		},
+	}
+
+	round, err := r.CreateRound(ctx, 1653941866, input)
+
+	if err != nil {
+		t.Fatalf("Error while trying to create game: %s", err)
+	}
+
+	if round.CreatedAt == 0 {
+		t.Fatalf("Expected a proper created date for inserted game, got %d", round.CreatedAt)
+	}
+
 }
