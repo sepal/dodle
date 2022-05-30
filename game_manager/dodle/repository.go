@@ -46,8 +46,9 @@ func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepositor
 
 // createImageEntries is a private function which insert paths to the images stored in s3 to the db
 // include the score caclulated by the model, which in turn determines the level of the image in a
-// round.
-func (r *RoundRepository) createImageEntries(ctx context.Context, input *RoundImageFactory) (*ImageEntries, error) {
+// round. Entries are always created as a bulk operation, since a round should have more than 1
+// image.
+func (r *RoundRepository) createImageEntries(ctx context.Context, input []*RoundImageFactory) ([]*ImageEntries, error) {
 	return nil, nil
 }
 

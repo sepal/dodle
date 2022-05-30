@@ -1,237 +1,204 @@
 package dodle
 
-import (
-	"context"
-	"database/sql"
-	"fmt"
-	"os"
-	"testing"
-	"time"
+// import (
+// 	"context"
+// 	"os"
+// 	"testing"
+// 	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/joho/godotenv"
-	"github.com/uptrace/bun"
-	"github.com/uptrace/bun/dialect/pgdialect"
-	"github.com/uptrace/bun/driver/pgdriver"
-)
+// 	"github.com/uptrace/bun"
+// )
 
-const BUCKET = "dodle"
+// func clearDB(ctx context.Context, db *bun.DB) {
 
-func GetSession() (*session.Session, error) {
-	AWS_PREFIX = "testing/"
-	return session.NewSession(&aws.Config{
-		Region: aws.String("eu-central-1"),
-	})
-}
+// }
 
-func initDB() *bun.DB {
-	godotenv.Load(".env.local")
+// func TestCreateScores(t *testing.T) {
+// 	var scores []float64
+// 	scores = append(scores, 48.0)
+// 	scores = append(scores, 56.0)
+// 	scores = append(scores, 89.0)
 
-	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_NAME"),
-	)
+// 	db := DBConnect()
 
-	conn := pgdriver.NewConnector(pgdriver.WithDSN(dsn))
-	db := sql.OpenDB(conn)
+// 	err := CreateSchemas(ctx, db)
 
-	ctx := context.Background()
-	return bun.NewDB(db, pgdialect.New())
-}
+// 	if err != nil {
+// 		t.Fatalf("Error while trying to insert scores: %s", err)
+// 	}
 
-func clearDB(ctx context.Context, db *bun.DB) {
+// 	_, err = CreateImageScores(ctx, db, scores)
 
-}
+// 	if err != nil {
+// 		t.Fatalf("Error while trying to insert scores: %s", err)
+// 	}
+// }
 
-func TestCreateScores(t *testing.T) {
-	var scores []float64
-	scores = append(scores, 48.0)
-	scores = append(scores, 56.0)
-	scores = append(scores, 89.0)
+// // func TestCreateImageEntries(t *testing.T) {
+// // 	var images []string
+// // 	images = append(images, "testing/1651363200/toad0.png")
+// // 	images = append(images, "testing/1651363200/toad1.png")
+// // 	images = append(images, "testing/1651363200/toad2.png")
+// // 	images = append(images, "testing/1651363200/toad3.png")
+// // 	images = append(images, "testing/1651363200/toad4.png")
 
-	db := DBConnect()
+// // 	db := DBConnect()
+// // 	ctx := context.Background()
 
-	err := CreateSchemas(ctx, db)
+// // 	entries, err := CreateImageEntries(ctx, db, BUCKET, images)
 
-	if err != nil {
-		t.Fatalf("Error while trying to insert scores: %s", err)
-	}
+// // 	if err != nil {
+// // 		t.Fatalf("Error while trying to insert scores: %s", err)
+// // 	}
+// // }
 
-	_, err = CreateImageScores(ctx, db, scores)
+// func TestLoadGame(t *testing.T) {
+// 	sess, err := GetSession()
 
-	if err != nil {
-		t.Fatalf("Error while trying to insert scores: %s", err)
-	}
-}
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-func TestCreateImageEntries(t *testing.T) {
-	var images []string
-	images = append(images, "testing/1651363200/toad0.png")
-	images = append(images, "testing/1651363200/toad1.png")
-	images = append(images, "testing/1651363200/toad2.png")
-	images = append(images, "testing/1651363200/toad3.png")
-	images = append(images, "testing/1651363200/toad4.png")
+// 	game, err := LoadGame(sess, BUCKET, "1651363200")
 
-	db := DBConnect()
-	ctx := context.Background()
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-	entries, err := CreateImageEntries(ctx, db, BUCKET, images)
+// 	if game == nil {
+// 		t.Fatal(`Game not loaded`)
+// 	}
 
-	if err != nil {
-		t.Fatalf("Error while trying to insert scores: %s", err)
-	}
-}
+// 	if game.GameDate != 1651363200 {
+// 		t.Fatalf("Expected game 1651363200, got %d", game.GameDate)
+// 	}
 
-func TestLoadGame(t *testing.T) {
-	sess, err := GetSession()
+// 	if game.Word != "toad" {
+// 		t.Fatalf(`Wanted game with word toad got "%s"`, game.Word)
+// 	}
+// }
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// func TestLoadGameImages(t *testing.T) {
+// 	sess, err := GetSession()
 
-	game, err := LoadGame(sess, BUCKET, "1651363200")
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// 	game, err := LoadGame(sess, BUCKET, "1651363200")
 
-	if game == nil {
-		t.Fatal(`Game not loaded`)
-	}
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-	if game.GameDate != 1651363200 {
-		t.Fatalf("Expected game 1651363200, got %d", game.GameDate)
-	}
+// 	err = game.LoadImages(sess)
 
-	if game.Word != "toad" {
-		t.Fatalf(`Wanted game with word toad got "%s"`, game.Word)
-	}
-}
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-func TestLoadGameImages(t *testing.T) {
-	sess, err := GetSession()
+// 	if _, err = os.Stat(game.Files[0]); err != nil {
+// 		t.Fatalf(`Error while checking if the first game image was downloaded "%s"`, err)
+// 	}
+// }
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// func TestGetImage(t *testing.T) {
+// 	sess, err := GetSession()
 
-	game, err := LoadGame(sess, BUCKET, "1651363200")
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// 	game, err := LoadGame(sess, BUCKET, "1651363200")
 
-	err = game.LoadImages(sess)
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// 	buffer, err := game.GetImage(sess, 0)
 
-	if _, err = os.Stat(game.Files[0]); err != nil {
-		t.Fatalf(`Error while checking if the first game image was downloaded "%s"`, err)
-	}
-}
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading image: "%s"`, err)
+// 	}
 
-func TestGetImage(t *testing.T) {
-	sess, err := GetSession()
+// 	if len(buffer) <= 0 {
+// 		t.Fatalf(`Expected an image buffer > 0 bytes got %d bytes`, len(buffer))
+// 	}
+// }
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// func TestListGames(t *testing.T) {
+// 	session, err := GetSession()
 
-	game, err := LoadGame(sess, BUCKET, "1651363200")
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
+// 	games, err := ListGames(session, BUCKET)
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// 	if err != nil {
+// 		t.Fatalf(`Error while listing games: "%s"`, err)
+// 	}
 
-	buffer, err := game.GetImage(sess, 0)
+// 	if len(games) < 1 {
+// 		t.Fatalf(`Expected at least one game, got "%d" games`, len(games))
+// 	}
+// }
 
-	if err != nil {
-		t.Fatalf(`Error while loading image: "%s"`, err)
-	}
+// func TestGetNextGame(t *testing.T) {
+// 	session, err := GetSession()
 
-	if len(buffer) <= 0 {
-		t.Fatalf(`Expected an image buffer > 0 bytes got %d bytes`, len(buffer))
-	}
-}
+// 	if err != nil {
+// 		t.Fatalf(`Error while loading game: "%s"`, err)
+// 	}
 
-func TestListGames(t *testing.T) {
-	session, err := GetSession()
+// 	CurrentTime = func() time.Time {
+// 		return time.Date(2022, 05, 01, 00, 00, 00, 0, time.UTC)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
-	games, err := ListGames(session, BUCKET)
+// 	g, err := GetNextGame(session, BUCKET)
 
-	if err != nil {
-		t.Fatalf(`Error while listing games: "%s"`, err)
-	}
+// 	if err != nil {
+// 		t.Fatalf(`Error while listing games: "%s"`, err)
+// 	}
 
-	if len(games) < 1 {
-		t.Fatalf(`Expected at least one game, got "%d" games`, len(games))
-	}
-}
+// 	if g.Word != "toad" || g.GameDate != 1651363200 {
+// 		t.Fatalf(`Expected game 1651363200 with word "toad", got game %d with word "%s"`, g.GameDate, g.Word)
+// 	}
 
-func TestGetNextGame(t *testing.T) {
-	session, err := GetSession()
+// 	CurrentTime = func() time.Time {
+// 		return time.Date(2022, 05, 01, 23, 59, 59, 0, time.UTC)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while loading game: "%s"`, err)
-	}
+// 	g, err = GetNextGame(session, BUCKET)
 
-	CurrentTime = func() time.Time {
-		return time.Date(2022, 05, 01, 00, 00, 00, 0, time.UTC)
-	}
+// 	if err != nil {
+// 		t.Fatalf(`Error while listing games: "%s"`, err)
+// 	}
 
-	g, err := GetNextGame(session, BUCKET)
+// 	if g.Word != "toad" || g.GameDate != 1651363200 {
+// 		t.Fatalf(`Expected game 1651363200 with word "toad", got game %d with word "%s"`, g.GameDate, g.Word)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while listing games: "%s"`, err)
-	}
+// 	CurrentTime = func() time.Time {
+// 		return time.Date(2022, 04, 29, 23, 59, 59, 0, time.UTC)
+// 	}
 
-	if g.Word != "toad" || g.GameDate != 1651363200 {
-		t.Fatalf(`Expected game 1651363200 with word "toad", got game %d with word "%s"`, g.GameDate, g.Word)
-	}
+// 	g, err = GetNextGame(session, BUCKET)
 
-	CurrentTime = func() time.Time {
-		return time.Date(2022, 05, 01, 23, 59, 59, 0, time.UTC)
-	}
+// 	if err == nil {
+// 		t.Fatalf("Should have not found a game, found %s", g.Word)
+// 	}
 
-	g, err = GetNextGame(session, BUCKET)
+// 	CurrentTime = func() time.Time {
+// 		return time.Date(2022, 05, 03, 23, 59, 59, 0, time.UTC)
+// 	}
 
-	if err != nil {
-		t.Fatalf(`Error while listing games: "%s"`, err)
-	}
+// 	g, err = GetNextGame(session, BUCKET)
 
-	if g.Word != "toad" || g.GameDate != 1651363200 {
-		t.Fatalf(`Expected game 1651363200 with word "toad", got game %d with word "%s"`, g.GameDate, g.Word)
-	}
+// 	if err != nil {
+// 		t.Fatalf(`Error while listing games: "%s"`, err)
+// 	}
 
-	CurrentTime = func() time.Time {
-		return time.Date(2022, 04, 29, 23, 59, 59, 0, time.UTC)
-	}
-
-	g, err = GetNextGame(session, BUCKET)
-
-	if err == nil {
-		t.Fatalf("Should have not found a game, found %s", g.Word)
-	}
-
-	CurrentTime = func() time.Time {
-		return time.Date(2022, 05, 03, 23, 59, 59, 0, time.UTC)
-	}
-
-	g, err = GetNextGame(session, BUCKET)
-
-	if err != nil {
-		t.Fatalf(`Error while listing games: "%s"`, err)
-	}
-
-	if g.Word != "mattress" || g.GameDate != 1651536000 {
-		t.Fatalf(`Expected game 1651536000 with word "mattress", got game %d with word "%s"`, g.GameDate, g.Word)
-	}
-}
+// 	if g.Word != "mattress" || g.GameDate != 1651536000 {
+// 		t.Fatalf(`Expected game 1651536000 with word "mattress", got game %d with word "%s"`, g.GameDate, g.Word)
+// 	}
+// }

@@ -1,7 +1,6 @@
 package dodle
 
 type RoundImageFactory struct {
-	Level  int64   `json:"level"`
 	Key    string  `json:"key"`
 	Bucket string  `json:"bucket"`
 	Score  float64 `json:"score"`
