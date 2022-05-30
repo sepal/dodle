@@ -8,17 +8,12 @@ import (
 	"github.com/uptrace/bun"
 )
 
-type ImageScore struct {
+type ImageEntries struct {
 	ID          int64 `bun:",pk,autoincrement"`
 	Level       int
 	Score       float64
-	DailyGameID int64
-}
-
-type ImageEntries struct {
-	ID          int64 `bun:",pk,autoincrement"`
-	bucket      string
-	key         string
+	Bucket      string
+	Key         string
 	DailyGameID int64
 }
 
@@ -27,7 +22,6 @@ type DBRound struct {
 	GameDate  int64 `bun:",unique"`
 	Word      string
 	Prompt    string
-	Scores    []*ImageScore   `bun:"rel:has-many,join:id=daily_game_id"`
 	Files     []*ImageEntries `bun:"rel:has-many,join:id=daily_game_id"`
 	CreatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
@@ -47,22 +41,19 @@ type Repository interface {
 
 // CreateRoundRepository creates a new repository to handle rounds.
 func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepository {
-	return &RoundRepository{db, session, nil}
+	return &RoundRepository{db, session}
 }
 
-// createImageScores is a private function which creates all image scores for a round.
-func (r *RoundRepository) createImageScores(ctx context.Context, scores []float64) (*ImageScore, error) {
+// createImageEntries is a private function which insert paths to the images stored in s3 to the db
+// include the score caclulated by the model, which in turn determines the level of the image in a
+// round.
+func (r *RoundRepository) createImageEntries(ctx context.Context, input *RoundImageFactory) (*ImageEntries, error) {
 	return nil, nil
 }
 
 // getNextEmptyDate will return the next empty date for inserting a game.
 func (r RoundRepository) getNextEmptyDate(ctx context.Context) int64 {
 	return 0
-}
-
-// createImageScores is a private function which creates all image entries for a round.
-func (r *RoundRepository) createImageEntries(ctx context.Context, bucket string, keys []string) (*ImageEntries, error) {
-	return nil, nil
 }
 
 // CreateRound creates a new round based on the given round input data. The

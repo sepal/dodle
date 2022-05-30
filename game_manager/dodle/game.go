@@ -31,8 +31,6 @@ type GameData struct {
 	prefix   string
 }
 
-
-
 var CurrentTime = func() time.Time {
 	return time.Now()
 }
