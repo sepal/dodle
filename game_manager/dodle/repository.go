@@ -2,13 +2,14 @@ package dodle
 
 import (
 	"context"
+	"sort"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/uptrace/bun"
 )
 
-type ImageEntries struct {
+type ImageEntry struct {
 	ID          int64 `bun:",pk,autoincrement"`
 	Level       int
 	Score       float64
@@ -22,9 +23,9 @@ type DBRound struct {
 	GameDate  int64 `bun:",unique"`
 	Word      string
 	Prompt    string
-	Files     []*ImageEntries `bun:"rel:has-many,join:id=daily_game_id"`
-	CreatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
-	UpdatedAt time.Time       `bun:",nullzero,notnull,default:current_timestamp"`
+	Files     []*ImageEntry `bun:"rel:has-many,join:id=daily_game_id"`
+	CreatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
+	UpdatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 }
 
 type RoundRepository struct {
@@ -48,13 +49,30 @@ func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepositor
 // include the score caclulated by the model, which in turn determines the level of the image in a
 // round. Entries are always created as a bulk operation, since a round should have more than 1
 // image.
-func (r *RoundRepository) createImageEntries(ctx context.Context, input []*RoundImageFactory) ([]*ImageEntries, error) {
-	return nil, nil
+func (r *RoundRepository) createImageEntries(ctx context.Context, input []*RoundImageFactory) (entries []*ImageEntry, err error) {
+	sort.Slice(input, func(i, j int) bool {
+		return input[i].Score < input[j].Score
+	})
+
+	for i, image := range input {
+		entries = append(entries, &ImageEntry{
+			Level:  i + 1,
+			Score:  image.Score,
+			Key:    image.Key,
+			Bucket: image.Bucket,
+		})
+	}
+
+	if _, err = r.db.NewInsert().Model(&entries).Exec(ctx); err != nil {
+		return nil, err
+	}
+
+	return entries, nil
 }
 
 // getNextEmptyDate will return the next empty date for inserting a game.
-func (r RoundRepository) getNextEmptyDate(ctx context.Context) int64 {
-	return 0
+func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64) (int64, error) {
+	return 0, nil
 }
 
 // CreateRound creates a new round based on the given round input data. The

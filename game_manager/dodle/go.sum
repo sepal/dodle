@@ -25,6 +25,8 @@ github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc h1:9lRDQMhESg+zvGYm
 github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc/go.mod h1:bciPuU6GHm1iF1pBvUfxfsH0Wmnc2VbpgvbI9ZWuIRs=
 github.com/uptrace/bun v1.1.5 h1:YqQvSXWXTOhz1uqkYO2F2XV6BqY9a/tXuA8lQlW0FjE=
 github.com/uptrace/bun v1.1.5/go.mod h1:Z2Pd3cRvNKbrYuL6Gp1XGjA9QEYz+rDz5KkEi9MZLnQ=
+github.com/uptrace/bun/dbfixture v1.1.5 h1:f1Pb+q12eFjqorj9T+fFKcRGBOppmW0DijNu2mEIXuE=
+github.com/uptrace/bun/dbfixture v1.1.5/go.mod h1:FXVBBEKNYhGqeepIZYosfIJf0nasFQj5PRyVsd24Cwc=
 github.com/uptrace/bun/dialect/pgdialect v1.1.5 h1:Yuhrcm297oj864fDy4E6ykhvTJA9cUiXrkaOgR3Z0cQ=
 github.com/uptrace/bun/dialect/pgdialect v1.1.5/go.mod h1:HEREbJYNSOrMOVqQB1mNs6Bni+ACyFTkgWakWG5taY0=
 github.com/uptrace/bun/driver/pgdriver v1.1.5 h1:yzncHN/OU81JBI8SI98sOjTaNS/4kMOEgMOm6OO+1Vw=
@@ -50,5 +52,7 @@ gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8
 gopkg.in/yaml.v2 v2.2.8 h1:obN1ZagJSUGI0Ek/LBmuj4SNLPfIny3KsKFopxRdj10=
 gopkg.in/yaml.v2 v2.2.8/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
+gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b h1:h8qDotaEPuJATrMmW04NCwg7v22aHH28wwpauUhK9Oo=
+gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 mellium.im/sasl v0.2.1 h1:nspKSRg7/SyO0cRGY71OkfHab8tf9kCts6a6oTDut0w=
 mellium.im/sasl v0.2.1/go.mod h1:ROaEDLQNuf9vjKqE1SrAfnsobm2YKXT1gnN1uDp1PjQ=

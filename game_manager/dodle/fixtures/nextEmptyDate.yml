@@ -1,0 +1,19 @@
+- model: DBRound
+  rows:
+    - game_date: 1653868800
+      word: toad
+      prompt: lovely colorful toad doodle
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'
+
+    - game_date: 1653955200
+      word: cricket
+      prompt: lovely colorful cricket doodle
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'
+
+    - game_date: 1654128000
+      word: frog
+      prompt: lovely colorful frog doodle
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'
