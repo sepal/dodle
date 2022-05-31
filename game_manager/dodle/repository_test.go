@@ -253,7 +253,7 @@ func TestGetRound(t *testing.T) {
 		t.Fatalf("Expected game to have a game date of 1653868800, got %d", round.GameDate)
 	}
 
-	if len(round.Images) != 6 {
+	if len(round.Images) != 5 {
 		t.Fatalf("Expected to game to have 5 images, got %d", len(round.Images))
 	}
 }

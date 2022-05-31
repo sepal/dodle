@@ -163,7 +163,37 @@ func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, inp
 
 // GetRound gets a round by id.
 func (r RoundRepository) GetRound(ctx context.Context, id int64) (*Round, error) {
-	return nil, nil
+	dbRound := new(DBRound)
+	err := r.db.NewSelect().
+		Model(dbRound).
+		Where("id = ?", id).
+		Relation("Images").
+		Scan(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var images []RoundImage
+
+	for _, img := range dbRound.Images {
+		images = append(images, RoundImage{
+			ID:    img.ID,
+			Level: img.Level,
+			Score: img.Score,
+		})
+	}
+
+	round := Round{
+		ID:        dbRound.ID,
+		Word:      dbRound.Word,
+		Prompt:    dbRound.Prompt,
+		GameDate:  dbRound.GameDate,
+		Images:    images,
+		CreatedAt: dbRound.CreatedAt.Unix(),
+	}
+
+	return &round, nil
 }
 
 // GetGameByTime gets a certain round given the certain time.
