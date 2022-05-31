@@ -41,7 +41,7 @@ type RoundRepository struct {
 type Repository interface {
 	CreateRound(ctx context.Context, currentTime int64, input RoundFactory) (*Round, error)
 	GetRound(ctx context.Context, id int64) (*Round, error)
-	GetRoundByTime(ctx context.Context, date *time.Time) (*Round, error)
+	GetRoundByTime(ctx context.Context, time int64) (*Round, error)
 	GetRoundImage(ctx context.Context, level int) ([]byte, error)
 }
 
@@ -196,8 +196,8 @@ func (r RoundRepository) GetRound(ctx context.Context, id int64) (*Round, error)
 	return &round, nil
 }
 
-// GetGameByTime gets a certain round given the certain time.
-func (r RoundRepository) GetGameByTime(ctx context.Context, date *time.Time) (*Round, error) {
+// GetRoundByTime gets a certain round given the certain time.
+func (r RoundRepository) GetRoundByTime(ctx context.Context, time int64) (*Round, error) {
 	return nil, nil
 }
 

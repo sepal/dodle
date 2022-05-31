@@ -257,3 +257,38 @@ func TestGetRound(t *testing.T) {
 		t.Fatalf("Expected to game to have 5 images, got %d", len(round.Images))
 	}
 }
+
+func TestGetRoundByTime(t *testing.T) {
+	r := setup()
+	defer tearDown(r)
+	ctx := context.Background()
+
+	fixture := dbfixture.New(r.db)
+
+	if err := fixture.Load(ctx, os.DirFS("fixtures"), "rounds.yml"); err != nil {
+		t.Fatalf("Error while trying to load fixtures: %s", err)
+	}
+
+	round, err := r.GetRoundByTime(ctx, 1653985200)
+
+	if err != nil {
+		t.Fatalf("Error while trying to load game: %s", err)
+	}
+
+	if round == nil {
+		t.Fatal("No game found, expected 1 game.")
+	}
+
+	if round.Word != "mattress" {
+		t.Fatalf("Expected to load game with word mattress, got %s", round.Word)
+	}
+
+	if round.GameDate != 1653955200 {
+		t.Fatalf("Expected game to have a game date of 1653955200, got %d", round.GameDate)
+	}
+
+	if len(round.Images) != 5 {
+		t.Fatalf("Expected to game to have 5 images, got %d", len(round.Images))
+	}
+
+}
