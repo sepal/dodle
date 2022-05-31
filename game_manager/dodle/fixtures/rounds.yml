@@ -1,0 +1,61 @@
+- model: DBRound
+  rows:
+    - _id: toad
+      game_date: 1653955200
+      word: toad
+      prompt: delicate orange toad doodle
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'
+      prefix: testing/1651363200
+
+    - _id: mattress
+      game_date: 1654041600
+      word: mattress
+      prompt: lovely colorful mattress doodle
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'
+      prefix: testing/1651536000
+
+- model: ImageEntry
+  rows:
+    - level: 1
+      score: 19.11056137084961
+      key: testing/1651363200/toad0.png
+      db_round_id: '{{ $.DBRound.toad.ID }}'
+    - level: 2
+      score: 24.723907470703125
+      key: testing/1651363200/toad1.png
+      db_round_id: '{{ $.DBRound.toad.ID }}'
+    - level: 3
+      score: 26.59560775756836
+      key: testing/1651363200/toad2.png
+      db_round_id: '{{ $.DBRound.toad.ID }}'
+    - level: 4
+      score: 27.740201950073242
+      key: testing/1651363200/toad3.png
+      db_round_id: '{{ $.DBRound.toad.ID }}'
+    - level: 5
+      score: 28.941102981567383
+      key: testing/1651363200/toad4.png
+      db_round_id: '{{ $.DBRound.toad.ID }}'
+      
+    - level: 1
+      score: 16.257938385009766
+      key: testing/1651536000/mattress0.png
+      db_round_id: '{{ $.DBRound.mattress.ID }}'
+    - level: 2
+      score: 23.289316177368164
+      key: testing/1651536000/mattress1.png
+      db_round_id: '{{ $.DBRound.mattress.ID }}'
+    - level: 3
+      score: 23.885591506958008
+      key: testing/1651536000/mattress2.png
+      db_round_id: '{{ $.DBRound.mattress.ID }}'
+    - level: 4
+      score: 25.73213005065918
+      key: testing/1651536000/mattress3.png
+      db_round_id: '{{ $.DBRound.mattress.ID }}'
+    - level: 5
+      score: 27.17580223083496
+      key: testing/1651536000/mattress4.png
+      db_round_id: '{{ $.DBRound.mattress.ID }}'
