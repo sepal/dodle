@@ -37,7 +37,7 @@ func initDB() *bun.DB {
 }
 
 func setup() *RoundRepository {
-	godotenv.Load(".env.local")
+	godotenv.Load(".env")
 
 	db := initDB()
 	session, err := getSession()
