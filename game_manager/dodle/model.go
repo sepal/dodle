@@ -6,12 +6,10 @@ type RoundImageFactory struct {
 }
 
 type RoundFactory struct {
-	Word    string              `json:"word"`
-	Prompt  string              `json:"prompt"`
-	Images  []RoundImageFactory `json:"images"`
-	BaseKey string              `json:"baseKey"`
-	Bucket  string              `json:"bucket"`
-	Prefix  string              `json:"prefix"`
+	Word   string              `json:"word"`
+	Prompt string              `json:"prompt"`
+	Images []RoundImageFactory `json:"images"`
+	Prefix string              `json:"prefix"`
 }
 
 type RoundImage struct {

@@ -121,7 +121,6 @@ func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, inp
 		GameDate: date,
 		Word:     input.Word,
 		Prompt:   input.Prompt,
-		Bucket:   input.Bucket,
 		Prefix:   input.Prefix,
 	}
 
