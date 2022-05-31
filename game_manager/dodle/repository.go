@@ -6,6 +6,7 @@ import (
 	"sort"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/uptrace/bun"
 )
@@ -14,7 +15,6 @@ type ImageEntry struct {
 	ID        int64 `bun:",pk,autoincrement"`
 	Level     int
 	Score     float64
-	Bucket    string
 	Key       string
 	DBRoundID int64
 	round     *DBRound `rel:"belongs-to"`
@@ -25,14 +25,17 @@ type DBRound struct {
 	GameDate  int64 `bun:",unique"`
 	Word      string
 	Prompt    string
+	Bucket    string
+	Prefix    string
 	Images    []*ImageEntry `bun:"rel:has-many,join:id=db_round_id"`
 	CreatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 }
 
 type RoundRepository struct {
-	db      *bun.DB
-	session *session.Session
+	db       *bun.DB
+	session  *session.Session
+	s3Bucket string
 }
 
 type Repository interface {
@@ -43,8 +46,8 @@ type Repository interface {
 }
 
 // CreateRoundRepository creates a new repository to handle rounds.
-func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepository {
-	return &RoundRepository{db, session}
+func CreateRoundRepository(db *bun.DB, session *session.Session, bucket string) *RoundRepository {
+	return &RoundRepository{db, session, *aws.String(bucket)}
 }
 
 // createImageEntriesForRound is a private function which insert paths to the images stored in s3 to the db
@@ -61,7 +64,6 @@ func (r RoundRepository) createImageEntriesForRound(ctx context.Context, roundID
 			Level:     i + 1,
 			Score:     image.Score,
 			Key:       image.Key,
-			Bucket:    image.Bucket,
 			DBRoundID: roundID,
 		})
 	}
@@ -119,6 +121,8 @@ func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, inp
 		GameDate: date,
 		Word:     input.Word,
 		Prompt:   input.Prompt,
+		Bucket:   input.Bucket,
+		Prefix:   input.Prefix,
 	}
 
 	_, err = r.db.NewInsert().

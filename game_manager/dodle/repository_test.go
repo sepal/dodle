@@ -16,8 +16,6 @@ import (
 	"github.com/uptrace/bun/driver/pgdriver"
 )
 
-const BUCKET = "dodle"
-
 func getSession() (*session.Session, error) {
 	return session.NewSession(&aws.Config{
 		Region: aws.String("eu-central-1"),
@@ -25,8 +23,6 @@ func getSession() (*session.Session, error) {
 }
 
 func initDB() *bun.DB {
-	godotenv.Load(".env.local")
-
 	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
@@ -41,6 +37,8 @@ func initDB() *bun.DB {
 }
 
 func setup() *RoundRepository {
+	godotenv.Load(".env.local")
+
 	db := initDB()
 	session, err := getSession()
 
@@ -51,7 +49,7 @@ func setup() *RoundRepository {
 	ctx := context.Background()
 	CreateSchemas(ctx, db)
 
-	return CreateRoundRepository(db, session)
+	return CreateRoundRepository(db, session, os.Getenv("S3_BUCKET"))
 }
 
 func tearDown(r *RoundRepository) error {
@@ -70,21 +68,18 @@ func TestCreateImageEntries(t *testing.T) {
 	var input []RoundImageFactory
 
 	input = append(input, RoundImageFactory{
-		Key:    "testing/1651363200/toad2.png",
-		Bucket: BUCKET,
-		Score:  0.85,
+		Key:   "testing/1651363200/toad2.png",
+		Score: 0.85,
 	})
 
 	input = append(input, RoundImageFactory{
-		Key:    "testing/1651363200/toad0.png",
-		Bucket: BUCKET,
-		Score:  0.456,
+		Key:   "testing/1651363200/toad0.png",
+		Score: 0.456,
 	})
 
 	input = append(input, RoundImageFactory{
-		Key:    "testing/1651363200/toad1.png",
-		Bucket: BUCKET,
-		Score:  0.75,
+		Key:   "testing/1651363200/toad1.png",
+		Score: 0.75,
 	})
 
 	ctx := context.Background()
@@ -178,14 +173,12 @@ func TestCreateRound(t *testing.T) {
 
 	images := []RoundImageFactory{
 		{
-			Key:    "testing/1651363200/toad0.png",
-			Bucket: BUCKET,
-			Score:  0.456,
+			Key:   "testing/1651363200/toad0.png",
+			Score: 0.456,
 		},
 		{
-			Key:    "testing/1651363200/toad1.png",
-			Bucket: BUCKET,
-			Score:  0.78,
+			Key:   "testing/1651363200/toad1.png",
+			Score: 0.78,
 		},
 	}
 
@@ -193,6 +186,7 @@ func TestCreateRound(t *testing.T) {
 		Word:   "toad",
 		Prompt: "fancy colorful toad doodle",
 		Images: images,
+		Prefix: "testing/1651363200/",
 	}
 
 	round, err := r.CreateRound(ctx, 1653941866, input)
@@ -228,4 +222,16 @@ func TestCreateRound(t *testing.T) {
 		t.Fatalf("Expected to %d images, got %d", len(input.Images), len(out[0].Images))
 	}
 
+}
+
+func TestGetRound(t *testing.T) {
+	r := setup()
+	defer tearDown(r)
+	ctx := context.Background()
+
+	fixture := dbfixture.New(r.db)
+
+	if err := fixture.Load(ctx, os.DirFS("fixtures"), "rounds.yml"); err != nil {
+		t.Fatalf("Error while trying to load fixtures: %s", err)
+	}
 }
