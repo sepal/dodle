@@ -89,7 +89,7 @@ func TestCreateImageEntries(t *testing.T) {
 
 	ctx := context.Background()
 
-	entries, err := r.createImageEntries(ctx, input)
+	entries, err := r.createImageEntriesForRound(ctx, 0, input)
 
 	if err != nil {
 		t.Fatalf("Error while trying to create image entries: %s", err)
@@ -176,21 +176,23 @@ func TestCreateRound(t *testing.T) {
 	defer tearDown(r)
 	ctx := context.Background()
 
+	images := []RoundImageFactory{
+		{
+			Key:    "testing/1651363200/toad0.png",
+			Bucket: BUCKET,
+			Score:  0.456,
+		},
+		{
+			Key:    "testing/1651363200/toad1.png",
+			Bucket: BUCKET,
+			Score:  0.78,
+		},
+	}
+
 	input := RoundFactory{
 		Word:   "toad",
 		Prompt: "fancy colorful toad doodle",
-		Images: []RoundImageFactory{
-			RoundImageFactory{
-				Key:    "testing/1651363200/toad0.png",
-				Bucket: BUCKET,
-				Score:  0.456,
-			},
-			RoundImageFactory{
-				Key:    "testing/1651363200/toad1.png",
-				Bucket: BUCKET,
-				Score:  0.78,
-			},
-		},
+		Images: images,
 	}
 
 	round, err := r.CreateRound(ctx, 1653941866, input)
@@ -201,6 +203,29 @@ func TestCreateRound(t *testing.T) {
 
 	if round.CreatedAt == 0 {
 		t.Fatalf("Expected a proper created date for inserted game, got %d", round.CreatedAt)
+	}
+
+	var out []DBRound
+	err = r.db.NewSelect().
+		Model(&out).
+		Relation("Images").
+		Limit(1).
+		Scan(ctx)
+
+	if err != nil {
+		t.Fatalf("Error while trying to fetch round: %s", err)
+	}
+
+	if len(out) < 1 {
+		t.Fatalf("Expected one round fetched, got %d", len(out))
+	}
+
+	if out[0].Word != input.Word {
+		t.Fatalf("Expected fetched round to have word %s, not %s", input.Word, out[0].Word)
+	}
+
+	if len(out[0].Images) != len(input.Images) {
+		t.Fatalf("Expected to %d images, got %d", len(input.Images), len(out[0].Images))
 	}
 
 }

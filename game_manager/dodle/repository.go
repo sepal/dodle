@@ -11,12 +11,13 @@ import (
 )
 
 type ImageEntry struct {
-	ID          int64 `bun:",pk,autoincrement"`
-	Level       int
-	Score       float64
-	Bucket      string
-	Key         string
-	DailyGameID int64
+	ID        int64 `bun:",pk,autoincrement"`
+	Level     int
+	Score     float64
+	Bucket    string
+	Key       string
+	DBRoundID int64
+	round     *DBRound `rel:"belongs-to"`
 }
 
 type DBRound struct {
@@ -24,7 +25,7 @@ type DBRound struct {
 	GameDate  int64 `bun:",unique"`
 	Word      string
 	Prompt    string
-	Images    []*ImageEntry `bun:"rel:has-many,join:id=daily_game_id"`
+	Images    []*ImageEntry `bun:"rel:has-many,join:id=db_round_id"`
 	CreatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 	UpdatedAt time.Time     `bun:",nullzero,notnull,default:current_timestamp"`
 }
@@ -46,21 +47,22 @@ func CreateRoundRepository(db *bun.DB, session *session.Session) *RoundRepositor
 	return &RoundRepository{db, session}
 }
 
-// createImageEntries is a private function which insert paths to the images stored in s3 to the db
+// createImageEntriesForRound is a private function which insert paths to the images stored in s3 to the db
 // include the score caclulated by the model, which in turn determines the level of the image in a
 // round. Entries are always created as a bulk operation, since a round should have more than 1
 // image.
-func (r RoundRepository) createImageEntries(ctx context.Context, input []RoundImageFactory) (entries []*ImageEntry, err error) {
+func (r RoundRepository) createImageEntriesForRound(ctx context.Context, roundID int64, input []RoundImageFactory) (entries []*ImageEntry, err error) {
 	sort.Slice(input, func(i, j int) bool {
 		return input[i].Score < input[j].Score
 	})
 
 	for i, image := range input {
 		entries = append(entries, &ImageEntry{
-			Level:  i + 1,
-			Score:  image.Score,
-			Key:    image.Key,
-			Bucket: image.Bucket,
+			Level:     i + 1,
+			Score:     image.Score,
+			Key:       image.Key,
+			Bucket:    image.Bucket,
+			DBRoundID: roundID,
 		})
 	}
 
@@ -106,11 +108,6 @@ func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64
 // CreateRound creates a new round based on the given round input data. The
 // round will get an id and a game date by beeing inserted.
 func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, input RoundFactory) (*Round, error) {
-	entries, err := r.createImageEntries(ctx, input.Images)
-
-	if err != nil {
-		return nil, err
-	}
 
 	date, err := r.getNextEmptyDate(ctx, currentTime)
 
@@ -122,12 +119,17 @@ func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, inp
 		GameDate: date,
 		Word:     input.Word,
 		Prompt:   input.Prompt,
-		Images:   entries,
 	}
 
 	_, err = r.db.NewInsert().
 		Model(&dbRound).
 		Exec(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	entries, err := r.createImageEntriesForRound(ctx, dbRound.ID, input.Images)
 
 	if err != nil {
 		return nil, err
