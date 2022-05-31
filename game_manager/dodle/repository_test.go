@@ -234,4 +234,26 @@ func TestGetRound(t *testing.T) {
 	if err := fixture.Load(ctx, os.DirFS("fixtures"), "rounds.yml"); err != nil {
 		t.Fatalf("Error while trying to load fixtures: %s", err)
 	}
+
+	round, err := r.GetRound(ctx, 1)
+
+	if err != nil {
+		t.Fatalf("Error while trying to load game: %s", err)
+	}
+
+	if round == nil {
+		t.Fatal("No game loaded.")
+	}
+
+	if round.Word != "toad" {
+		t.Fatalf("Expected to load game with word toad, got %s", round.Word)
+	}
+
+	if round.GameDate != 1653868800 {
+		t.Fatalf("Expected game to have a game date of 1653868800, got %d", round.GameDate)
+	}
+
+	if len(round.Images) != 6 {
+		t.Fatalf("Expected to game to have 5 images, got %d", len(round.Images))
+	}
 }
