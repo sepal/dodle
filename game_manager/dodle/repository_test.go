@@ -249,8 +249,8 @@ func TestGetRound(t *testing.T) {
 		t.Fatalf("Expected to load game with word toad, got %s", round.Word)
 	}
 
-	if round.GameDate != 1653868800 {
-		t.Fatalf("Expected game to have a game date of 1653868800, got %d", round.GameDate)
+	if round.GameDate != 1653955200 {
+		t.Fatalf("Expected game to have a game date of 1653955200, got %d", round.GameDate)
 	}
 
 	if len(round.Images) != 5 {
@@ -283,8 +283,8 @@ func TestGetRoundByTime(t *testing.T) {
 		t.Fatalf("Expected to load game with word mattress, got %s", round.Word)
 	}
 
-	if round.GameDate != 1653955200 {
-		t.Fatalf("Expected game to have a game date of 1653955200, got %d", round.GameDate)
+	if round.GameDate != 1654041600 {
+		t.Fatalf("Expected game to have a game date of 1654041600, got %d", round.GameDate)
 	}
 
 	if len(round.Images) != 5 {

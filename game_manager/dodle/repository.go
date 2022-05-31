@@ -198,7 +198,39 @@ func (r RoundRepository) GetRound(ctx context.Context, id int64) (*Round, error)
 
 // GetRoundByTime gets a certain round given the certain time.
 func (r RoundRepository) GetRoundByTime(ctx context.Context, time int64) (*Round, error) {
-	return nil, nil
+	dbRound := new(DBRound)
+
+	err := r.db.NewSelect().
+		Model(dbRound).
+		Where("game_date >= ?", time).
+		Relation("Images").
+		Limit(1).
+		Scan(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	var images []RoundImage
+
+	for _, img := range dbRound.Images {
+		images = append(images, RoundImage{
+			ID:    img.ID,
+			Level: img.Level,
+			Score: img.Score,
+		})
+	}
+
+	round := Round{
+		ID:        dbRound.ID,
+		Word:      dbRound.Word,
+		Prompt:    dbRound.Prompt,
+		GameDate:  dbRound.GameDate,
+		Images:    images,
+		CreatedAt: dbRound.CreatedAt.Unix(),
+	}
+
+	return &round, nil
 }
 
 // GetRoundImage returns a byte slice containing the image data for the given level and game.

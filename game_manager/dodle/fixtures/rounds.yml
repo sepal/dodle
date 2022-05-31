@@ -1,7 +1,7 @@
 - model: DBRound
   rows:
     - _id: toad
-      game_date: 1653868800
+      game_date: 1653955200
       word: toad
       prompt: delicate orange toad doodle
       created_at: '{{ now }}'
@@ -9,7 +9,7 @@
       prefix: testing/1651363200
 
     - _id: mattress
-      game_date: 1653955200
+      game_date: 1654041600
       word: mattress
       prompt: lovely colorful mattress doodle
       created_at: '{{ now }}'
