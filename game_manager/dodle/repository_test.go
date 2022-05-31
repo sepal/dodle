@@ -292,3 +292,35 @@ func TestGetRoundByTime(t *testing.T) {
 	}
 
 }
+
+func TestGetRoundImage(t *testing.T) {
+	r := setup()
+	defer tearDown(r)
+	ctx := context.Background()
+
+	fixture := dbfixture.New(r.db)
+
+	if err := fixture.Load(ctx, os.DirFS("fixtures"), "rounds.yml"); err != nil {
+		t.Fatalf("Error while trying to load fixtures: %s", err)
+	}
+
+	round, err := r.GetRoundByTime(ctx, 1653985200)
+
+	if err != nil {
+		t.Fatalf("Error while trying to load game: %s", err)
+	}
+
+	if round == nil {
+		t.Fatal("No game found, expected 1 game.")
+	}
+
+	buffer, err := r.GetRoundImage(ctx, round.ID, 0)
+
+	if err != nil {
+		t.Fatalf(`Error while loading image: "%s"`, err)
+	}
+
+	if len(buffer) <= 0 {
+		t.Fatalf(`Expected an image buffer > 0 bytes got %d bytes`, len(buffer))
+	}
+}

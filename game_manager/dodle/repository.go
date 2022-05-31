@@ -2,12 +2,13 @@ package dodle
 
 import (
 	"context"
-	"fmt"
 	"sort"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/uptrace/bun"
 )
 
@@ -42,7 +43,7 @@ type Repository interface {
 	CreateRound(ctx context.Context, currentTime int64, input RoundFactory) (*Round, error)
 	GetRound(ctx context.Context, id int64) (*Round, error)
 	GetRoundByTime(ctx context.Context, time int64) (*Round, error)
-	GetRoundImage(ctx context.Context, level int) ([]byte, error)
+	GetRoundImage(ctx context.Context, roundID int64, level int) ([]byte, error)
 }
 
 // CreateRoundRepository creates a new repository to handle rounds.
@@ -97,7 +98,6 @@ func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64
 
 	// Try to find gaps between the dates.
 	for i, round := range rounds[1:] {
-		fmt.Printf("Comparing %s with %s", round.Word, rounds[i].Word)
 		if round.GameDate-rounds[i].GameDate >= 86400*2 {
 			return AddNDaysToEpoch(rounds[i].GameDate, 1), nil
 		}
@@ -233,7 +233,38 @@ func (r RoundRepository) GetRoundByTime(ctx context.Context, time int64) (*Round
 	return &round, nil
 }
 
+func (r RoundRepository) getS3Image(key string) ([]byte, error) {
+	writeBuf := &aws.WriteAtBuffer{}
+
+	downloader := s3manager.NewDownloader(r.session)
+	_, err := downloader.Download(writeBuf, &s3.GetObjectInput{
+		Bucket: aws.String(r.s3Bucket),
+		Key:    aws.String(key),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return writeBuf.Bytes(), nil
+}
+
 // GetRoundImage returns a byte slice containing the image data for the given level and game.
-func (r RoundRepository) GetRoundImage(ctx context.Context, gameID int64, level int) ([]byte, error) {
-	return nil, nil
+func (r RoundRepository) GetRoundImage(ctx context.Context, roundID int64, level int) ([]byte, error) {
+	entry := new(ImageEntry)
+
+	err := r.db.NewSelect().
+		Model(entry).
+		Where("db_round_id = ?", roundID).
+		Scan(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if entry == nil {
+		return nil, nil
+	}
+
+	return r.getS3Image(entry.Key)
 }
