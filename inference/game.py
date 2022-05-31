@@ -10,11 +10,6 @@ import boto3
 from botocore.exceptions import ClientError
 
 
-class Image:
-    def __init__(self, key, score) -> None:
-        self.key = key
-        self.score = score
-
 class Game:
 
     def __init__(self, n_images=5) -> None:
@@ -35,8 +30,11 @@ class Game:
         self.__prefix = f"inbox/{self.__created_at}"
 
         for i in range(self.__n_images):
-            image = Image(f"{self.__prefix}/{i}.png", scores[i])
-            self.__images.append(image)
+            score = int(scores[i])
+            self.__images.append({
+                "key": f"{self.__prefix}/{i}.png",
+                "score": score
+            })
 
             self.__files.append(io.BytesIO())
             images[i].save(self.__files[i], format="png")
@@ -63,7 +61,7 @@ class Game:
             s3_client.upload_fileobj(
                 self.__files[i], # This is what i am trying to upload
                 bucket,
-                self.__images[i]
+                self.__images[i]["key"]
             )
 
         s3_client.put_object(
