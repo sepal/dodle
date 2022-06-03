@@ -22,3 +22,5 @@ go.work
 
 # Temporary building directories.
 tmp
+
+.env
