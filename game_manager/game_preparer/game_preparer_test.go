@@ -6,13 +6,11 @@ import (
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
-	"github.com/joho/godotenv"
 	"github.com/sepal/dodle/game_manager/dodle"
 	"github.com/uptrace/bun"
 )
 
 func getTestMessage() events.SQSEvent {
-
 	message := events.SQSMessage{
 		MessageId:     "2ecbbaab-f350-42dc-b356-65b4ab76d1e7",
 		ReceiptHandle: "MessageReceiptHandle",
@@ -31,17 +29,6 @@ func getTestMessage() events.SQSEvent {
 	}
 
 	return event
-}
-
-func setup() *bun.DB {
-	godotenv.Load(".env")
-
-	db := initDB()
-
-	ctx := context.Background()
-	dodle.CreateSchemas(ctx, db)
-
-	return db
 }
 
 func tearDown(db *bun.DB) error {
@@ -68,7 +55,7 @@ func TestDecodeBody(t *testing.T) {
 }
 
 func TestHandleRequest(t *testing.T) {
-	db := setup()
+	db := initDB()
 	defer tearDown(db)
 
 	ctx := context.Background()
