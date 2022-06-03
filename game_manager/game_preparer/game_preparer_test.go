@@ -2,17 +2,13 @@ package main
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
-	"os"
+	"encoding/json"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/joho/godotenv"
 	"github.com/sepal/dodle/game_manager/dodle"
 	"github.com/uptrace/bun"
-	"github.com/uptrace/bun/dialect/pgdialect"
-	"github.com/uptrace/bun/driver/pgdriver"
 )
 
 func getTestMessage() events.SQSEvent {
@@ -37,20 +33,6 @@ func getTestMessage() events.SQSEvent {
 	return event
 }
 
-func initDB() *bun.DB {
-	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_NAME"),
-	)
-
-	conn := pgdriver.NewConnector(pgdriver.WithDSN(dsn))
-	db := sql.OpenDB(conn)
-
-	return bun.NewDB(db, pgdialect.New())
-}
-
 func setup() *bun.DB {
 	godotenv.Load(".env")
 
@@ -71,6 +53,20 @@ func tearDown(db *bun.DB) error {
 	return nil
 }
 
+func TestDecodeBody(t *testing.T) {
+	event := getTestMessage()
+
+	for _, record := range event.Records {
+		var input dodle.RoundFactory
+		err := json.Unmarshal([]byte(record.Body), &input)
+
+		if err != nil {
+			t.Fatalf("Error while decoding body, %s", err)
+		}
+	}
+
+}
+
 func TestHandleRequest(t *testing.T) {
 	db := setup()
 	defer tearDown(db)
@@ -84,21 +80,28 @@ func TestHandleRequest(t *testing.T) {
 		t.Fatalf("Error while handling request %s", err)
 	}
 
-	var round *dodle.DBRound
-	db.NewSelect().
-		Model(round).
+	var out []dodle.DBRound
+	err = db.NewSelect().
+		Model(&out).
+		Relation("Images").
 		Limit(1).
 		Scan(ctx)
 
-	if round == nil {
-		t.Fatal("No new round inserted")
+	if err != nil {
+		t.Fatalf("Error while trying to fetch round: %s", err)
 	}
 
-	if round.Word != "paper" {
-		t.Fatalf("Expected word paper, got %s", round.Word)
+	if len(out) < 1 {
+		t.Fatalf("Expected one round fetched, got %d", len(out))
 	}
 
-	if len(round.Images) != 5 {
-		t.Fatalf("Expected to %d images, got %d", 5, len(round.Images))
+	word := "paper"
+	if out[0].Word != word {
+		t.Fatalf("Expected fetched round to have word %s, not %s", word, out[0].Word)
+	}
+
+	images := 5
+	if len(out[0].Images) != images {
+		t.Fatalf("Expected to %d images, got %d", images, len(out[0].Images))
 	}
 }
