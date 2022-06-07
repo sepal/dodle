@@ -108,24 +108,6 @@ func TestCreateImageEntries(t *testing.T) {
 
 }
 
-func TestAddNDaysToEpoch(t *testing.T) {
-	if date := AddNDaysToEpoch(1653941866, 0); date != 1653868800 {
-		t.Fatalf("Expected 1653868800, got %d", date)
-	}
-
-	if date := AddNDaysToEpoch(1653941866, 3); date != 1654128000 {
-		t.Fatalf("Expected 1654128000, got %d", date)
-	}
-
-	if date := AddNDaysToEpoch(1653941866, -1); date != 1653782400 {
-		t.Fatalf("Expected 1653782400, got %d", date)
-	}
-
-	if date := AddNDaysToEpoch(1653941866, -4); date != 1653523200 {
-		t.Fatalf("Expected 1653523200, got %d", date)
-	}
-}
-
 func TestGetNextEmptyDate(t *testing.T) {
 	r := setup()
 	defer tearDown(r)
@@ -279,12 +261,12 @@ func TestGetRoundByTime(t *testing.T) {
 		t.Fatal("No game found, expected 1 game.")
 	}
 
-	if round.Word != "mattress" {
-		t.Fatalf("Expected to load game with word mattress, got %s", round.Word)
+	if round.Word != "toad" {
+		t.Fatalf("Expected to load game with word toad, got %s", round.Word)
 	}
 
-	if round.GameDate != 1654041600 {
-		t.Fatalf("Expected game to have a game date of 1654041600, got %d", round.GameDate)
+	if round.GameDate != 1653955200 {
+		t.Fatalf("Expected game to have a game date of 1653955200, got %d", round.GameDate)
 	}
 
 	if len(round.Images) != 5 {

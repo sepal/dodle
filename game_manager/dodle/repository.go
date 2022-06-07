@@ -76,10 +76,6 @@ func (r RoundRepository) createImageEntriesForRound(ctx context.Context, roundID
 	return entries, nil
 }
 
-func AddNDaysToEpoch(currentTime int64, days int64) int64 {
-	return (currentTime/86400)*86400 + (86400 * (days))
-}
-
 // getNextEmptyDate will return the next empty date for inserting a game.
 func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64) (int64, error) {
 	var rounds []DBRound
@@ -200,9 +196,11 @@ func (r RoundRepository) GetRound(ctx context.Context, id int64) (*Round, error)
 func (r RoundRepository) GetRoundByTime(ctx context.Context, time int64) (*Round, error) {
 	dbRound := new(DBRound)
 
+	day := RoundToDay(time)
+
 	err := r.db.NewSelect().
 		Model(dbRound).
-		Where("game_date >= ?", time).
+		Where("game_date <= ?", day).
 		Relation("Images").
 		Limit(1).
 		Scan(ctx)
