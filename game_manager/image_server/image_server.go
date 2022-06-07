@@ -82,6 +82,8 @@ func CreateErrorResponse(statusCode int, message string) (*events.APIGatewayProx
 
 func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	ctx := context.Background()
+
+	log.Print("Fetching query params.")
 	time, err := strconv.ParseInt(request.QueryStringParameters["time"], 10, 64)
 
 	if err != nil {
@@ -94,12 +96,14 @@ func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayPro
 		return nil, err
 	}
 
+	log.Printf("Querying round for time %d", time)
 	round, err := repository.GetRoundByTime(ctx, time)
 
 	if err != nil {
 		return nil, err
 	}
 
+	log.Printf("Fetching image level %d for round %d", level, round.ID)
 	image, err := repository.GetRoundImage(ctx, round.ID, level)
 
 	b64Img := base64.StdEncoding.EncodeToString(image)
