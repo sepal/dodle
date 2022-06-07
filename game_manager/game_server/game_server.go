@@ -1,57 +1,80 @@
 package main
 
 import (
+	"context"
+	"database/sql"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/joho/godotenv"
 	"github.com/sepal/dodle/game_manager/dodle"
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/driver/pgdriver"
 )
 
-const BUCKET = "dodle"
+var repository dodle.Repository
 
-type GameResponse struct {
-	GameDate int64     `json:"gameDate"`
-	Word     string    `json:"word"`
-	Levels   int       `json:"levels"`
-	Scores   []float64 `json:"scores"`
-	Prompt   string    `json:"prompt"`
+func initSession() (*session.Session, error) {
+	return session.NewSession(&aws.Config{
+		Region: aws.String("eu-central-1"),
+	})
+}
+
+func initDB() *bun.DB {
+	godotenv.Load(".env")
+
+	dsn := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable",
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_NAME"),
+	)
+
+	conn := pgdriver.NewConnector(pgdriver.WithDSN(dsn))
+	db := sql.OpenDB(conn)
+
+	return bun.NewDB(db, pgdialect.New())
+}
+
+func init() {
+	session, err := initSession()
+
+	if err != nil {
+		log.Fatalf("Error while trying to create aws session %s", err)
+	}
+
+	db := initDB()
+
+	repository = dodle.CreateRoundRepository(db, session, os.Getenv("S3_BUCKET"))
+
+	ctx := context.Background()
+	dodle.CreateSchemas(ctx, db)
 }
 
 func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	env, ok := request.StageVariables["env"]
-
-	if ok {
-		dodle.AWS_PREFIX = env + "/"
-	}
-
-	session, err := session.NewSession(&aws.Config{
-		Region: aws.String("eu-central-1"),
-	})
+	ctx := context.Background()
+	time, err := strconv.ParseInt(request.QueryStringParameters["time"], 10, 64)
 
 	if err != nil {
-		log.Fatalf("Problem creating an AWS session: %s", err)
+		return nil, err
 	}
 
-	game, err := dodle.GetNextGame(session, BUCKET)
+	round, err := repository.GetRoundByTime(ctx, time)
 
 	if err != nil {
-		log.Fatalf("Could not load next game due to: %s", err)
+		return nil, err
 	}
 
-	g := GameResponse{
-		GameDate: game.GameDate,
-		Word:     game.Word,
-		Levels:   len(game.Files),
-		Scores:   game.Scores,
-		Prompt:   game.Prompt,
-	}
-
-	body, err := json.Marshal(g)
+	body, err := json.Marshal(round)
 
 	if err != nil {
 		return nil, err
