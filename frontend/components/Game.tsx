@@ -43,20 +43,17 @@ const Game = ({ game }: GameProps) => {
 
   let message = <EndMessage {...game} state={playState} />;
 
+  const level = guesses.length < game.images.length ?  guesses.length : 1;
 
   // This allows us to circumvent the browser image cache for each day.
   let today = new Date();
   let date = `date=${today.toISOString().split("T")[0]}`;
-  let canvas =
-    guesses.length < game.levels ? (
-      <Canvas image={`/api/image?level=${guesses.length}&${date}`} />
-    ) : (
-      <Canvas image={`/api/image?level=${game.levels - 1}}&${date}`} />
-    );
+
+  const image_url = `/api/image?level=${level}&${date}`
 
   return (
     <GameFrame>
-      {canvas}
+      <Canvas image={image_url} />
       {guesses.length > 0 && <Guesses guesses={guesses} />}
       {playState == PlayState.playing ? (
         <Input

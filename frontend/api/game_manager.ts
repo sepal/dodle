@@ -1,3 +1,4 @@
+import { time } from "console";
 import https from "https";
 import {URLSearchParams} from "url"
 import { GameData } from "../models/game_manager";
@@ -60,13 +61,22 @@ export type ErrorResponse = {
   
 
 export async function getGameData(): Promise<GameData> {
-    let buffer = await get("game");
+    const epoch = Math.round(Date.now() / 1000);
+    const query = new URLSearchParams({
+        "time": epoch.toString()
+    });
+    let buffer = await get("game", "application/json", query);
     let game = JSON.parse(buffer.toString());
+    console.log(game);
     return game;
 }
 
-export async function getImage(level = 0): Promise<Buffer> {
-    const query = new URLSearchParams({"level": level.toString()})
+export async function getImage(level = 1): Promise<Buffer> {
+    const epoch = Math.round(Date.now() / 1000);
+    const query = new URLSearchParams({
+        "level": level.toString(),
+        "time": epoch.toString(),
+    });
     let buffer = await get("game/image", "image/png", query)
     return buffer
 }
