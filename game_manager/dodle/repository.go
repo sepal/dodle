@@ -2,6 +2,7 @@ package dodle
 
 import (
 	"context"
+	"log"
 	"sort"
 	"time"
 
@@ -251,9 +252,11 @@ func (r RoundRepository) getS3Image(key string) ([]byte, error) {
 func (r RoundRepository) GetRoundImage(ctx context.Context, roundID int64, level int) ([]byte, error) {
 	entry := new(ImageEntry)
 
+	log.Printf("Selecting image for round %d and level %d", roundID, level)
 	err := r.db.NewSelect().
 		Model(entry).
 		Where("db_round_id = ?", roundID).
+		Where("level = ?", level).
 		Scan(ctx)
 
 	if err != nil {
@@ -263,6 +266,8 @@ func (r RoundRepository) GetRoundImage(ctx context.Context, roundID int64, level
 	if entry == nil {
 		return nil, nil
 	}
+
+	log.Printf("Fetching image %s", entry.Key)
 
 	return r.getS3Image(entry.Key)
 }
