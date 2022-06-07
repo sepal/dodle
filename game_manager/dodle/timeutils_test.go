@@ -19,3 +19,12 @@ func TestAddNDaysToEpoch(t *testing.T) {
 		t.Fatalf("Expected 1653523200, got %d", date)
 	}
 }
+
+func TestRoundToDay(t *testing.T) {
+	if date := RoundToDay(1654071623); date != 1654041600 {
+		t.Fatalf("Expected 1654041600, got %d", date)
+	}
+	if date := RoundToDay(1654560000); date != 1654560000 {
+		t.Fatalf("Expected 1654560000, got %d", date)
+	}
+}

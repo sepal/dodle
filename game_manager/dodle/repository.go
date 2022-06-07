@@ -196,9 +196,11 @@ func (r RoundRepository) GetRound(ctx context.Context, id int64) (*Round, error)
 func (r RoundRepository) GetRoundByTime(ctx context.Context, time int64) (*Round, error) {
 	dbRound := new(DBRound)
 
+	day := RoundToDay(time)
+
 	err := r.db.NewSelect().
 		Model(dbRound).
-		Where("game_date >= ?", time).
+		Where("game_date <= ?", day).
 		Relation("Images").
 		Limit(1).
 		Scan(ctx)
