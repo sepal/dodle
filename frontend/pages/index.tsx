@@ -57,7 +57,6 @@ export async function getServerSideProps() {
   const url = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
-  console.log(process.env.VERCEL_URL);
 
   const res = await fetch(`${url}/api/game/`);
   const game = await res.json();

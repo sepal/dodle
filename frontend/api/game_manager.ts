@@ -67,7 +67,6 @@ export async function getGameData(): Promise<GameData> {
     });
     let buffer = await get("game", "application/json", query);
     let game = JSON.parse(buffer.toString());
-    console.log(game);
     return game;
 }
 

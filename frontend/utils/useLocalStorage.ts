@@ -29,7 +29,7 @@ export function useLocalStorage<Type>(
         window.localStorage.setItem(key, JSON.stringify(value));
       }
     } catch (error) {
-      console.log(error);
+      console.log(`Error while trying to set local storage ${error}`);
       return initialValue;
     }
   };
