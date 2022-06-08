@@ -90,7 +90,7 @@ class Game:
                 }
 
             },
-            MessageBody=json.dumps(self.game_data),
+            MessageBody=self.game_data,
             MessageGroupId="GameInbox",
             MessageDeduplicationId=str(self.__created_at),
         )
