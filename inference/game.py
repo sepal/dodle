@@ -9,32 +9,36 @@ from dalle_sketch import generate_prompt, draw_sketch
 import boto3
 from botocore.exceptions import ClientError
 
+
 class Game:
 
     def __init__(self, n_images=5) -> None:
         self.__word = ""
         self.__prompt = ""
-        self.__scores = ""
-        self.__images = []
         self.__files = []
+        self.__images = []
         self.__n_images = n_images
-        self.__base_key = None
+        self.__prefix = None
 
     def generate_game(self):
         logging.info("Generating new game")
         self.__word, prompt = generate_prompt()
         logging.info("Drawing images for prompt %s" % prompt)
-        self.__prompt, images, self.__scores = draw_sketch(prompt, self.__n_images)
+        self.__prompt, images, scores = draw_sketch(prompt, self.__n_images)
 
         self.__created_at = int(time.time())
-        self.__base_key = f"inbox/{self.__created_at}"
+        self.__prefix = f"inbox/{self.__created_at}"
 
         for i in range(self.__n_images):
-            self.__files.append(f"{self.__base_key}/{i}.png")
+            score = int(scores[i])
+            self.__images.append({
+                "key": f"{self.__prefix}/{i}.png",
+                "score": score
+            })
 
-            self.__images.append(io.BytesIO())
-            images[i].save(self.__images[i], format="png")
-            self.__images[i].seek(0)
+            self.__files.append(io.BytesIO())
+            images[i].save(self.__files[i], format="png")
+            self.__files[i].seek(0)
 
         logging.info("Created game")
 
@@ -43,9 +47,8 @@ class Game:
         data = {
             "word": self.__word,
             "prompt": self.__prompt,
-            "scores": self.__scores.tolist(),
-            "files": self.__files,
-            "base_key": self.__base_key,
+            "images": self.__images,
+            "prefix": self.__prefix,
         }
         return json.dumps(data)
 
@@ -56,15 +59,15 @@ class Game:
         for i in range(self.__n_images):
             # Upload image to s3
             s3_client.upload_fileobj(
-                self.__images[i], # This is what i am trying to upload
+                self.__files[i], # This is what i am trying to upload
                 bucket,
-                self.__files[i]
+                self.__images[i]["key"]
             )
 
         s3_client.put_object(
             Body=self.game_data,
             Bucket=bucket,
-            Key=f"{self.__base_key}/game.json"
+            Key=f"{self.__prefix}/game.json"
         )
 
     def push_game_data(self, queue_url):
