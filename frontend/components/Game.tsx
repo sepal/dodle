@@ -21,6 +21,21 @@ type GameProps = {
   game: GameData;
 };
 
+function getLevel(game: GameData, guesses: Array<Guess>): number {
+  const last_level = game.images[game.images.length - 1].level;
+  console.log(guesses);
+  if (guesses.length > 0
+    && guesses[guesses.length - 1].correct 
+    && guesses.length < last_level) {
+    return guesses.length;
+  }
+
+  if (guesses.length >= last_level) {
+    return last_level;
+  }
+  return guesses.length + 1;
+}
+
 const Game = ({ game }: GameProps) => {
   const [guesses, setGuesses] = useLocalStorage<Guess[]>("guesses", []);
   const [playState, setPlayState] = useLocalStorage<PlayState>(
@@ -43,20 +58,17 @@ const Game = ({ game }: GameProps) => {
 
   let message = <EndMessage {...game} state={playState} />;
 
+  const level = getLevel(game, guesses)
 
   // This allows us to circumvent the browser image cache for each day.
   let today = new Date();
   let date = `date=${today.toISOString().split("T")[0]}`;
-  let canvas =
-    guesses.length < game.levels ? (
-      <Canvas image={`/api/image?level=${guesses.length}&${date}`} />
-    ) : (
-      <Canvas image={`/api/image?level=${game.levels - 1}}&${date}`} />
-    );
+
+  const image_url = `/api/image?level=${level}&${date}`
 
   return (
     <GameFrame>
-      {canvas}
+      <Canvas image={image_url} />
       {guesses.length > 0 && <Guesses guesses={guesses} />}
       {playState == PlayState.playing ? (
         <Input
@@ -76,7 +88,7 @@ const Game = ({ game }: GameProps) => {
           }}
         />
       ) : (
-        <EndMessage state={playState} word={game.word} prompt={game.prompt} /> 
+        <EndMessage state={playState} word={game.word} prompt={game.prompt} />
       )}
     </GameFrame>
   );

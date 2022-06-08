@@ -6,9 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
-	"strconv"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -60,33 +59,27 @@ func init() {
 	dodle.CreateSchemas(ctx, db)
 }
 
-func HandleRequest(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	ctx := context.Background()
-	time, err := strconv.ParseInt(request.QueryStringParameters["time"], 10, 64)
+func HandleRequest(ctx context.Context, event events.SQSEvent) error {
+	for _, record := range event.Records {
+		var input dodle.RoundFactory
+		err := json.Unmarshal([]byte(record.Body), &input)
 
-	if err != nil {
-		return nil, err
+		if err == nil {
+			now := time.Now()
+			round, err := repository.CreateRound(ctx, now.Unix(), input)
+
+			if err != nil {
+				log.Printf("Error while creating round %s", err)
+			} else {
+				log.Printf("Created new round with id %d", round.ID)
+			}
+
+		} else {
+			log.Printf("Could not decode body for message %s due to %s", record.MessageId, err)
+			log.Printf("Body is: '%s'", record.Body)
+		}
 	}
-
-	round, err := repository.GetRoundByTime(ctx, time)
-
-	if err != nil {
-		return nil, err
-	}
-
-	body, err := json.Marshal(round)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &events.APIGatewayProxyResponse{
-		StatusCode: http.StatusOK,
-		Body:       string(body),
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-		},
-	}, nil
+	return nil
 }
 
 func main() {

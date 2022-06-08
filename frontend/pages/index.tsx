@@ -57,14 +57,10 @@ export async function getServerSideProps() {
   const url = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
-  console.log(process.env.VERCEL_URL);
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  const res = await fetch(`${url}/api/game`);
+
+  const res = await fetch(`${url}/api/game/`);
   const game = await res.json();
 
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
   return { props: { game: game } };
 }
 

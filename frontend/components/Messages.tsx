@@ -19,7 +19,7 @@ export const SuccessMessage: FC<MessageProps> = ({word, prompt} : MessageProps) 
 )
 
 export const FailedMessage: FC<MessageProps> = ({word, prompt} : MessageProps) => (
-    <>🥺 Sorry, you&apos;re wrong. The correct word is &quot;${word}&quot;</>
+    <>🥺 Sorry, you&apos;re wrong. The correct word is &quot;{word}&quot;</>
 )
 
 export const EndMessage: FC<MessageProps> = ({state, word, prompt} : MessageProps) => {
@@ -28,7 +28,7 @@ export const EndMessage: FC<MessageProps> = ({state, word, prompt} : MessageProp
             case PlayState.success:
                 return <SuccessMessage word={word} prompt={prompt} state={state} />
             case PlayState.fail:
-                return <SuccessMessage word={word} prompt={prompt} state={state} />
+                return <FailedMessage word={word} prompt={prompt} state={state} />
             default:
                 return <></>
         }
