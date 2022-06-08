@@ -5,14 +5,14 @@ go 1.18
 require (
 	github.com/aws/aws-lambda-go v1.32.0
 	github.com/joho/godotenv v1.4.0
-	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220531172920-40b132c6604d
+	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802
 	github.com/uptrace/bun v1.1.5
 	github.com/uptrace/bun/dialect/pgdialect v1.1.5
 	github.com/uptrace/bun/driver/pgdriver v1.1.5
 )
 
 require (
-	github.com/aws/aws-sdk-go v1.44.27 // indirect
+	github.com/aws/aws-sdk-go v1.44.29 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.12.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect

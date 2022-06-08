@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -34,23 +35,47 @@ func TestHandleRequest(t *testing.T) {
 		t.Fatalf("Error while trying to load fixtures: %s", err)
 	}
 
-	request := events.APIGatewayProxyRequest{
-		StageVariables: map[string]string{
-			"env": "testing",
-		},
-		QueryStringParameters: map[string]string{
-			"time":  "1653976200",
-			"level": "0",
-		},
+	var request = func(level int) (string, error) {
+		request := events.APIGatewayProxyRequest{
+			StageVariables: map[string]string{
+				"env": "testing",
+			},
+			QueryStringParameters: map[string]string{
+				"time":  "1653976200",
+				"level": strconv.Itoa(level),
+			},
+		}
+
+		response, err := HandleRequest(request)
+
+		if err != nil {
+			return "", nil
+		}
+
+		return response.Body, nil
 	}
 
-	response, err := HandleRequest(request)
+	img, err := request(1)
 
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(response.Body) <= 0 {
+	if len(img) <= 0 {
 		t.Fatal("Retrieved empty image")
+	}
+
+	img2, err := request(2)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(img2) <= 0 {
+		t.Fatal("Retrieved empty image")
+	}
+
+	if img == img2 {
+		t.Fatal("Retrieved the same image for different levels")
 	}
 }

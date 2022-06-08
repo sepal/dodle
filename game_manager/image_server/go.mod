@@ -4,9 +4,9 @@ go 1.18
 
 require (
 	github.com/aws/aws-lambda-go v1.31.1
-	github.com/aws/aws-sdk-go v1.44.28
+	github.com/aws/aws-sdk-go v1.44.29
 	github.com/joho/godotenv v1.4.0
-	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607085718-e13f9470bbb2
+	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802
 	github.com/uptrace/bun v1.1.5
 	github.com/uptrace/bun/dbfixture v1.1.5
 	github.com/uptrace/bun/dialect/pgdialect v1.1.5

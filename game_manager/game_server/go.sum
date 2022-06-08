@@ -6,6 +6,8 @@ github.com/aws/aws-sdk-go v1.44.27 h1:8CMspeZSrewnbvAwgl8qo5R7orDLwQnTGBf/OKPiHx
 github.com/aws/aws-sdk-go v1.44.27/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/aws/aws-sdk-go v1.44.28 h1:h/OAqEqY18wq//v6h4GNPMmCkxuzSDrWuGyrvSiRqf4=
 github.com/aws/aws-sdk-go v1.44.28/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
+github.com/aws/aws-sdk-go v1.44.29 h1:53YWlelsMiYmGxuTRpAq7Xp+pE+0esAVqNFiNyekU+A=
+github.com/aws/aws-sdk-go v1.44.29/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
@@ -31,6 +33,8 @@ github.com/sepal/dodle/game_manager/dodle v0.0.0-20220531172920-40b132c6604d h1:
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220531172920-40b132c6604d/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607085718-e13f9470bbb2 h1:Npc/5opl5QxRxJYplzEy0AjpPZb/59ltn1JN78lJNoM=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607085718-e13f9470bbb2/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802 h1:BBLCSvBqDrzGzxKfnC8qXl4FMCZayH1cyL2pFTCyhic=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=

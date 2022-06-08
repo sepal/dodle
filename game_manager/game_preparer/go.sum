@@ -8,6 +8,8 @@ github.com/aws/aws-sdk-go v1.44.13 h1:7mRsYayiEQSladCR2ASLsNz3f3XIdfOdXd+od3uOLP
 github.com/aws/aws-sdk-go v1.44.13/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/aws/aws-sdk-go v1.44.27 h1:8CMspeZSrewnbvAwgl8qo5R7orDLwQnTGBf/OKPiHxI=
 github.com/aws/aws-sdk-go v1.44.27/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
+github.com/aws/aws-sdk-go v1.44.29 h1:53YWlelsMiYmGxuTRpAq7Xp+pE+0esAVqNFiNyekU+A=
+github.com/aws/aws-sdk-go v1.44.29/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/cockroachdb/apd v1.1.0/go.mod h1:8Sl8LxpKi29FqWXR16WEFZRNSz3SoPzUzeMeY4+DwBQ=
 github.com/coreos/go-systemd v0.0.0-20190321100706-95778dfbb74e/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
 github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f/go.mod h1:F5haX7vjVVG0kc13fIWeqUViNPyEJxv/OmvnBo0Yme4=
@@ -104,6 +106,8 @@ github.com/sepal/dodle/game_manager/dodle v0.0.0-20220511100428-1118a391f5bf h1:
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220511100428-1118a391f5bf/go.mod h1:L1MRk9x5Ct/VnCiV8rS1IkotcUE20gHiZKnfrhq66aE=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220531172920-40b132c6604d h1:8kj9won0BugzS+q7LyC6nZldgh6gWn4x6gWcZV29s9A=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220531172920-40b132c6604d/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802 h1:BBLCSvBqDrzGzxKfnC8qXl4FMCZayH1cyL2pFTCyhic=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
 github.com/shopspring/decimal v0.0.0-20180709203117-cd690d0c9e24/go.mod h1:M+9NzErvs504Cn4c5DxATwIqPbtswREoFCre64PpcG4=
 github.com/shopspring/decimal v1.2.0/go.mod h1:DKyhrW/HYNuLGql+MJL6WCR6knT2jwCFRcu2hWCYk4o=
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
