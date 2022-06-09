@@ -203,6 +203,7 @@ func (r RoundRepository) GetRoundByTime(ctx context.Context, time int64) (*Round
 		Model(dbRound).
 		Where("game_date <= ?", day).
 		Relation("Images").
+		OrderExpr("game_date DESC").
 		Limit(1).
 		Scan(ctx)
 

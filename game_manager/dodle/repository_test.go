@@ -273,6 +273,28 @@ func TestGetRoundByTime(t *testing.T) {
 		t.Fatalf("Expected to game to have 5 images, got %d", len(round.Images))
 	}
 
+	round, err = r.GetRoundByTime(ctx, 1654081600)
+
+	if err != nil {
+		t.Fatalf("Error while trying to load game: %s", err)
+	}
+
+	if round == nil {
+		t.Fatal("No game found, expected 1 game.")
+	}
+
+	if round.Word != "mattress" {
+		t.Fatalf("Expected to load game with word mattress, got %s", round.Word)
+	}
+
+	if round.GameDate != 1654041600 {
+		t.Fatalf("Expected game to have a game date of 1654041600, got %d", round.GameDate)
+	}
+
+	if len(round.Images) != 5 {
+		t.Fatalf("Expected to game to have 5 images, got %d", len(round.Images))
+	}
+
 }
 
 func TestGetRoundImage(t *testing.T) {
@@ -296,7 +318,7 @@ func TestGetRoundImage(t *testing.T) {
 		t.Fatal("No game found, expected 1 game.")
 	}
 
-	buffer, err := r.GetRoundImage(ctx, round.ID, 0)
+	buffer, err := r.GetRoundImage(ctx, round.ID, 1)
 
 	if err != nil {
 		t.Fatalf(`Error while loading image: "%s"`, err)
