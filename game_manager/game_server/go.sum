@@ -8,6 +8,8 @@ github.com/aws/aws-sdk-go v1.44.28 h1:h/OAqEqY18wq//v6h4GNPMmCkxuzSDrWuGyrvSiRqf
 github.com/aws/aws-sdk-go v1.44.28/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/aws/aws-sdk-go v1.44.29 h1:53YWlelsMiYmGxuTRpAq7Xp+pE+0esAVqNFiNyekU+A=
 github.com/aws/aws-sdk-go v1.44.29/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
+github.com/aws/aws-sdk-go v1.44.30 h1:w7sTp6jFWRaZCDg08fUx8X4IOU4sgbCR+e+1qSmf+bc=
+github.com/aws/aws-sdk-go v1.44.30/go.mod h1:y4AeaBuwd2Lk+GepC1E9v0qOiTws0MIWAX4oIKwKHZo=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=
@@ -35,6 +37,10 @@ github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607085718-e13f9470bbb2 h1:
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607085718-e13f9470bbb2/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802 h1:BBLCSvBqDrzGzxKfnC8qXl4FMCZayH1cyL2pFTCyhic=
 github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220608194921-abe0a15df7a6 h1:uvwg6v1NAK/aVchLs1Z/5vXB04dtwZAcHOSMlA0lOTI=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220608194921-abe0a15df7a6/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220609081334-2218a028c492 h1:RtZFnPqkZcFiJZJUc4uZTzaJD2i1k18FcgwLZZlk32o=
+github.com/sepal/dodle/game_manager/dodle v0.0.0-20220609081334-2218a028c492/go.mod h1:Rthejp+YGujIx2hilZkHTSChlGdzO6oVHPenRR9Uol0=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.6.1 h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
@@ -62,6 +68,8 @@ golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a h1:dGzPydgVsqGcTRVwiLJ1jVbufYwmzD3LfVPLKsKg+0k=
 golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+golang.org/x/sys v0.0.0-20220608164250-635b8c9b7f68 h1:z8Hj/bl9cOV2grsOpEaQFUaly0JWN3i97mo3jXKJNp0=
+golang.org/x/sys v0.0.0-20220608164250-635b8c9b7f68/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/term v0.0.0-20210927222741-03fcf44c2211/go.mod h1:jbD1KX2456YbFQfuXm/mYQcufACuNUgVhRMnK/tPxf8=
 golang.org/x/text v0.3.7 h1:olpwvP2KacW1ZWvsR7uQhoyTYvKAupfQrRGBFM352Gk=
 golang.org/x/text v0.3.7/go.mod h1:u+2+/6zg+i71rQMx5EYifcz6MCKuco9NR6JIITiCfzQ=

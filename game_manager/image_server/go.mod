@@ -4,9 +4,9 @@ go 1.18
 
 require (
 	github.com/aws/aws-lambda-go v1.31.1
-	github.com/aws/aws-sdk-go v1.44.29
+	github.com/aws/aws-sdk-go v1.44.30
 	github.com/joho/godotenv v1.4.0
-	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802
+	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220609081334-2218a028c492
 	github.com/uptrace/bun v1.1.5
 	github.com/uptrace/bun/dbfixture v1.1.5
 	github.com/uptrace/bun/dialect/pgdialect v1.1.5
@@ -20,7 +20,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20220511200225-c6db032c6c88 // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
+	golang.org/x/sys v0.0.0-20220608164250-635b8c9b7f68 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	mellium.im/sasl v0.2.1 // indirect
 )
