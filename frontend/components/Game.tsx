@@ -23,7 +23,6 @@ type GameProps = {
 
 function getLevel(game: GameData, guesses: Array<Guess>): number {
   const last_level = game.images[game.images.length - 1].level;
-  console.log(guesses);
   if (guesses.length > 0
     && guesses[guesses.length - 1].correct 
     && guesses.length < last_level) {
@@ -52,6 +51,8 @@ const Game = ({ game }: GameProps) => {
       setGuesses([]);
       localStorage.setItem("last_played", currentDate);
     }
+
+    localStorage.setItem("last_game", game.id.toString());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
