@@ -42,17 +42,13 @@ const Game = ({ game }: GameProps) => {
     PlayState.playing
   );
 
-  useEffect(() => {
-    const currentDate = get_date();
-    const lastDate = localStorage.getItem("last_played");
+  const [lastGame, setLastGame] = useLocalStorage<number>("last_game", game.id);
 
-    if (lastDate == null || (lastDate && lastDate < currentDate)) {
+  useEffect(() => {
+    if (lastGame != game.id) {
       setPlayState(PlayState.playing);
       setGuesses([]);
-      localStorage.setItem("last_played", currentDate);
     }
-
-    localStorage.setItem("last_game", game.id.toString());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
