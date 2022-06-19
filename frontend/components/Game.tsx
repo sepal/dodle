@@ -42,12 +42,12 @@ const Game = ({ game }: GameProps) => {
     PlayState.playing
   );
 
-  const [lastGame, setLastGame] = useLocalStorage<number>("last_game", game.id);
-
   useEffect(() => {
+    const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
     if (lastGame != game.id) {
       setPlayState(PlayState.playing);
       setGuesses([]);
+      window.localStorage.setItem("last_game", game.id.toString());
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
