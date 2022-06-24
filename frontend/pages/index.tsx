@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
 import Image from "next/image";
-import Game from "../components/Game";
+import Game from "../components/game/Game";
 import { GameData } from "../models/game_manager";
 
 const Title = styled.h1`
