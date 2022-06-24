@@ -46,7 +46,7 @@ export default function Histogram({ label, data, hightlight }: HistogramProps) {
         const perc = value / maxVal;
         const guess_index = index + 1;
         return (
-            <Row>
+            <Row key={index}>
                 <Label>{guess_index}</Label>
                 <Value
                     active={guess_index === hightlight}
