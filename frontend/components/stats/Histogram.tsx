@@ -3,6 +3,7 @@ import styled from "styled-components";
 interface HistogramProps {
     label: string
     data: Array<number>
+    hightlight?: number
 }
 
 const Row = styled.div`
@@ -17,24 +18,35 @@ const Label = styled.div`
     margin-right: 0.5em;
 `
 
-const Value = styled.div`
+interface ValueProps {
+    active: boolean
+}
+
+const Value = styled.div<ValueProps>`
     display: inline-block;
-    padding: 0;
+    padding: 0 0.75em;
     padding-left: 0.5em;
     min-width: 1.5em;
     background: #666;
     font-weight: bold;
     color: white;
+    text-align: right;
+
+    ${({ active }) => active && `
+        background: rgb(50, 200, 100);
+    `}
 `
 
-export default function Histogram({ label, data }: HistogramProps) {
+export default function Histogram({ label, data, hightlight }: HistogramProps) {
     const maxVal = Math.max(...data);
     const histogramData = data.map((value: number, index: number) => {
         const perc = value / maxVal;
+        const guess_index = index + 1;
         return (
             <Row>
-                <Label>{index}</Label>
+                <Label>{guess_index}</Label>
                 <Value
+                    active={guess_index === hightlight}
                     style={{
                         width: `${perc * 100}%`
                     }}>

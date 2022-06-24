@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Histogram from "../components/stats/Histogram"
 import SingleStat from "../components/stats/SingleStat"
+import { Guess } from "../models/game";
 import { GlobalStats } from "../models/stats";
 import { useLocalStorage } from "../utils/useLocalStorage";
 
@@ -18,6 +19,7 @@ const SingleStatsWrapper = styled.div`
 `;
 
 function Stats() {
+    const [guesses, setGuesses] = useLocalStorage<Guess[]>("guesses", []);
     const [stats, setStats] = useLocalStorage<GlobalStats>("global_stats", {
         played: 0,
         solved: 0,
@@ -39,7 +41,7 @@ function Stats() {
                 <SingleStat label="Longest streak" value={stats.longestStreak} />
             </SingleStatsWrapper>
             <h2>Guess Distribution</h2>
-            <Histogram label="Guess distribution" data={stats.histogram} />
+            <Histogram label="Guess distribution" data={stats.histogram} hightlight={guesses.length} />
         </StatsWrapper>
     );
 }
