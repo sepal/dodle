@@ -20,6 +20,7 @@ const Label = styled.div`
 
 interface ValueProps {
     active: boolean
+    width: number
 }
 
 const Value = styled.div<ValueProps>`
@@ -35,6 +36,8 @@ const Value = styled.div<ValueProps>`
     ${({ active }) => active && `
         background: rgb(50, 200, 100);
     `}
+
+    ${({ width }) => `width: ${width}%`}
 `
 
 export default function Histogram({ label, data, hightlight }: HistogramProps) {
@@ -47,14 +50,13 @@ export default function Histogram({ label, data, hightlight }: HistogramProps) {
                 <Label>{guess_index}</Label>
                 <Value
                     active={guess_index === hightlight}
-                    style={{
-                        width: `${perc * 100}%`
-                    }}>
+                    width={perc * 100}>
                     {value}
                 </Value>
             </Row>
         )
     });
+    
     return (
         <div>
             <div>
