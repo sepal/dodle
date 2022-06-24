@@ -16,8 +16,6 @@ const Value = styled.div`
 `
 
 export default function SingleStat({ label, value, unit }: SigleStatProps) {
-    console.log(label)
-    console.log(unit)
     return (
         <Wrapper>
             <Value>{value}{unit  ?? ""}</Value>
