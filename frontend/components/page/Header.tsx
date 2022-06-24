@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import StatsIcon from './icon--stats.svg'
+import ALink from './../atoms/ALink'
 
 const Title = styled.h1`
 max-width: 256px;
@@ -24,6 +26,14 @@ const Branding =  styled.div`
     align-items: center;
 `
 
+const A = styled.a`
+color: #333;
+cursor: pointer;
+&:hover {
+    color: #666;
+}
+`
+
 export default function Header() {
     return (
         <Wrapper>
@@ -40,7 +50,7 @@ export default function Header() {
             </Branding>
             <div>
                 <Link href="/stats">
-                    <a aria-label="Statistics">Stats</a>
+                    <ALink aria-label="Statistics"><StatsIcon /></ALink>
                 </Link>
             </div>
         </Wrapper>

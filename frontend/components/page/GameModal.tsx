@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactModal from "react-modal";
 import styled from "styled-components";
+import Button from '../atoms/Button';
 
 const ModalStyle = styled.div`
     min-height: 18rem;
@@ -44,7 +45,7 @@ function Modal({isOpen, onClose, children} : ModalProps) {
             overlayElement={(props, contentElement) => <OverlayStyle {...props}>{contentElement}</OverlayStyle>}
         >
             {children}
-            <button onClick={onClose}>Back to the game</button>
+            <Button onClick={onClose}>Back to the game</Button>
         </ReactModal>
     )
 }
