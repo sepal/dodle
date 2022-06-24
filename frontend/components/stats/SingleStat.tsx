@@ -1,14 +1,27 @@
+import styled from "styled-components"
+
 interface SigleStatProps {
     label: string
     value: number
-    is_percentage?: boolean
+    unit?: string
 }
 
-export default function SingleStat({ label, value, is_percentage = false }: SigleStatProps) {
+
+const Wrapper = styled.div`
+    margin: 0 0.5em;
+`
+
+const Value = styled.div`
+    font-size: 1.5em;
+`
+
+export default function SingleStat({ label, value, unit }: SigleStatProps) {
+    console.log(label)
+    console.log(unit)
     return (
-        <div>
+        <Wrapper>
+            <Value>{value}{unit  ?? ""}</Value>
             <div>{label}</div>
-            <div>{value}{is_percentage ?? " %"}</div>
-        </div>
+        </Wrapper>
     )
 }
