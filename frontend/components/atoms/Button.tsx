@@ -10,7 +10,6 @@ export default styled.button`
     color: #fff;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
     font-size: 16px;
     font-weight: 600;
     line-height: 1.5em;
