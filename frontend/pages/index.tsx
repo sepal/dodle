@@ -1,11 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styled from "styled-components";
 import Game from "../components/game/Game";
 import Header from "../components/page/Header";
-import Stats from "../components/stats/Stats";
 import { GameData } from "../models/game_manager";
-
 
 type HomeProps = {
   game: GameData;
