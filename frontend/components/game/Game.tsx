@@ -10,6 +10,7 @@ import { get_date } from "../../utils/datetime";
 import { EndMessage, FailedMessage, SuccessMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
 import { calcStats } from "../../api/game_stats";
+import trackStats from "api/tracking";
 
 const GameFrame = styled.div`
   max-width: 512px;
@@ -85,17 +86,18 @@ const Game = ({ game }: GameProps) => {
               correct: input.toLowerCase() == game.word,
             };
 
+            const nGuesses = [...guesses, guess];
+            setGuesses(nGuesses);
+
             // If game has finished.
-            if (guesses.length >= game.images.length-1 || guess.correct) {
+            if (nGuesses.length >= game.images.length || guess.correct) {
                 const newState = guess.correct ? PlayState.success : PlayState.fail;
-                const newStats = calcStats(stats, guesses.length, newState);
+                const newStats = calcStats(stats, nGuesses.length, newState);
                 
                 setPlayState(newState);
                 setStats(newStats);
+                trackStats(newStats, newState, nGuesses)
             }
-
-            let nGuesses = [...guesses, guess];
-            setGuesses(nGuesses);
           }}
         />
       ) : (
