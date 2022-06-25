@@ -96,7 +96,7 @@ const Game = ({ game }: GameProps) => {
                 
                 setPlayState(newState);
                 setStats(newStats);
-                trackStats(newStats, newState, nGuesses)
+                trackStats(game.id, newStats, newState, nGuesses)
             }
           }}
         />

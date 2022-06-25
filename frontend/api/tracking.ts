@@ -1,3 +1,4 @@
+import {Kafka} from 'kafkajs'
 import { Guess, PlayState } from 'models/game';
 import {GlobalStats} from 'models/stats'
 
@@ -8,17 +9,35 @@ interface Model {
     failed: number
     longestStreak: number
     guesses: Array<Guess>
-    finalState: PlayState
+    finalState: string
 }
 
-export default function trackStats(gameId: number, stats: GlobalStats, finalState: PlayState, guesses?: Array<Guess>) {
+function getPlayState(state: PlayState): string {
+    switch (state) {
+        case PlayState.fail:
+            return 'fail';
+        case PlayState.success:
+            return 'success';
+        default:
+            return 'playing';
+    };
+}
+
+export default async function trackStats(gameId: number, stats: GlobalStats, finalState: PlayState, guesses?: Array<Guess>) {
+    const state = getPlayState(finalState);
+    
     const data: Model = {
+        gameId: gameId,
         played: stats.played,
         solved: stats.solved,
         failed: stats.failed,
         longestStreak: stats.longestStreak,
         guesses: guesses ?? [],
-        finalState: finalState
+        finalState: state,
     };
-    console.log(JSON.stringify(data));
+
+    await fetch("/api/track", {
+        method: "POST",
+        body: JSON.stringify(data),
+    });
 }
