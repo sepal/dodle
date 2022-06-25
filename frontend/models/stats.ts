@@ -15,6 +15,6 @@ export interface TrackinData {
     solved: number
     failed: number
     longestStreak: number
-    guesses: Array<Guess>
+    guesses: Array<string>
     finalState: PlayState
 }

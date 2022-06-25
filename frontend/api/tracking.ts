@@ -8,7 +8,7 @@ interface Model {
     solved: number
     failed: number
     longestStreak: number
-    guesses: Array<Guess>
+    guesses: Array<string>
     finalState: string
 }
 
@@ -25,6 +25,7 @@ function getPlayState(state: PlayState): string {
 
 export default async function trackStats(gameId: number, stats: GlobalStats, finalState: PlayState, guesses?: Array<Guess>) {
     const state = getPlayState(finalState);
+    const guesses_string = guesses?.map((value) => value.word);
     
     const data: Model = {
         gameId: gameId,
@@ -32,7 +33,7 @@ export default async function trackStats(gameId: number, stats: GlobalStats, fin
         solved: stats.solved,
         failed: stats.failed,
         longestStreak: stats.longestStreak,
-        guesses: guesses ?? [],
+        guesses: guesses_string ?? [],
         finalState: state,
     };
 
