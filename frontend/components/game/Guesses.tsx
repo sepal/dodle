@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import {Guess} from "../models/game"
+import {Guess} from "../../models/game"
 
 type GuessesProps = {
     guesses: Guess[]

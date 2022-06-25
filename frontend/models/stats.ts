@@ -6,9 +6,3 @@ export interface GlobalStats {
     currentStreak: number
     longestStreak: number
 }
-
-export interface GameStats {
-    guesses: Array<string>
-    attempts: number
-    roundId: number
-}
