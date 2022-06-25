@@ -1,25 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styled from "styled-components";
-import Image from "next/image";
-import Game from "../components/Game";
+import Game from "../components/game/Game";
+import Header from "../components/page/Header";
 import { GameData } from "../models/game_manager";
-
-const Title = styled.h1`
-  max-width: 256px;
-  font-size: 2em;
-  margin: 0 0 0 0;
-  color: #333;
-  text-align: center;
-`;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 512px;
-  margin: 0.5em auto;
-`;
 
 type HomeProps = {
   game: GameData;
@@ -34,21 +17,12 @@ const Home: NextPage<HomeProps> = ({ game }: HomeProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header>
-        <Image
-          src="/android-chrome-192x192.png"
-          alt="dodle"
-          width={24}
-          height={24}
-          layout="fixed"
-        />
-        <Title>Dodle</Title>
-      </Header>
+      <Header />
+
       <main>
         <Game game={game} />
+        {/* <Stats game={game} /> */}
       </main>
-
-      <footer></footer>
     </div>
   );
 };

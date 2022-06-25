@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import Canvas from "../components/Canvas";
+import Canvas from "./Canvas";
 import Guesses from "./Guesses";
-import Input from "../components/Input";
-import { GameData } from "../models/game_manager";
-import { Guess, PlayState } from "../models/game";
-import { useLocalStorage } from "../utils/useLocalStorage";
-import { get_date } from "../utils/datetime";
+import Input from "./Input";
+import { GameData } from "../../models/game_manager";
+import { Guess, PlayState } from "../../models/game";
+import { useLocalStorage } from "../../utils/useLocalStorage";
+import { get_date } from "../../utils/datetime";
 import { EndMessage, FailedMessage, SuccessMessage } from "./Messages";
+import { GlobalStats } from "../../models/stats";
+import { calcStats } from "../../api/game_stats";
 
 const GameFrame = styled.div`
   max-width: 512px;
@@ -41,7 +43,15 @@ const Game = ({ game }: GameProps) => {
     "playState",
     PlayState.playing
   );
-
+  const [stats, setStats] = useLocalStorage<GlobalStats>("global_stats", {
+    played: 0,
+    solved: 0,
+    failed: 0,
+    histogram: new Array(game.images.length).fill(0),
+    currentStreak: 0,
+    longestStreak: 0,
+  })
+;
   useEffect(() => {
     const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
     if (lastGame != game.id) {
@@ -75,11 +85,15 @@ const Game = ({ game }: GameProps) => {
               correct: input.toLowerCase() == game.word,
             };
 
-            if (guesses.length >= 4 && !guess.correct) {
-              setPlayState(PlayState.fail);
-            } else if (guess.correct) {
-              setPlayState(PlayState.success);
+            // If game has finished.
+            if (guesses.length >= game.images.length-1 || guess.correct) {
+                const newState = guess.correct ? PlayState.success : PlayState.fail;
+                const newStats = calcStats(stats, guesses.length, newState);
+                
+                setPlayState(newState);
+                setStats(newStats);
             }
+
             let nGuesses = [...guesses, guess];
             setGuesses(nGuesses);
           }}

@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import styled from 'styled-components'
-import { PlayState } from '../models/game'
+import { PlayState } from '../../models/game'
 
 type MessageProps = {
     state: PlayState 
