@@ -5,7 +5,6 @@ import {GlobalStats} from "../models/stats"
 export function calcStats(lastStats: GlobalStats, guesses: number,  state: PlayState) : GlobalStats {
     let stats = {...lastStats};
     stats.played++;
-    stats.histogram[guesses]++;
 
     switch (state) {
         case PlayState.fail:
@@ -15,11 +14,12 @@ export function calcStats(lastStats: GlobalStats, guesses: number,  state: PlayS
         case PlayState.success:
             stats.solved++;
             stats.currentStreak++;
-            break;
-    }
     
-    if (stats.currentStreak > stats.longestStreak) {
-        stats.longestStreak = stats.currentStreak;
+            stats.histogram[guesses]++;
+            if (stats.currentStreak > stats.longestStreak) {
+                stats.longestStreak = stats.currentStreak;
+            }
+            break;
     }
 
     return stats;
