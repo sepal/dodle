@@ -1,8 +1,9 @@
-import {Kafka} from 'kafkajs'
+import { Kafka } from 'kafkajs'
 import { Guess, PlayState } from 'models/game';
-import {GlobalStats} from 'models/stats'
+import { GlobalStats } from 'models/stats'
 
-interface Model {
+interface GameEvent {
+    event: string
     gameId: number
     played: number
     solved: number
@@ -23,11 +24,16 @@ function getPlayState(state: PlayState): string {
     };
 }
 
-export default async function trackStats(gameId: number, stats: GlobalStats, finalState: PlayState, guesses?: Array<Guess>) {
+export default async function trackStats(event: string,
+    gameId: number,
+    stats: GlobalStats,
+    finalState: PlayState,
+    guesses?: Array<Guess>) {
     const state = getPlayState(finalState);
     const guesses_string = guesses?.map((value) => value.word);
-    
-    const data: Model = {
+
+    const data: GameEvent = {
+        event: event,
         gameId: gameId,
         played: stats.played,
         solved: stats.solved,

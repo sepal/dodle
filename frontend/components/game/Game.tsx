@@ -10,7 +10,7 @@ import { get_date } from "../../utils/datetime";
 import { EndMessage, FailedMessage, SuccessMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
 import { calcStats } from "../../api/game_stats";
-import trackStats from "api/tracking";
+import trackEvent from "api/tracking";
 
 const GameFrame = styled.div`
   max-width: 512px;
@@ -96,7 +96,9 @@ const Game = ({ game }: GameProps) => {
                 
                 setPlayState(newState);
                 setStats(newStats);
-                trackStats(game.id, newStats, newState, nGuesses)
+                trackEvent("finishedGame", game.id, newStats, newState, nGuesses)
+            } else if(nGuesses.length  == 1) {
+              trackEvent("startedGame", game.id, stats, playState, nGuesses)
             }
           }}
         />

@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { TrackinData } from 'models/stats'
 import { Kafka } from 'kafkajs'
-import { config } from 'process';
 
 export default async function handler(
   req: NextApiRequest,
