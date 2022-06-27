@@ -24,13 +24,14 @@ const TileWrapper = styled.div<TileWrapperProps>`
     text-transform: capitalize;
     color: white;
     ${({ type }) => [
-        `background: white;`,
+        `background: white;
+        border: 1px solid #ccc;
+        color: black;
+        font-weight: normal;`,
         `background: #666`,
         `background: #67a760;`,
         `background: #c8b359;`
     ][type]}
-
-    ${({type}) => type==TileType.INPUT && `border: 1px solid #ccc`}
 `
 
 export function Tile({letter, type} : TileProps) {

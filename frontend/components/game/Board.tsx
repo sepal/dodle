@@ -5,7 +5,7 @@ import {Tile, TileType} from "./Tile";
 interface BoardProps {
     word: string
     guesses: Array<Guess>
-    input?: string
+    input: string
 }
 
 interface BoardWrapperProps {
@@ -52,10 +52,13 @@ export default function Board({ word, guesses, input }: BoardProps) {
         </>
        )
     });
-
-    const inputTiles = word_array.map((_, i) => (
-        <Tile letter="" key={i} type={TileType.INPUT} />
-    ));
+    
+    const inputTiles = word_array.map((_, i) => {
+        const letter = i < input.length ? input[i] : "";
+        return (
+        <Tile letter={letter} key={i} type={TileType.INPUT} />
+        )
+    });
 
     return (
         <BoardWrapper  length={word.length}>
