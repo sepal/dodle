@@ -1,18 +1,5 @@
-import { Kafka } from 'kafkajs'
 import { Guess, PlayState } from 'models/game';
-import { GlobalStats } from 'models/stats'
-
-interface GameEvent {
-    event: string
-    game_id: number
-    played: number
-    solved: number
-    failed: number
-    current_streak: number
-    longest_streak: number
-    guesses: Array<string>
-    state: string
-}
+import { GlobalStats, GameEvent } from 'models/stats'
 
 function getPlayState(state: PlayState): string {
     switch (state) {
@@ -25,7 +12,7 @@ function getPlayState(state: PlayState): string {
     };
 }
 
-export default async function trackStats(event: string,
+export default async function trackEvent(event: string,
     gameId: number,
     stats: GlobalStats,
     finalState: PlayState,
@@ -45,7 +32,7 @@ export default async function trackStats(event: string,
         state: state,
     };
 
-    await fetch("/api/track", {
+    await fetch("/api/event", {
         method: "POST",
         body: JSON.stringify(data),
     });

@@ -10,7 +10,7 @@ import { get_date } from "../../utils/datetime";
 import { EndMessage, FailedMessage, SuccessMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
 import { calcStats } from "../../api/game_stats";
-import trackEvent from "api/tracking";
+import trackEvent from "api/track_event";
 
 const GameFrame = styled.div`
   max-width: 512px;

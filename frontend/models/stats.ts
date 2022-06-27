@@ -9,12 +9,14 @@ export interface GlobalStats {
     longestStreak: number
 }
 
-export interface TrackinData {
-    gameId: number
+export interface GameEvent {
+    event: string
+    game_id: number
     played: number
     solved: number
     failed: number
-    longestStreak: number
+    current_streak: number
+    longest_streak: number
     guesses: Array<string>
-    finalState: PlayState
+    state: string
 }

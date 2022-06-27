@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { TrackinData } from 'models/stats'
+import type { GameEvent } from 'models/stats'
 import { Kafka } from 'kafkajs'
 
 export default async function handler(
@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const reqData: TrackinData = JSON.parse(req.body);
+    const reqData: GameEvent = JSON.parse(req.body);
 
     const broker = process.env['TRACK_BROKER'] ?? "localhost:9092";
     const ssl : boolean = process.env['TRACK_SSL'] == "1" ? true : false;
