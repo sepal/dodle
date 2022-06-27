@@ -11,6 +11,7 @@ import { EndMessage, FailedMessage, SuccessMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
 import { calcStats } from "../../api/game_stats";
 import trackEvent from "api/track_event";
+import Board from "./Board";
 
 const GameFrame = styled.div`
   max-width: 512px;
@@ -77,6 +78,7 @@ const Game = ({ game }: GameProps) => {
   return (
     <GameFrame>
       <Canvas image={image_url} />
+      <Board word={game.word} guesses={guesses} input="" />
       {guesses.length > 0 && <Guesses guesses={guesses} />}
       {playState == PlayState.playing ? (
         <Input
