@@ -4,13 +4,14 @@ import { GlobalStats } from 'models/stats'
 
 interface GameEvent {
     event: string
-    gameId: number
+    game_id: number
     played: number
     solved: number
     failed: number
-    longestStreak: number
+    current_streak: number
+    longest_streak: number
     guesses: Array<string>
-    finalState: string
+    state: string
 }
 
 function getPlayState(state: PlayState): string {
@@ -34,13 +35,14 @@ export default async function trackStats(event: string,
 
     const data: GameEvent = {
         event: event,
-        gameId: gameId,
+        game_id: gameId,
         played: stats.played,
         solved: stats.solved,
         failed: stats.failed,
-        longestStreak: stats.longestStreak,
+        current_streak: stats.currentStreak,
+        longest_streak: stats.longestStreak,
         guesses: guesses_string ?? [],
-        finalState: state,
+        state: state,
     };
 
     await fetch("/api/track", {
