@@ -116,7 +116,7 @@ const Game = ({ game }: GameProps) => {
   return (
     <GameFrame>
       <Canvas image={image_url} />
-      <Board word={game.word} guesses={guesses} input={currentGuess} />
+      <Board round={game} guesses={guesses} input={currentGuess} playstate={playState} />
       {playState == PlayState.playing ? (
         <Keyboard 
           onChar={handleOnChar} 

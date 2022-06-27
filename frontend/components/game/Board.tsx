@@ -1,11 +1,13 @@
-import { Guess } from "models/game";
+import { Guess, PlayState } from "models/game";
+import { GameData } from "models/game_manager";
 import styled from "styled-components";
 import {Tile, TileType} from "./Tile";
 
 interface BoardProps {
-    word: string
+    round: GameData
     guesses: Array<Guess>
     input: string
+    playstate: PlayState
 }
 
 interface BoardWrapperProps {
@@ -32,14 +34,14 @@ function getTileType(word: string, letter: string, pos: number): TileType {
     return TileType.WRONG;
 }
 
-export default function Board({ word, guesses, input }: BoardProps) {
-    const word_array = Array.from(word);
+export default function Board({ round, guesses, input, playstate }: BoardProps) {
+    const word_array = Array.from(round.word);
 
-    const rows = guesses.map((guess, i) => {
+    let rows = guesses.map((guess, i) => {
         const tiles = word_array.map((_, i) => {
             const letter = guess.word[i] ?? "";
 
-            const type = getTileType(word, letter, i);
+            const type = getTileType(round.word, letter, i);
 
             return (
                 <Tile letter={letter} key={i} type={type} />
@@ -53,16 +55,20 @@ export default function Board({ word, guesses, input }: BoardProps) {
        )
     });
     
-    const inputTiles = word_array.map((_, i) => {
-        const letter = i < input.length ? input[i] : "";
-        return (
-        <Tile letter={letter} key={i} type={TileType.INPUT} />
-        )
-    });
+    if (guesses.length < round.images.length && playstate == PlayState.playing) {
+        const inputTiles = word_array.map((_, i) => {
+            const letter = i < input.length ? input[i] : "";
+            return (
+            <Tile letter={letter} key={i} type={TileType.INPUT} />
+            )
+        });
+
+        rows = [...rows, ...inputTiles];
+    }
 
     return (
-        <BoardWrapper  length={word.length}>
-            <>{rows}{inputTiles}</>
+        <BoardWrapper  length={round.word.length}>
+            <>{rows}</>
         </BoardWrapper>
     );
 }
