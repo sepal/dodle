@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import https from "https";
-import { URL } from "../../models/game_manager";
 import { getImage } from '../../api/game_manager';
 
 export default async function handler(
