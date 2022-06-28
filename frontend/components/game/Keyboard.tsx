@@ -13,11 +13,13 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-margin-top: 3em;
+max-width: 512px;
+margin: 1.5em auto;
 `
 
 const Row = styled.div`
     display: flex;
+    max-width: 100%;
     justify-content: center;
 `
 
@@ -29,12 +31,11 @@ export function Keyboard({
     word
 }: Props) {
     const letterStates = getGuessesLetterStates(word, guesses);
-
     const handleKeyEvent = (key: string) => {
         if (key === 'backspace' || key === 'delete') {
             onDelete();
         } else if (key === 'enter') {
-            onEnter();
+            navigator.vibrate(15);
         } else if (key.length === 1) {
             if (key >= 'a' && key <= 'z') {
                 onChar(key);

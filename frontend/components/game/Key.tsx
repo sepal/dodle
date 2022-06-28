@@ -1,38 +1,43 @@
-import { LetterStatus } from "models/game"
+import { LetterType } from "models/game"
 import { ReactNode } from "react"
 import styled from "styled-components"
 
 interface Props {
     children: ReactNode
     keyValue: string
-    type: LetterStatus
+    type: LetterType
     isSpecial?: boolean
     onClick?: (val: string) => void
 }
 
 interface WrapperProps {
-    type: LetterStatus
+    type: LetterType
     isSpecial?: boolean
 }
 
 const Wrapper = styled.div<WrapperProps>`
-    margin: 6px;
-    height: 3em;
-    min-width: 2.5em;
     font-size: 1em;
+    height: 3.5em;
+    min-width: 2em;
+}
+    margin: 2px;
 
+    @media (min-width: 700px) {
+        margin: 6px;
+    }
+    
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     text-transform: capitalize;
     border-radius: 5px;
+    user-select: none;
 
     &:active{
-        box-shadow: 0px 0px 3px rgba(0,0,0,0.5) inset;
+        box-shadow: 0px 0px 3px rgba(0,0,0,0.2) inset;
     }
 
-    color: white;
     ${({ type }) => [
         `background: #f0f0f0;
         border: 1px solid #ddd;

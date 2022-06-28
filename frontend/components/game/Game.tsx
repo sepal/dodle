@@ -12,7 +12,6 @@ import Board from "./Board";
 import { Keyboard } from "./Keyboard";
 
 const GameFrame = styled.div`
-  max-width: 512px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
