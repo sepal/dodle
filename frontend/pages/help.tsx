@@ -115,10 +115,10 @@ const Help: NextPage = () => {
                         <p>
                             Created by&nbsp;
                             <a href="https://twitter.com/sepgil" 
-                            target="_blank">@sepgil</a><br/>
+                            target="_blank" rel="noreferrer">@sepgil</a><br/>
                             Code can be found on&nbsp;
                             <a href="https://github.com/sepal/dodle"
-                            target="_blank">github/sepal/dodle</a>
+                            target="_blank" rel="noreferrer">github/sepal/dodle</a>
                         </p>
 
                     </HelpSection>
