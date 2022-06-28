@@ -1,7 +1,8 @@
 import { Guess, LetterType, PlayState } from "models/game";
 import { GameData } from "models/game_manager";
 import styled from "styled-components";
-import {Tile} from "./Tile";
+import CompletedBoardRow from "./CompletedBoardRow";
+import { EmptyBoardRow } from "./EmptyBoardRow";
 
 interface BoardProps {
     round: GameData
@@ -24,50 +25,15 @@ const BoardWrapper = styled.div<BoardWrapperProps>`
     margin: 3em auto 0 auto;
 `
 
-function getTileType(word: string, letter: string, pos: number): LetterType {
-    if (word.toLowerCase()[pos] == letter.toLowerCase()) {
-        return LetterType.CORRECT;
-    } else if (word.toLowerCase().includes(letter.toLowerCase()) && letter != "") {
-        return LetterType.PARTLY;
-    }
-    return LetterType.WRONG;
-}
-
 export default function Board({ round, guesses, input, playstate }: BoardProps) {
-    const word_array = Array.from(round.word);
-
-    let rows = guesses.map((guess, i) => {
-        const tiles = word_array.map((_, i) => {
-            const letter = guess.word[i] ?? "";
-
-            const type = getTileType(round.word, letter, i);
-
-            return (
-                <Tile letter={letter} key={i} type={type} />
-            )
-        });
-
-       return (
-        <>
-        {tiles}
-        </>
-       )
-    });
-    
-    if (guesses.length < round.images.length && playstate == PlayState.playing) {
-        const inputTiles = word_array.map((_, i) => {
-            const letter = i < input.length ? input[i] : "";
-            return (
-            <Tile letter={letter} key={i} type={LetterType.INPUT} />
-            )
-        });
-
-        rows = [...rows, ...inputTiles];
-    }
+    const completed = guesses.map((guess, i) => (
+        <CompletedBoardRow solution={round.word}  guess={guess.word} key={guess.word} />
+    ));
 
     return (
         <BoardWrapper  length={round.word.length}>
-            <>{rows}</>
+            {completed}
+            {playstate == PlayState.playing && <EmptyBoardRow wordLen={round.word.length} currentGuess={input} />}
         </BoardWrapper>
     );
 }

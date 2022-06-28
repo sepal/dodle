@@ -26,7 +26,7 @@ type GameProps = {
 function getLevel(game: GameData, guesses: Array<Guess>): number {
   const last_level = game.images[game.images.length - 1].level;
   if (guesses.length > 0
-    && guesses[guesses.length - 1].correct 
+    && guesses[guesses.length - 1].correct
     && guesses.length < last_level) {
     return guesses.length;
   }
@@ -36,7 +36,6 @@ function getLevel(game: GameData, guesses: Array<Guess>): number {
   }
   return guesses.length + 1;
 }
-
 
 const Game = ({ game }: GameProps) => {
   const [guesses, setGuesses] = useLocalStorage<Guess[]>("guesses", []);
@@ -54,7 +53,6 @@ const Game = ({ game }: GameProps) => {
   });
   const [currentGuess, setCurrentGuess] = useState<string>("");
 
-  
   useEffect(() => {
     const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
     if (lastGame != game.id) {
@@ -85,13 +83,13 @@ const Game = ({ game }: GameProps) => {
 
     // If game has finished.
     if (nGuesses.length >= game.images.length || guess.correct) {
-        const newState = guess.correct ? PlayState.success : PlayState.fail;
-        const newStats = calcStats(stats, nGuesses.length, newState);
-        
-        setPlayState(newState);
-        setStats(newStats);
-        trackEvent("finishedGame", game.id, newStats, newState, nGuesses)
-    } else if(nGuesses.length  == 1) {
+      const newState = guess.correct ? PlayState.success : PlayState.fail;
+      const newStats = calcStats(stats, nGuesses.length, newState);
+
+      setPlayState(newState);
+      setStats(newStats);
+      trackEvent("finishedGame", game.id, newStats, newState, nGuesses)
+    } else if (nGuesses.length == 1) {
       trackEvent("startedGame", game.id, stats, playState, nGuesses)
     };
   }
@@ -118,9 +116,9 @@ const Game = ({ game }: GameProps) => {
       <Canvas image={image_url} />
       <Board round={game} guesses={guesses} input={currentGuess} playstate={playState} />
       {playState == PlayState.playing ? (
-        <Keyboard 
-          onChar={handleOnChar} 
-          onDelete={handleOnDelete} 
+        <Keyboard
+          onChar={handleOnChar}
+          onDelete={handleOnDelete}
           onEnter={handleGuess}
           guesses={guesses.map((g) => g.word)}
           word={game.word} />
