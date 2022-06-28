@@ -95,7 +95,6 @@ const Game = ({ game }: GameProps) => {
 
   const handleOnChar = (letter: string) => {
     if (playState == PlayState.playing && currentGuess.length < game.word.length) {
-      console.log(currentGuess + letter);
       setCurrentGuess(currentGuess + letter);
     }
   };

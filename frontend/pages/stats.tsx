@@ -1,18 +1,20 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import styled from "styled-components";
+import useSWR from 'swr';
 import Modal from '../components/page/GameModal'
 import Game from "../components/game/Game";
 import Header from "../components/page/Header";
 import Stats from "../components/stats/Stats";
 import { GameData } from "../models/game_manager";
 import { useRouter } from "next/router";
+import { fetcher } from "lib/fetcher";
 
 type HomeProps = {
     game: GameData;
 };
 
-const Home: NextPage<HomeProps> = ({ game }: HomeProps) => {
+const Home: NextPage = () => {
+    const { data, error } = useSWR<GameData>('/api/game', fetcher);
     const router = useRouter();
 
     return (
@@ -27,23 +29,15 @@ const Home: NextPage<HomeProps> = ({ game }: HomeProps) => {
 
             <main>
                 <Modal isOpen={true} onClose={() => router.push("/")}>
-                    <Stats game={game} />
+                    {data && <Stats game={data} />}
                 </Modal>
-                <Game game={game} />
+
+                {error && "Sorry, couldn't load game."}
+                {!data && "Loading game."}
+                {data && <Game game={data} />}
             </main>
         </div>
     );
 };
-
-export async function getServerSideProps() {
-    const url = process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : "http://localhost:3000";
-
-    const res = await fetch(`${url}/api/game/`);
-    const game = await res.json();
-
-    return { props: { game: game } };
-}
 
 export default Home;
