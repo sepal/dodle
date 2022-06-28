@@ -12,6 +12,8 @@ const ModalStyle = styled.div`
     justify-content: space-between;
     background-color: white;
     border-radius: 0.25rem;
+    overflow: scroll;
+    max-height: 90%;
 `;
 
 const OverlayStyle = styled.div`
