@@ -25,7 +25,7 @@ grid-gap: 3px;
 grid-template-columns: repeat(5, 1fr);
 grid-auto-flow: row;
 font-weight: bold;
-margin: 3em auto 0 auto;
+margin: 0 auto;
 width: ${2.1 * 5}em;
 `
 
@@ -34,8 +34,6 @@ const Help: NextPage = () => {
     const router = useRouter();
 
     const [allowTracking, setAllowTracking] = useLocalStorage<boolean>("event_tracking", true);
-
-
 
     return (
         <div>
@@ -58,9 +56,9 @@ const Help: NextPage = () => {
                             The goal of the game is to try to guess what an A.I. tried to draw.
                             With each guess you get a new image, that represents the <b>same</b>
                             &nbsp;word. Each new image <i>should</i> be better then the
-                            previous one and thus theoratically make it clearer what the word
+                            previous one and thus theoretically make it clearer what the word
                             to guess is.<br />
-                            Unfortunatelly the A.I. is sometimes kind of a abstract artist and thus
+                            Unfortunately the A.I. is sometimes kind of a abstract artist and thus
                             a new image might not make clearer it 😄.
                         </p>
                         <p>
@@ -78,7 +76,8 @@ const Help: NextPage = () => {
                                     Green means an exact match.
                                 </li>
                                 <li>
-                                    Yellow means the letter is pressent in the word to guess.
+                                    Yellow means the letter is present in the word to guess but at
+                                    another position.
                                 </li>
                                 <li>
                                     Gray means the letter is absent in the solution.
@@ -93,11 +92,11 @@ const Help: NextPage = () => {
                         <div>
                             The game tracks the following <b>anonymous</b> stats in order to improve it:
                             <ul>
-                                <li>If was completed and if it was successfull</li>
+                                <li>If was completed and if it was successful</li>
                                 <li>Stats from the stats page</li>
                                 <li>The entered guesses per game</li>
                             </ul>
-                            No private or identfiable data is tracked.
+                            No private or identifiable data is tracked.
                             You can still opt out by clicking though:
                         </div>
                         <form>
@@ -116,7 +115,7 @@ const Help: NextPage = () => {
                         <p>
                             Created by&nbsp;
                             <a href="https://twitter.com/sepgil" 
-                            target="_blank">@sepgil</a>.<br/>
+                            target="_blank">@sepgil</a><br/>
                             Code can be found on&nbsp;
                             <a href="https://github.com/sepal/dodle"
                             target="_blank">github/sepal/dodle</a>
