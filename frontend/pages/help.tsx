@@ -12,6 +12,7 @@ import CompletedBoardRow from "components/game/GuessBoard/CompletedBoardRow";
 import EmptyBoardRow from "components/game/GuessBoard/EmptyBoardRow";
 import { Tile } from "components/game/GuessBoard/Tile";
 import { LetterStatus } from "models/game";
+import { useLocalStorage } from "lib/useLocalStorage";
 
 
 const HelpSection = styled.section`
@@ -25,12 +26,16 @@ grid-template-columns: repeat(5, 1fr);
 grid-auto-flow: row;
 font-weight: bold;
 margin: 3em auto 0 auto;
-width: ${2.1*5}em;
+width: ${2.1 * 5}em;
 `
 
 const Help: NextPage = () => {
     const { data, error } = useSWR<GameData>('/api/game', fetcher);
     const router = useRouter();
+
+    const [allowTracking, setAllowTracking] = useLocalStorage<boolean>("event_tracking", true);
+
+
 
     return (
         <div>
@@ -47,14 +52,14 @@ const Help: NextPage = () => {
                     <h2>How to play</h2>
                     <HelpSection>
                         <p>
-                        Guess what an A.I. tried to <b>doodle</b> in 5 tries!
+                            Guess what an A.I. tried to <b>doodle</b> in 5 tries!
                         </p>
                         <p>
                             The goal of the game is to try to guess what an A.I. tried to draw.
                             With each guess you get a new image, that represents the <b>same</b>
-                            &nbsp;word. Each new image <i>should</i> be better then the 
-                            previous one and thus theoratically make it clearer what the word 
-                            to guess is.<br/>
+                            &nbsp;word. Each new image <i>should</i> be better then the
+                            previous one and thus theoratically make it clearer what the word
+                            to guess is.<br />
                             Unfortunatelly the A.I. is sometimes kind of a abstract artist and thus
                             a new image might not make clearer it 😄.
                         </p>
@@ -81,10 +86,32 @@ const Help: NextPage = () => {
                             </ul>
                         </div>
                         <p>
-                            A game can be played once a day. Normally every day there should be a 
-                            new image to guess. Since the game is WIP that might currently not 
+                            A game can be played once a day. Normally every day there should be a
+                            new image to guess. Since the game is WIP that might currently not
                             happen.
                         </p>
+                        <div>
+                            The game tracks the following <b>anonymous</b> stats in order to improve it:
+                            <ul>
+                                <li>If was completed and if it was successfull</li>
+                                <li>Stats from the stats page</li>
+                                <li>The entered guesses per game</li>
+                            </ul>
+                            No private or identfiable data is tracked.
+                            You can still opt out by clicking though:
+                        </div>
+                        <form>
+                            <input
+                                type="checkbox"
+                                id="tracking"
+                                name="tracking"
+                                checked={allowTracking}
+                                onChange={(e) => setAllowTracking(e.target.checked)}
+                            />
+                            <label htmlFor="tracking">
+                                Allow to track game statistics.
+                            </label>
+                        </form>
                     </HelpSection>
                 </Modal>
 

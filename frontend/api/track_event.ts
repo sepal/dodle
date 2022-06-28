@@ -20,6 +20,12 @@ export default async function trackEvent(event: string,
     const state = getPlayState(finalState);
     const guesses_string = guesses?.map((value) => value.word);
 
+    const tracking =  window.localStorage.getItem("event_tracking") ?? "true";
+
+    if (tracking != "true") {
+        return;
+    }
+
     const data: GameEvent = {
         event: event,
         game_id: gameId,

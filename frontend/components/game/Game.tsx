@@ -64,7 +64,7 @@ const Game = ({ game }: GameProps) => {
       setGuesses([]);
       window.localStorage.setItem("last_game", game.id.toString());
     }
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
