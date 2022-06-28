@@ -1,19 +1,14 @@
+import { LetterType } from "models/game"
 import styled from "styled-components"
 
-export enum TileType {
-    INPUT,
-    WRONG,
-    CORRECT,
-    PARTLY,
-}
 
 interface TileProps {
     letter: string
-    type: TileType
+    type: LetterType
 }
 
 interface TileWrapperProps {
-    type: TileType
+    type: LetterType
 }
 
 const TileWrapper = styled.div<TileWrapperProps>`

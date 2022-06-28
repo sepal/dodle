@@ -1,7 +1,7 @@
-import { Guess, PlayState } from "models/game";
+import { Guess, LetterType, PlayState } from "models/game";
 import { GameData } from "models/game_manager";
 import styled from "styled-components";
-import {Tile, TileType} from "./Tile";
+import {Tile} from "./Tile";
 
 interface BoardProps {
     round: GameData
@@ -25,13 +25,13 @@ const BoardWrapper = styled.div<BoardWrapperProps>`
     margin: 0 auto;
 `
 
-function getTileType(word: string, letter: string, pos: number): TileType {
+function getTileType(word: string, letter: string, pos: number): LetterType {
     if (word.toLowerCase()[pos] == letter.toLowerCase()) {
-        return TileType.CORRECT;
+        return LetterType.CORRECT;
     } else if (word.toLowerCase().includes(letter.toLowerCase()) && letter != "") {
-        return TileType.PARTLY;
+        return LetterType.PARTLY;
     }
-    return TileType.WRONG;
+    return LetterType.WRONG;
 }
 
 export default function Board({ round, guesses, input, playstate }: BoardProps) {
@@ -59,7 +59,7 @@ export default function Board({ round, guesses, input, playstate }: BoardProps) 
         const inputTiles = word_array.map((_, i) => {
             const letter = i < input.length ? input[i] : "";
             return (
-            <Tile letter={letter} key={i} type={TileType.INPUT} />
+            <Tile letter={letter} key={i} type={LetterType.INPUT} />
             )
         });
 
