@@ -9,6 +9,6 @@ Thanks for open sourcing it!
 
 ## Status
 
-The game is now live and publish and can be accessed on dodle.app.
+The game is now live and publish and can be accessed on [dodle.app](https://dodle.app).
 Games are currently not generated automatically, since  I want to experiment with the model and what
 images are generated. I also haven't found an easy and cheap way to run the model.
