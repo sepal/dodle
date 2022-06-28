@@ -35,7 +35,7 @@ export function Keyboard({
         if (key === 'backspace' || key === 'delete') {
             onDelete();
         } else if (key === 'enter') {
-            navigator.vibrate(15);
+            onEnter();
         } else if (key.length === 1) {
             if (key >= 'a' && key <= 'z') {
                 onChar(key);
