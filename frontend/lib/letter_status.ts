@@ -4,7 +4,7 @@ export function splitWord(word: string) {
     return Array.from(word);
 }
 
-export function getLetterTypes(solution: string, guess: string): LetterStatus[] {
+export function getGuessLetterTypes(solution: string, guess: string): LetterStatus[] {
     const splitSolution = splitWord(solution);
     const splitGuess = splitWord(guess);
 
