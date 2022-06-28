@@ -42,7 +42,7 @@ export function useLocalStorage<Type>(
       const val: Type = JSON.parse(item);
       setStoredValue(val);
     }
-  }, []);
+  }, [key]);
 
   return [storedValue, setValue];
 }

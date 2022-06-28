@@ -2,7 +2,7 @@ import { Guess, LetterStatus, PlayState } from "models/game";
 import { GameData } from "models/game_manager";
 import styled from "styled-components";
 import CompletedBoardRow from "./CompletedBoardRow";
-import { EmptyBoardRow } from "./EmptyBoardRow";
+import EmptyBoardRow from "./EmptyBoardRow";
 
 interface BoardProps {
     round: GameData

@@ -46,7 +46,7 @@ function Stats({ game }: StatsProps) {
             setHistoHighlight(guesses.length)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    });
+    }, []);
 
     const solved = stats.played <= 0 ? 0 : stats.solved / stats.played * 100;
 

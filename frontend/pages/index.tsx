@@ -1,14 +1,16 @@
 import type { NextPage } from "next";
+import useSWR from 'swr';
 import Head from "next/head";
 import Game from "../components/game/Game";
 import Header from "../components/page/Header";
 import { GameData } from "../models/game_manager";
+import { fetcher } from "lib/fetcher";
 
-type HomeProps = {
-  game: GameData;
-};
 
-const Home: NextPage<HomeProps> = ({ game }: HomeProps) => {
+
+const Home: NextPage = () => {
+  const { data, error } = useSWR<GameData>('/api/game', fetcher);
+
   return (
     <div>
       <Head>
@@ -20,22 +22,13 @@ const Home: NextPage<HomeProps> = ({ game }: HomeProps) => {
       <Header />
 
       <main>
-        <Game game={game} />
-        {/* <Stats game={game} /> */}
+
+        {error && "Sorry, couldn't load game."}
+        {!data && "Loading game."}
+        {data && <Game game={data} />}
       </main>
     </div>
   );
 };
-
-export async function getServerSideProps() {
-  const url = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-
-  const res = await fetch(`${url}/api/game/`);
-  const game = await res.json();
-
-  return { props: { game: game } };
-}
 
 export default Home;
