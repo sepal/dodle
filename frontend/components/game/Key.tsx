@@ -1,17 +1,17 @@
-import { LetterType } from "models/game"
+import { LetterStatus } from "models/game"
 import { ReactNode } from "react"
 import styled from "styled-components"
 
 interface Props {
     children: ReactNode
     keyValue: string
-    type: LetterType
+    type: LetterStatus
     isSpecial?: boolean
     onClick?: (val: string) => void
 }
 
 interface WrapperProps {
-    type: LetterType
+    type: LetterStatus
     isSpecial?: boolean
 }
 

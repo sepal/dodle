@@ -49,7 +49,7 @@ export default function Header() {
                 <Title>Dodle</Title>
             </Branding>
             <div>
-                <Link href="/stats">
+                <Link href="/stats" passHref>
                     <ALink aria-label="Statistics"><StatsIcon /></ALink>
                 </Link>
             </div>

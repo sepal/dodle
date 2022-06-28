@@ -52,7 +52,7 @@ export function Keyboard({
         return () => {
             window.removeEventListener('keydown', listener);
         };
-    }, [onChar, onDelete, onEnter]);
+    }, [onChar, onDelete, onEnter, handleKeyEvent]);
 
     return (
         <Wrapper>
