@@ -112,6 +112,16 @@ const Help: NextPage = () => {
                                 Allow to track game statistics.
                             </label>
                         </form>
+                        <hr/>
+                        <p>
+                            Created by&nbsp;
+                            <a href="https://twitter.com/sepgil" 
+                            target="_blank">@sepgil</a>.<br/>
+                            Code can be found on&nbsp;
+                            <a href="https://github.com/sepal/dodle"
+                            target="_blank">github/sepal/dodle</a>
+                        </p>
+
                     </HelpSection>
                 </Modal>
 
