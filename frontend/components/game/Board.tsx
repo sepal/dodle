@@ -17,7 +17,7 @@ interface BoardWrapperProps {
 const BoardWrapper = styled.div<BoardWrapperProps>`
     display: grid;
     grid-gap: 3px;
-    grid-template-columns: repeat(10, 1fr);
+    ${({length}) => `grid-template-columns: repeat(${length}, 1fr);`}
     grid-auto-flow: row;
     font-weight: bold;
 
