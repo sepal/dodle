@@ -74,7 +74,7 @@ export function Keyboard({
                 ))}
             </Row>
             <Row>
-                {["Enter", "z", "x", "c", "v", "b", "n", "m", "Enter"].map((v) => (
+                {["Enter", "z", "x", "c", "v", "b", "n", "m", "Delete"].map((v) => (
                     <Key 
                     type={letterStates[v] ?? LetterStatus.INPUT} 
                         key={v} 

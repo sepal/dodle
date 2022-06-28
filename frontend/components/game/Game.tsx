@@ -68,7 +68,7 @@ const Game = ({ game }: GameProps) => {
   const level = getLevel(game, guesses)
 
   const handleGuess = () => {
-    if (playState != PlayState.playing) {
+    if (playState != PlayState.playing || currentGuess.length < game.word.length) {
       return;
     }
 
@@ -95,13 +95,16 @@ const Game = ({ game }: GameProps) => {
   }
 
   const handleOnChar = (letter: string) => {
-    if (playState == PlayState.playing)
+    if (playState == PlayState.playing && currentGuess.length < game.word.length) {
+      console.log(currentGuess + letter);
       setCurrentGuess(currentGuess + letter);
+    }
   };
 
   const handleOnDelete = () => {
-    if (playState == PlayState.playing)
+    if (playState == PlayState.playing) {
       setCurrentGuess(currentGuess.slice(0, -1));
+    }
   };
 
 
