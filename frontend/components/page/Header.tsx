@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 import StatsIcon from './icon--stats.svg'
+import HelpIcon from './icon--help.svg';
 import ALink from './../atoms/ALink'
 
 const Title = styled.h1`
@@ -37,7 +38,11 @@ cursor: pointer;
 export default function Header() {
     return (
         <Wrapper>
-            <div></div>
+            <div>
+                <Link href="/help" passHref>
+                    <ALink aria-label="Help"><HelpIcon /></ALink>
+                </Link>
+            </div>
             <Branding>
                 <Image
                     src="/android-chrome-192x192.png"

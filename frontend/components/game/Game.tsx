@@ -10,6 +10,7 @@ import { calcStats } from "../../api/game_stats";
 import trackEvent from "api/track_event";
 import Board from "./GuessBoard/Board";
 import { Keyboard } from "./Keyboard/Keyboard";
+import { createRouter, useRouter } from "next/router";
 
 const GameFrame = styled.div`
   margin: 0 auto;
@@ -37,6 +38,7 @@ function getLevel(game: GameData, guesses: Array<Guess>): number {
 }
 
 const Game = ({ game }: GameProps) => {
+  const router = useRouter();
   const [guesses, setGuesses] = useLocalStorage<Guess[]>("guesses", []);
   const [playState, setPlayState] = useLocalStorage<PlayState>(
     "playState",
@@ -54,11 +56,15 @@ const Game = ({ game }: GameProps) => {
 
   useEffect(() => {
     const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
+    if (lastGame == -1 && router.pathname == '/') {
+      router.push("/help");
+    }
     if (lastGame != game.id) {
       setPlayState(PlayState.playing);
       setGuesses([]);
       window.localStorage.setItem("last_game", game.id.toString());
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
