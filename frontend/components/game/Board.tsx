@@ -20,9 +20,8 @@ const BoardWrapper = styled.div<BoardWrapperProps>`
     ${({length}) => `grid-template-columns: repeat(${length}, 1fr);`}
     grid-auto-flow: row;
     font-weight: bold;
-
     ${({ length }) => `width: ${2.1*length}em`};
-    margin: 0 auto;
+    margin: 3em auto 0 auto;
 `
 
 function getTileType(word: string, letter: string, pos: number): LetterType {
