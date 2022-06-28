@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Canvas from "./Canvas";
 import { GameData } from "../../models/game_manager";
 import { Guess, PlayState } from "../../models/game";
-import { useLocalStorage } from "../../utils/useLocalStorage";
+import { useLocalStorage } from "../../lib/useLocalStorage";
 import { EndMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
 import { calcStats } from "../../api/game_stats";
