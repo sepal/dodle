@@ -63,7 +63,7 @@ const Help: NextPage = () => {
                             which indicates which letters were correct.
                         </p>
                         <h3>Examples</h3>
-                        <p>
+                        <div>
                             <ExampleBoard>
                                 <EmptyBoardRow wordLen={5} currentGuess="dodle" />
                                 <CompletedBoardRow solution="dodle" guess="wordl" />
@@ -79,7 +79,7 @@ const Help: NextPage = () => {
                                     Gray means the letter is absent in the solution.
                                 </li>
                             </ul>
-                        </p>
+                        </div>
                         <p>
                             A game can be played once a day. Normally every day there should be a 
                             new image to guess. Since the game is WIP that might currently not 
