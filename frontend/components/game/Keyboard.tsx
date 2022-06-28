@@ -1,3 +1,4 @@
+import { getGuessesLetterStates } from "lib/letter_status"
 import { LetterStatus } from "models/game"
 import { useEffect } from "react"
 import styled from "styled-components"
@@ -27,6 +28,7 @@ export function Keyboard({
     guesses,
     word
 }: Props) {
+    const letterStates = getGuessesLetterStates(word, guesses);
 
     const handleKeyEvent = (key: string) => {
         if (key === 'backspace' || key === 'delete') {
@@ -56,7 +58,7 @@ export function Keyboard({
             <Row>
                 {["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"].map((v) => (
                     <Key 
-                        type={LetterStatus.INPUT} 
+                        type={letterStates[v] ?? LetterStatus.INPUT} 
                         key={v} 
                         onClick={handleKeyEvent}
                         keyValue={v}>{v}</Key>
@@ -65,7 +67,7 @@ export function Keyboard({
             <Row>
                 {["a", "s", "d", "f", "g", "h", "j", "k", "l"].map((v) => (
                     <Key 
-                        type={LetterStatus.INPUT} 
+                    type={letterStates[v] ?? LetterStatus.INPUT} 
                         key={v} 
                         onClick={handleKeyEvent}
                         keyValue={v}>{v}</Key>
@@ -74,7 +76,7 @@ export function Keyboard({
             <Row>
                 {["Enter", "z", "x", "c", "v", "b", "n", "m", "Enter"].map((v) => (
                     <Key 
-                        type={LetterStatus.INPUT} 
+                    type={letterStates[v] ?? LetterStatus.INPUT} 
                         key={v} 
                         keyValue={v}
                         isSpecial={v.length > 1}

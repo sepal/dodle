@@ -1,4 +1,4 @@
-import { getGuessLetterTypes, splitWord } from "lib/letter_status"
+import { getGuessLetterStates, splitWord } from "lib/letter_status"
 import { Tile } from "./Tile";
 
 interface Props {
@@ -8,8 +8,7 @@ interface Props {
 
 export default function CompletedBoardRow({ solution, guess }: Props) {
     const splitGuess = splitWord(guess);
-    const letterTypes = getGuessLetterTypes(solution, guess);
-
+    const letterTypes = getGuessLetterStates(solution, guess);
 
     return (
         <>
