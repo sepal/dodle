@@ -8,3 +8,10 @@ export enum PlayState {
   success,
   fail,
 }
+
+export enum LetterStatus {
+  INPUT,
+  WRONG,
+  CORRECT,
+  PRESENT,
+}

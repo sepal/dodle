@@ -3,7 +3,7 @@ import Histogram from "./Histogram"
 import SingleStat from "./SingleStat"
 import { Guess } from "../../models/game";
 import { GlobalStats } from "../../models/stats";
-import { useLocalStorage } from "../../utils/useLocalStorage";
+import { useLocalStorage } from "../../lib/useLocalStorage";
 import { GameData } from "../../models/game_manager";
 import { useEffect, useState } from "react";
 
