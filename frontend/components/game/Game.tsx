@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Canvas from "./Canvas";
+import Canvas from "./Canvas/Canvas";
 import { GameData } from "../../models/game_manager";
 import { Guess, PlayState } from "../../models/game";
 import { useLocalStorage } from "../../lib/useLocalStorage";
@@ -8,8 +8,8 @@ import { EndMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
 import { calcStats } from "../../api/game_stats";
 import trackEvent from "api/track_event";
-import Board from "./Board";
-import { Keyboard } from "./Keyboard";
+import Board from "./GuessBoard/Board";
+import { Keyboard } from "./Keyboard/Keyboard";
 
 const GameFrame = styled.div`
   margin: 0 auto;

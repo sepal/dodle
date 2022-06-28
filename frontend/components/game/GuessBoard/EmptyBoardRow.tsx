@@ -6,7 +6,7 @@ interface Props {
     currentGuess: string
 }
 
-export function EmptyBoardRow({ wordLen, currentGuess }: Props) {
+export default function EmptyBoardRow({ wordLen, currentGuess }: Props) {
     const tiles = Array.from({ length: wordLen }, (_, i) => {
         const letter = currentGuess[i] ?? ""
         return (
