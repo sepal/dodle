@@ -1,24 +1,24 @@
-import { LetterType } from "models/game";
+import { LetterStatus } from "models/game";
 
 export function splitWord(word: string) {
     return Array.from(word);
 }
 
-export function getLetterTypes(solution: string, guess: string): LetterType[] {
+export function getLetterTypes(solution: string, guess: string): LetterStatus[] {
     const splitSolution = splitWord(solution);
     const splitGuess = splitWord(guess);
 
     let charsTaken = splitSolution.map(() => false);
 
-    let guessTypes: LetterType[] = new Array(guess.length);
+    let guessTypes: LetterStatus[] = new Array(guess.length);
 
     // Check for the correct and wrong letters first.
     splitGuess.forEach((letter, i) => {
         if (letter === splitSolution[i]) {
-            guessTypes[i] = LetterType.CORRECT;
+            guessTypes[i] = LetterStatus.CORRECT;
             charsTaken[i] = true;
         } else if (!splitSolution.includes(letter)) {
-            guessTypes[i] = LetterType.WRONG;
+            guessTypes[i] = LetterStatus.WRONG;
         }
     });
 
@@ -30,10 +30,10 @@ export function getLetterTypes(solution: string, guess: string): LetterType[] {
         const index = splitSolution.findIndex((sLetter, index) => sLetter === letter && !charsTaken[index])
 
         if (index > -1) {
-            guessTypes[i] = LetterType.PARTLY;
+            guessTypes[i] = LetterStatus.PRESENT;
             charsTaken[index] = true;
         } else {
-            guessTypes[i] = LetterType.WRONG;
+            guessTypes[i] = LetterStatus.WRONG;
         }
     });
 

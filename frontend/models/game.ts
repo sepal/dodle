@@ -9,9 +9,9 @@ export enum PlayState {
   fail,
 }
 
-export enum LetterType {
+export enum LetterStatus {
   INPUT,
   WRONG,
   CORRECT,
-  PARTLY,
+  PRESENT,
 }

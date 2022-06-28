@@ -1,14 +1,14 @@
-import { LetterType } from "models/game"
+import { LetterStatus } from "models/game"
 import styled from "styled-components"
 
 
 interface TileProps {
     letter: string
-    type: LetterType
+    type: LetterStatus
 }
 
 interface TileWrapperProps {
-    type: LetterType
+    type: LetterStatus
 }
 
 const TileWrapper = styled.div<TileWrapperProps>`

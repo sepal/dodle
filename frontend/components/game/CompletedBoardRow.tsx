@@ -1,4 +1,4 @@
-import { getLetterTypes, splitWord } from "lib/words"
+import { getLetterTypes, splitWord } from "lib/letter_status"
 import { Tile } from "./Tile";
 
 interface Props {

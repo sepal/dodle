@@ -1,4 +1,4 @@
-import { LetterType } from "models/game"
+import { LetterStatus } from "models/game"
 import { useEffect } from "react"
 import styled from "styled-components"
 import { Key } from "./Key"
@@ -56,7 +56,7 @@ export function Keyboard({
             <Row>
                 {["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"].map((v) => (
                     <Key 
-                        type={LetterType.INPUT} 
+                        type={LetterStatus.INPUT} 
                         key={v} 
                         onClick={handleKeyEvent}
                         keyValue={v}>{v}</Key>
@@ -65,16 +65,16 @@ export function Keyboard({
             <Row>
                 {["a", "s", "d", "f", "g", "h", "j", "k", "l"].map((v) => (
                     <Key 
-                        type={LetterType.INPUT} 
+                        type={LetterStatus.INPUT} 
                         key={v} 
                         onClick={handleKeyEvent}
                         keyValue={v}>{v}</Key>
                 ))}
             </Row>
             <Row>
-                {["Enter", "z", "x", "c", "v", "b", "n", "m", "Delete"].map((v) => (
+                {["Enter", "z", "x", "c", "v", "b", "n", "m", "Enter"].map((v) => (
                     <Key 
-                        type={LetterType.INPUT} 
+                        type={LetterStatus.INPUT} 
                         key={v} 
                         keyValue={v}
                         isSpecial={v.length > 1}
