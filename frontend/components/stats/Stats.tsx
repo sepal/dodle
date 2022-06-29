@@ -43,10 +43,10 @@ function Stats({ game }: StatsProps) {
     useEffect(() => {
         const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
         if (lastGame == game.id) {
-            setHistoHighlight(guesses.length)
+            setHistoHighlight(guesses.length-1)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [game.id, guesses.length]);
 
     const solved = stats.played <= 0 ? 0 : stats.solved / stats.played * 100;
 
@@ -59,7 +59,7 @@ function Stats({ game }: StatsProps) {
                 <SingleStat label="Longest streak" value={stats.longestStreak} />
             </SingleStatsWrapper>
             <h3>Guess Distribution</h3>
-            <Histogram label="Guess distribution" data={stats.histogram} hightlight={histoHighlight} />
+            <Histogram data={stats.histogram} highlight={histoHighlight} />
         </StatsWrapper>
     );
 }

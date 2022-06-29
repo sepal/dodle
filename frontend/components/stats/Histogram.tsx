@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 interface HistogramProps {
-    label: string
     data: Array<number>
-    hightlight?: number
+    highlight?: number
 }
 
 const Row = styled.div`
@@ -20,7 +19,7 @@ const Label = styled.div`
 `
 
 interface ValueProps {
-    active: boolean
+    active?: boolean
     width: number
 }
 
@@ -41,7 +40,7 @@ const Value = styled.div<ValueProps>`
     ${({ width }) => `width: ${width}%`}
 `
 
-export default function Histogram({ label, data, hightlight }: HistogramProps) {
+export default function Histogram({ data, highlight }: HistogramProps) {
     const maxVal = Math.max(...data);
     const histogramData = data.map((value: number, index: number) => {
         const perc = value / maxVal;
@@ -50,7 +49,7 @@ export default function Histogram({ label, data, hightlight }: HistogramProps) {
             <Row key={index}>
                 <Label>{guess_index}</Label>
                 <Value
-                    active={guess_index === hightlight}
+                    active={index === highlight}
                     width={perc * 100}>
                     {value}
                 </Value>
