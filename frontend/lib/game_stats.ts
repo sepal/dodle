@@ -1,9 +1,9 @@
-import {PlayState} from "../models/game"
-import {GlobalStats} from "../models/stats"
+import { PlayState } from "models/game"
+import { GlobalStats } from "models/stats"
 
 
-export function calcStats(lastStats: GlobalStats, guesses: number,  state: PlayState) : GlobalStats {
-    let stats = {...lastStats};
+export function calcStats(lastStats: GlobalStats, guesses: number, state: PlayState): GlobalStats {
+    let stats = { ...lastStats };
     stats.played++;
 
     switch (state) {
@@ -14,8 +14,8 @@ export function calcStats(lastStats: GlobalStats, guesses: number,  state: PlayS
         case PlayState.success:
             stats.solved++;
             stats.currentStreak++;
-    
-            stats.histogram[guesses]++;
+
+            stats.histogram[guesses - 1]++;
             if (stats.currentStreak > stats.longestStreak) {
                 stats.longestStreak = stats.currentStreak;
             }

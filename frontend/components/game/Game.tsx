@@ -6,7 +6,7 @@ import { Guess, PlayState } from "../../models/game";
 import { useLocalStorage } from "../../lib/useLocalStorage";
 import { EndMessage } from "./Messages";
 import { GlobalStats } from "../../models/stats";
-import { calcStats } from "../../api/game_stats";
+import { calcStats } from "../../lib/game_stats";
 import trackEvent from "api/track_event";
 import Board from "./GuessBoard/Board";
 import { Keyboard } from "./Keyboard/Keyboard";
