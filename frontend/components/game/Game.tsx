@@ -11,6 +11,7 @@ import trackEvent from "api/track_event";
 import Board from "./GuessBoard/Board";
 import { Keyboard } from "./Keyboard/Keyboard";
 import { createRouter, useRouter } from "next/router";
+import CountDown from "./CountDown";
 
 const GameFrame = styled.div`
   margin: 0 auto;
@@ -130,7 +131,10 @@ const Game = ({ game }: GameProps) => {
           guesses={guesses.map((g) => g.word)}
           word={game.word} />
       ) : (
+        <>
         <EndMessage state={playState} word={game.word} prompt={game.prompt} />
+        <CountDown />
+        </>
       )}
     </GameFrame>
   );
