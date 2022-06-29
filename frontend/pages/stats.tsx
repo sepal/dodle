@@ -9,6 +9,7 @@ import { GameData } from "../models/game_manager";
 import { useRouter } from "next/router";
 import { fetcher } from "lib/fetcher";
 import {ModalHeader} from 'components/atoms/headings';
+import GameLoadingScreen from "components/game/LoadingGame";
 
 const StatsPage: NextPage = () => {
     const { data, error } = useSWR<GameData>('/api/game', fetcher);
@@ -31,7 +32,7 @@ const StatsPage: NextPage = () => {
                 </Modal>
 
                 {error && "Sorry, couldn't load game."}
-                {!data && "Loading game."}
+                {!data && <GameLoadingScreen />}
                 {data && <Game game={data} />}
             </main>
         </div>

@@ -13,21 +13,15 @@ import EmptyBoardRow from "components/game/GuessBoard/EmptyBoardRow";
 import { LetterStatus } from "models/game";
 import { useLocalStorage } from "lib/useLocalStorage";
 import { ModalHeader } from "components/atoms/headings";
+import { ExampleBoard } from "components/game/GuessBoard/ExampleBoard";
+import GameLoadingScreen from "components/game/LoadingGame";
 
 
 const HelpSection = styled.section`
     max-width: 512px;
 `
 
-const ExampleBoard = styled.div`
-display: grid;
-grid-gap: 3px;
-grid-template-columns: repeat(5, 1fr);
-grid-auto-flow: row;
-font-weight: bold;
-margin: 0 auto;
-width: ${2.1 * 5}em;
-`
+
 
 const Help: NextPage = () => {
     const { data, error } = useSWR<GameData>('/api/game', fetcher);
@@ -125,7 +119,7 @@ const Help: NextPage = () => {
                 </Modal>
 
                 {error && "Sorry, couldn't load game."}
-                {data && <Game game={data} />}
+                {data && <GameLoadingScreen />}
             </main>
         </div>
     );

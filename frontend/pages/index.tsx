@@ -5,6 +5,7 @@ import Game from "../components/game/Game";
 import Header from "../components/page/Header";
 import { GameData } from "../models/game_manager";
 import { fetcher } from "lib/fetcher";
+import GameLoadingScreen from "components/game/LoadingGame";
 
 
 
@@ -22,9 +23,9 @@ const Home: NextPage = () => {
       <Header />
 
       <main>
-
+        
         {error && "Sorry, couldn't load game."}
-        {!data && "Loading game."}
+        {!data && <GameLoadingScreen />}
         {data && <Game game={data} />}
       </main>
     </div>
