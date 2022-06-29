@@ -18,6 +18,7 @@ const TileWrapper = styled.div<TileWrapperProps>`
     line-height: 2em;
     text-transform: capitalize;
     color: white;
+    margin: 0;
     ${({ type }) => [
         `background: white;
         border: 1px solid #ccc;

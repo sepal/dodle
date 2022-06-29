@@ -15,7 +15,8 @@ const Row = styled.div`
 `
 
 const Label = styled.div`
-    margin-right: 0.5em;
+    margin: 0 0.5em;
+    padding: 0;
 `
 
 interface ValueProps {
@@ -25,8 +26,8 @@ interface ValueProps {
 
 const Value = styled.div<ValueProps>`
     display: inline-block;
-    padding: 0 0.75em;
-    padding-left: 0.5em;
+    padding: 0 0.5em;
+    margin: 0;
     min-width: 1.5em;
     background: #666;
     font-weight: bold;

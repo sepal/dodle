@@ -52,14 +52,13 @@ function Stats({ game }: StatsProps) {
 
     return (
         <StatsWrapper>
-            <H1>Statistics</H1>
             <SingleStatsWrapper>
                 <SingleStat label="Games played" value={stats.played} />
                 <SingleStat label="Games solved" value={solved} unit="%" />
                 <SingleStat label="Current streak" value={stats.currentStreak} />
                 <SingleStat label="Longest streak" value={stats.longestStreak} />
             </SingleStatsWrapper>
-            <h2>Guess Distribution</h2>
+            <h3>Guess Distribution</h3>
             <Histogram label="Guess distribution" data={stats.histogram} hightlight={histoHighlight} />
         </StatsWrapper>
     );

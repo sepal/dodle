@@ -13,6 +13,7 @@ const Wrapper = styled.div`
 
 const Value = styled.div`
     font-size: 1.5em;
+    margin: 0 auto;
 `
 
 export default function SingleStat({ label, value, unit }: SigleStatProps) {

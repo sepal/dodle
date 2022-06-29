@@ -2,11 +2,12 @@ import React from 'react'
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import Button from '../atoms/Button';
+import CloseIcon from './icon--close.svg'
 
 const ModalStyle = styled.div`
     min-height: 18rem;
-    margin: 2rem;
-    padding: 2.5rem;
+    margin: 2em;
+    padding: 2.5em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -14,6 +15,7 @@ const ModalStyle = styled.div`
     border-radius: 0.25rem;
     overflow: scroll;
     max-height: 90%;
+    position: relative;
 `;
 
 const OverlayStyle = styled.div`
@@ -28,6 +30,13 @@ bottom: 0;
 z-index: 3500;
 background: #212b3277;
 `;
+
+const CloseButton = styled.a`
+position: absolute;
+top: 2em;
+right: 2em;
+cursor: pointer;
+`
 
 interface ModalProps {
     isOpen: boolean
@@ -46,6 +55,9 @@ function Modal({isOpen, onClose, children} : ModalProps) {
             contentElement={(props, children) => <ModalStyle {...props}>{children}</ModalStyle>}
             overlayElement={(props, contentElement) => <OverlayStyle {...props}>{contentElement}</OverlayStyle>}
         >
+            <CloseButton onClick={onClose}>
+                <CloseIcon />
+            </CloseButton>
             {children}
             <Button onClick={onClose}>Back to the game</Button>
         </ReactModal>

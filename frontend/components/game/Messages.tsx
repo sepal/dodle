@@ -10,7 +10,6 @@ type MessageProps = {
 
 const MessageWrapper = styled.div`
   text-align: center;
-  margin-top: 1.5em;
   font-size: 1.5em;
 `;
 
