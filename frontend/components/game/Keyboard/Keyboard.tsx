@@ -21,6 +21,7 @@ const Row = styled.div`
     display: flex;
     max-width: 100%;
     justify-content: center;
+    margin: 0;
 `
 
 export function Keyboard({

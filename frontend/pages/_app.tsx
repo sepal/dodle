@@ -15,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
   *, *:before, *:after {
     box-sizing: border-box;
   }
+
+  p, div, section {
+      margin: 0 0 1.5em 0;
+  }
 `
 
 const theme = {

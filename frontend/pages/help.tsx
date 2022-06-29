@@ -10,9 +10,9 @@ import { fetcher } from "lib/fetcher";
 import styled from "styled-components";
 import CompletedBoardRow from "components/game/GuessBoard/CompletedBoardRow";
 import EmptyBoardRow from "components/game/GuessBoard/EmptyBoardRow";
-import { Tile } from "components/game/GuessBoard/Tile";
 import { LetterStatus } from "models/game";
 import { useLocalStorage } from "lib/useLocalStorage";
+import { ModalHeader } from "components/atoms/headings";
 
 
 const HelpSection = styled.section`
@@ -47,7 +47,7 @@ const Help: NextPage = () => {
 
             <main>
                 <Modal isOpen={true} onClose={() => router.push("/")}>
-                    <h2>How to play</h2>
+                    <ModalHeader>How to play</ModalHeader>
                     <HelpSection>
                         <p>
                             Guess what an A.I. tried to <b>doodle</b> in 5 tries!

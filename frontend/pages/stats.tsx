@@ -8,6 +8,7 @@ import Stats from "../components/stats/Stats";
 import { GameData } from "../models/game_manager";
 import { useRouter } from "next/router";
 import { fetcher } from "lib/fetcher";
+import {ModalHeader} from 'components/atoms/headings';
 
 const StatsPage: NextPage = () => {
     const { data, error } = useSWR<GameData>('/api/game', fetcher);
@@ -25,6 +26,7 @@ const StatsPage: NextPage = () => {
 
             <main>
                 <Modal isOpen={true} onClose={() => router.push("/")}>
+                    <ModalHeader>Statistics</ModalHeader>
                     {data && <Stats game={data} />}
                 </Modal>
 
