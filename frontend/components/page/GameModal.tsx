@@ -33,7 +33,9 @@ background: #212b3277;
 
 const CloseButton = styled.a`
 position: absolute;
+top: 2em;
 right: 2em;
+cursor: pointer;
 `
 
 interface ModalProps {
