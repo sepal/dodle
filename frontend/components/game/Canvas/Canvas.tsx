@@ -15,12 +15,12 @@ const Frame = styled.div`
 
 const ImageWrapper = styled.div`
   position: absolute;
-  left: 6px;
-  top: 115px;
+  left: -10px;
+  top: 62px;
   width: 300px;
   height: 300px;
   margin: 0px;
-  padding: 40px;
+  padding: 30px;
   background: rgb(255,255,255);
   background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(240,240,240,1) 100%); 
   border: 4px solid #eee;
