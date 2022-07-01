@@ -14,7 +14,7 @@ interface Props {
 
 const Wrapper = styled.div`
 max-width: 512px;
-margin: 1.5em auto;
+margin: 0 auto;
 `
 
 const Row = styled.div`
