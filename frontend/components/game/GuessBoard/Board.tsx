@@ -22,7 +22,7 @@ const BoardWrapper = styled.div<BoardWrapperProps>`
     grid-auto-flow: row;
     font-weight: bold;
     ${({ length }) => `width: ${2.1 * length}em`};
-    margin: 3em auto 0 auto;
+    margin: 0 auto 1.5em auto;
 `
 
 export default function Board({ round, guesses, input, playstate }: BoardProps) {

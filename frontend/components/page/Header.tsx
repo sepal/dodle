@@ -18,7 +18,12 @@ const Wrapper = styled.header`
     justify-content: space-between;
     align-items: center;
     max-width: 512px;
-    margin: 0.5em auto;
+    margin: 0em auto;
+    padding: 0 1em;
+
+    & > div {
+        margin: 0;
+    }
 `;
 
 const Branding =  styled.div`
