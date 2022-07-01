@@ -20,6 +20,23 @@ const GameFrame = styled.div`
   justify-content: space-around;
 `;
 
+const InputWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  z-index: 0;
+  background-color: rgba(250,250,250,1);
+  width: 100%;
+  padding 1em 0.5em;
+  margin: 0;
+
+  @media (min-width: 700px) {
+    position: static;
+    bottom: 0;
+    z-index: 0;
+    background: none;
+}
+`
+
 type GameProps = {
   game: GameData;
 };
@@ -122,6 +139,8 @@ const Game = ({ game }: GameProps) => {
   return (
     <GameFrame>
       <Canvas image={image_url} />
+
+      <InputWrapper>
       <Board round={game} guesses={guesses} input={currentGuess} playstate={playState} />
       {playState == PlayState.playing ? (
         <Keyboard
@@ -136,6 +155,7 @@ const Game = ({ game }: GameProps) => {
         <CountDown />
         </>
       )}
+      </InputWrapper>
     </GameFrame>
   );
 };
