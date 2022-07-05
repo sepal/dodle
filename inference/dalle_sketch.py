@@ -38,8 +38,10 @@ vqgan._params = replicate(vqgan.params)
 clip._params = replicate(clip.params)
 
 words = np.load("./assets/words.npy", allow_pickle=True)
+used_words = np.load("./assets/used_words.npy", allow_pickle=True)
 adjectives = np.load("./assets/adjectives.npy", allow_pickle=True)
 colors = np.load("./assets/colors.npy", allow_pickle=True)
+words[~np.isin(words, used_words)]
 
 
 @partial(jax.pmap, axis_name="batch", static_broadcasted_argnums=(3, 4, 5, 6))
@@ -83,6 +85,9 @@ def generate_prompt(doodle=True):
     prompt = f"{adj} {color} {item}"
     if doodle:
         prompt += " doodle"
+
+    words = words[np.where(words != item)]
+    np.save("./assets/words.npy", words)
 
     return item, prompt
 
