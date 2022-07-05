@@ -43,6 +43,9 @@ adjectives = np.load("./assets/adjectives.npy", allow_pickle=True)
 colors = np.load("./assets/colors.npy", allow_pickle=True)
 words[~np.isin(words, used_words)]
 
+if len(words) <= 0:
+    print("No words left!!")
+    raise SystemExit(1)
 
 @partial(jax.pmap, axis_name="batch", static_broadcasted_argnums=(3, 4, 5, 6))
 def p_generate(
