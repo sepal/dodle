@@ -5,14 +5,14 @@ go 1.18
 require (
 	github.com/aws/aws-lambda-go v1.32.0
 	github.com/joho/godotenv v1.4.0
-	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220607133316-44ce033bf802
+	github.com/sepal/dodle/game_manager/dodle v0.0.0-20220706121325-06144aa16d7f
 	github.com/uptrace/bun v1.1.5
 	github.com/uptrace/bun/dialect/pgdialect v1.1.5
 	github.com/uptrace/bun/driver/pgdriver v1.1.5
 )
 
 require (
-	github.com/aws/aws-sdk-go v1.44.29 // indirect
+	github.com/aws/aws-sdk-go v1.44.48 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.12.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20220511200225-c6db032c6c88 // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
+	golang.org/x/sys v0.0.0-20220704084225-05e143d24a9e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	gorm.io/driver/postgres v1.3.5 // indirect
 	gorm.io/gorm v1.23.5 // indirect
