@@ -80,9 +80,11 @@ func (r RoundRepository) createImageEntriesForRound(ctx context.Context, roundID
 // getNextEmptyDate will return the next empty date for inserting a game.
 func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64) (int64, error) {
 	var rounds []DBRound
+
 	err := r.db.NewSelect().
 		Model(&rounds).
 		Where("game_date > ?", currentTime).
+		OrderExpr("game_date ASC").
 		Scan(ctx)
 
 	if err != nil {
@@ -95,8 +97,10 @@ func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64
 
 	// Try to find gaps between the dates.
 	for i, round := range rounds[1:] {
-		if round.GameDate-rounds[i].GameDate >= 86400*2 {
-			return AddNDaysToEpoch(rounds[i].GameDate, 1), nil
+		prevRound := rounds[i]
+		diff := round.GameDate - prevRound.GameDate
+		if diff >= 172800 {
+			return AddNDaysToEpoch(prevRound.GameDate, 1), nil
 		}
 	}
 
@@ -105,7 +109,7 @@ func (r RoundRepository) getNextEmptyDate(ctx context.Context, currentTime int64
 }
 
 // CreateRound creates a new round based on the given round input data. The
-// round will get an id and a game date by beeing inserted.
+// round will get an id and a game date by being inserted.
 func (r RoundRepository) CreateRound(ctx context.Context, currentTime int64, input RoundFactory) (*Round, error) {
 
 	date, err := r.getNextEmptyDate(ctx, currentTime)

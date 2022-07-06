@@ -6,14 +6,20 @@
       created_at: '{{ now }}'
       updated_at: '{{ now }}'
 
+    - game_date: 1654128000
+      word: frog
+      prompt: lovely colorful frog doodle
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'
+
     - game_date: 1653955200
       word: cricket
       prompt: lovely colorful cricket doodle
       created_at: '{{ now }}'
       updated_at: '{{ now }}'
 
-    - game_date: 1654128000
-      word: frog
-      prompt: lovely colorful frog doodle
+    - game_date: 1656806400
+      word: chair
+      prompt: lovely colorful chair doodle
       created_at: '{{ now }}'
       updated_at: '{{ now }}'
