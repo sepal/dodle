@@ -4,6 +4,7 @@ export default function PostHog() {
     return (
         <>
             <Script
+                id="posthog"
                 strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
                     __html: `
