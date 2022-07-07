@@ -15,6 +15,7 @@ import { useLocalStorage } from "lib/useLocalStorage";
 import { ModalHeader } from "components/atoms/headings";
 import { ExampleBoard } from "components/game/GuessBoard/ExampleBoard";
 import GameLoadingScreen from "components/game/LoadingGame";
+import PostHog from "components/scripts/posthog";
 
 
 const HelpSection = styled.section`
@@ -121,6 +122,7 @@ const Help: NextPage = () => {
                 {error && "Sorry, couldn't load game."}
                 {data && <GameLoadingScreen />}
             </main>
+            <PostHog />
         </div>
     );
 }

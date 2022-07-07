@@ -6,6 +6,7 @@ import Header from "../components/page/Header";
 import { GameData } from "../models/game_manager";
 import { fetcher } from "lib/fetcher";
 import GameLoadingScreen from "components/game/LoadingGame";
+import PostHog from "components/scripts/posthog";
 
 
 
@@ -28,6 +29,8 @@ const Home: NextPage = () => {
         {!data && <GameLoadingScreen />}
         {data && <Game game={data} />}
       </main>
+
+      <PostHog />
     </div>
   );
 };
