@@ -9,6 +9,7 @@ interface BoardProps {
     guesses: Array<Guess>
     input: string
     playstate: PlayState
+    currentLetter?: number
     emptyRowOnClick?: (tile_index: number) => void
 }
 
@@ -26,7 +27,7 @@ const BoardWrapper = styled.div<BoardWrapperProps>`
     margin: 0 auto 1.5em auto;
 `
 
-export default function Board({ round, guesses, input, playstate, emptyRowOnClick }: BoardProps) {
+export default function Board({ round, guesses, input, playstate, currentLetter, emptyRowOnClick }: BoardProps) {
     const completed = guesses.map((guess, i) => (
         <CompletedBoardRow solution={round.word} guess={guess.word} key={guess.word} />
     ));
@@ -38,7 +39,8 @@ export default function Board({ round, guesses, input, playstate, emptyRowOnClic
                 && <EmptyBoardRow 
                     wordLen={round.word.length} 
                     currentGuess={input}
-                    onClick={emptyRowOnClick} />}
+                    onClick={emptyRowOnClick}
+                    currentLetter={currentLetter}/>}
         </BoardWrapper>
     );
 }

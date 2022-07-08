@@ -54,6 +54,7 @@ const Game = ({ game }: GameProps) => {
     longestStreak: 0,
   });
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [currentLetter, setCurrentLetter] = useState<number | null>(null);
 
   const keyboardRef = useRef(null);
 
@@ -88,6 +89,7 @@ const Game = ({ game }: GameProps) => {
     const nGuesses = [...guesses, guess];
     setGuesses(nGuesses);
     setCurrentGuess("");
+    setCurrentLetter(null);
 
     // If game has finished.
     if (nGuesses.length >= game.images.length || guess.correct) {
@@ -105,18 +107,23 @@ const Game = ({ game }: GameProps) => {
   const handleOnChar = (letter: string) => {
     if (playState == PlayState.playing && currentGuess.length < game.word.length) {
       setCurrentGuess(currentGuess + letter);
+      setCurrentLetter(currentGuess.length + 1);
     }
   };
 
   const handleOnDelete = () => {
     if (playState == PlayState.playing) {
       setCurrentGuess(currentGuess.slice(0, -1));
+      setCurrentLetter(currentGuess.length - 1);
     }
   };
 
   const handleOnEmptyRowClick = () => {
     if (keyboardRef && keyboardRef.current) {
       keyboardRef.current.scrollIntoView();
+
+        console.log(currentLetter);
+        setCurrentLetter(0);
     }
   };
 
@@ -135,7 +142,8 @@ const Game = ({ game }: GameProps) => {
         guesses={guesses} 
         input={currentGuess} 
         playstate={playState}
-        emptyRowOnClick={handleOnEmptyRowClick} />
+        emptyRowOnClick={handleOnEmptyRowClick}
+        currentLetter={currentLetter} />
 
       {playState == PlayState.playing ? (
         <div ref={keyboardRef}>

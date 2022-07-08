@@ -5,11 +5,13 @@ import styled from "styled-components"
 interface TileProps {
     letter: string
     type: LetterStatus
+    active?: boolean
     onClick?: () => void
 }
 
 interface TileWrapperProps {
     type: LetterStatus
+    active?: boolean
 }
 
 const TileWrapper = styled.div<TileWrapperProps>`
@@ -29,12 +31,31 @@ const TileWrapper = styled.div<TileWrapperProps>`
         `background: #67a760;`,
         `background: #c8b359;`
     ][type]}
+    ${({active}) => {
+        if (active === true) {
+            return `
+            box-shadow: 0 0 3px #ddd inset;
+            color: #333;
+            animation: 1s blink step-end infinite;
+            @keyframes "blink" {
+                from, to {
+                  color: transparent;
+                }
+                50% {
+                  color: #333;
+                }
+              }
+            `
+        }
+    }}
 `
 
-export function Tile({letter, type, onClick} : TileProps) {
+export function Tile({letter, type, active, onClick} : TileProps) {
+    const content = (type == LetterStatus.INPUT && active) ? 
+        "|" : letter;
     return (
-        <TileWrapper type={type} onClick={onClick}>
-            {letter}
+        <TileWrapper type={type} onClick={onClick} active={active}>
+            {content}
         </TileWrapper>
     )
 }
