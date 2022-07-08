@@ -1,6 +1,6 @@
 import { getGuessesLetterStates } from "lib/letter_status"
 import { LetterStatus } from "models/game"
-import { useEffect } from "react"
+import { RefObject, useEffect } from "react"
 import styled from "styled-components"
 import { Key } from "./Key"
 

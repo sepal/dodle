@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Canvas from "./Canvas/Canvas";
 import { GameData } from "../../models/game_manager";
@@ -54,6 +54,8 @@ const Game = ({ game }: GameProps) => {
     longestStreak: 0,
   });
   const [currentGuess, setCurrentGuess] = useState<string>("");
+
+  const keyboardRef = useRef(null);
 
   useEffect(() => {
     const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
@@ -112,6 +114,12 @@ const Game = ({ game }: GameProps) => {
     }
   };
 
+  const handleOnEmptyRowClick = () => {
+    if (keyboardRef && keyboardRef.current) {
+      keyboardRef.current.scrollIntoView();
+    }
+  };
+
 
   // This allows us to circumvent the browser image cache for each day.
   let today = new Date();
@@ -122,14 +130,22 @@ const Game = ({ game }: GameProps) => {
   return (
     <GameFrame>
       <Canvas image={image_url} />
-      <Board round={game} guesses={guesses} input={currentGuess} playstate={playState} />
+      <Board 
+        round={game} 
+        guesses={guesses} 
+        input={currentGuess} 
+        playstate={playState}
+        emptyRowOnClick={handleOnEmptyRowClick} />
+
       {playState == PlayState.playing ? (
-        <Keyboard
-          onChar={handleOnChar}
-          onDelete={handleOnDelete}
-          onEnter={handleGuess}
-          guesses={guesses.map((g) => g.word)}
-          word={game.word} />
+        <div ref={keyboardRef}>
+          <Keyboard
+            onChar={handleOnChar}
+            onDelete={handleOnDelete}
+            onEnter={handleGuess}
+            guesses={guesses.map((g) => g.word)}
+            word={game.word} />
+        </div>
       ) : (
         <>
         <EndMessage state={playState} word={game.word} prompt={game.prompt} />

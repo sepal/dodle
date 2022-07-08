@@ -5,6 +5,7 @@ import styled from "styled-components"
 interface TileProps {
     letter: string
     type: LetterStatus
+    onClick?: () => void
 }
 
 interface TileWrapperProps {
@@ -30,9 +31,9 @@ const TileWrapper = styled.div<TileWrapperProps>`
     ][type]}
 `
 
-export function Tile({letter, type} : TileProps) {
+export function Tile({letter, type, onClick} : TileProps) {
     return (
-        <TileWrapper type={type}>
+        <TileWrapper type={type} onClick={onClick}>
             {letter}
         </TileWrapper>
     )
