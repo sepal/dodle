@@ -12,7 +12,6 @@ export default function EmptyBoardRow({ wordLen, currentGuess, currentLetter, on
 
     const tiles = Array.from({ length: wordLen }, (_, i) => {
         const letter = currentGuess[i] ?? "";
-        console.log(currentLetter);
         return (
             <Tile 
                 letter={letter} key={i} 

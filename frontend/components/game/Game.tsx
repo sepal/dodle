@@ -54,9 +54,9 @@ const Game = ({ game }: GameProps) => {
     longestStreak: 0,
   });
   const [currentGuess, setCurrentGuess] = useState<string>("");
-  const [currentLetter, setCurrentLetter] = useState<number | null>(null);
+  const [currentLetter, setCurrentLetter] = useState<number | undefined>(undefined);
 
-  const keyboardRef = useRef(null);
+  const keyboardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
@@ -89,7 +89,7 @@ const Game = ({ game }: GameProps) => {
     const nGuesses = [...guesses, guess];
     setGuesses(nGuesses);
     setCurrentGuess("");
-    setCurrentLetter(null);
+    setCurrentLetter(undefined);
 
     // If game has finished.
     if (nGuesses.length >= game.images.length || guess.correct) {
@@ -122,7 +122,6 @@ const Game = ({ game }: GameProps) => {
     if (keyboardRef && keyboardRef.current) {
       keyboardRef.current.scrollIntoView();
 
-        console.log(currentLetter);
         setCurrentLetter(0);
     }
   };
