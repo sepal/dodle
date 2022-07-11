@@ -1,6 +1,6 @@
 import { getGuessesLetterStates } from "lib/letter_status"
 import { LetterStatus } from "models/game"
-import { useEffect } from "react"
+import { RefObject, useEffect } from "react"
 import styled from "styled-components"
 import { Key } from "./Key"
 
@@ -14,7 +14,7 @@ interface Props {
 
 const Wrapper = styled.div`
 max-width: 512px;
-margin: 1.5em auto;
+margin: 0 auto;
 `
 
 const Row = styled.div`

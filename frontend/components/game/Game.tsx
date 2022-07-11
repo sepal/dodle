@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Canvas from "./Canvas/Canvas";
 import { GameData } from "../../models/game_manager";
@@ -54,6 +54,9 @@ const Game = ({ game }: GameProps) => {
     longestStreak: 0,
   });
   const [currentGuess, setCurrentGuess] = useState<string>("");
+  const [currentLetter, setCurrentLetter] = useState<number | undefined>(undefined);
+
+  const keyboardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const lastGame = parseInt(window.localStorage.getItem("last_game") ?? "-1");
@@ -86,6 +89,7 @@ const Game = ({ game }: GameProps) => {
     const nGuesses = [...guesses, guess];
     setGuesses(nGuesses);
     setCurrentGuess("");
+    setCurrentLetter(undefined);
 
     // If game has finished.
     if (nGuesses.length >= game.images.length || guess.correct) {
@@ -103,12 +107,22 @@ const Game = ({ game }: GameProps) => {
   const handleOnChar = (letter: string) => {
     if (playState == PlayState.playing && currentGuess.length < game.word.length) {
       setCurrentGuess(currentGuess + letter);
+      setCurrentLetter(currentGuess.length + 1);
     }
   };
 
   const handleOnDelete = () => {
     if (playState == PlayState.playing) {
       setCurrentGuess(currentGuess.slice(0, -1));
+      setCurrentLetter(currentGuess.length - 1);
+    }
+  };
+
+  const handleOnEmptyRowClick = () => {
+    if (keyboardRef && keyboardRef.current) {
+      keyboardRef.current.scrollIntoView();
+
+        setCurrentLetter(0);
     }
   };
 
@@ -122,14 +136,23 @@ const Game = ({ game }: GameProps) => {
   return (
     <GameFrame>
       <Canvas image={image_url} />
-      <Board round={game} guesses={guesses} input={currentGuess} playstate={playState} />
+      <Board 
+        round={game} 
+        guesses={guesses} 
+        input={currentGuess} 
+        playstate={playState}
+        emptyRowOnClick={handleOnEmptyRowClick}
+        currentLetter={currentLetter} />
+
       {playState == PlayState.playing ? (
-        <Keyboard
-          onChar={handleOnChar}
-          onDelete={handleOnDelete}
-          onEnter={handleGuess}
-          guesses={guesses.map((g) => g.word)}
-          word={game.word} />
+        <div ref={keyboardRef}>
+          <Keyboard
+            onChar={handleOnChar}
+            onDelete={handleOnDelete}
+            onEnter={handleGuess}
+            guesses={guesses.map((g) => g.word)}
+            word={game.word} />
+        </div>
       ) : (
         <>
         <EndMessage state={playState} word={game.word} prompt={game.prompt} />
