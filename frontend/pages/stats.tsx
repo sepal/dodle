@@ -10,7 +10,6 @@ import { useRouter } from "next/router";
 import { fetcher } from "lib/fetcher";
 import {ModalHeader} from 'components/atoms/headings';
 import GameLoadingScreen from "components/game/LoadingGame";
-import PostHog from "components/scripts/posthog";
 
 const StatsPage: NextPage = () => {
     const { data, error } = useSWR<GameData>('/api/game', fetcher);
@@ -36,7 +35,6 @@ const StatsPage: NextPage = () => {
                 {!data && <GameLoadingScreen />}
                 {data && <Game game={data} />}
             </main>
-            <PostHog />
         </div>
     );
 };
