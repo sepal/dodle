@@ -19,8 +19,8 @@ const StatsPage: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Dodle</title>
-                <meta name="description" content="Guess what the A.I. tried to draw." />
+                <title>dodle statistics</title>
+                <meta name="description" content="Your dodle statistics." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
