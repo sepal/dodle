@@ -12,6 +12,7 @@ import Board from "./GuessBoard/Board";
 import { Keyboard } from "./Keyboard/Keyboard";
 import { createRouter, useRouter } from "next/router";
 import CountDown from "./CountDown";
+import ShareResult from "./ShareResult";
 
 const GameFrame = styled.div`
   margin: 0 auto;
@@ -155,7 +156,13 @@ const Game = ({ game }: GameProps) => {
         </div>
       ) : (
         <>
-        <EndMessage state={playState} word={game.word} prompt={game.prompt} />
+        <EndMessage state={playState} 
+          word={game.word} 
+          prompt={game.prompt}
+          gameId={game.id}
+          guesses={guesses.map(guess => guess.word)} 
+          maxGuesses={game.images.length} 
+           />
         <CountDown />
         </>
       )}
