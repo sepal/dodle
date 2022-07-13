@@ -29,7 +29,7 @@ const Home: NextPage<Props> = ({ host }: Props) => {
         <meta property="og:description" content="Guess what the dodle AI tried to draw in 5 tries. Every day the AI gives a you a new picture to guess." />
         <meta property="og:image" content={image_url} />
         <meta property="twitter:image" content={image_url} />
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:description" content="Guess what the dodle AI tried to draw in 5 tries. Every day the AI gives a you a new picture to guess." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
