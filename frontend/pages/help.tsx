@@ -33,8 +33,8 @@ const Help: NextPage = () => {
     return (
         <div>
             <Head>
-                <title>Dodle</title>
-                <meta name="description" content="Dodle help page." />
+                <title>dodle help</title>
+                <meta name="description" content="How to play the dodle guessing game." />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
