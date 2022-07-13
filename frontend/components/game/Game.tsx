@@ -73,8 +73,6 @@ const Game = ({ game }: GameProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let message = <EndMessage {...game} state={playState} />;
-
   const level = getLevel(game, guesses)
 
   const handleGuess = () => {
