@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import useSWR from 'swr';
 import Head from "next/head";
 import Game from "../components/game/Game";
@@ -8,13 +8,15 @@ import { fetcher } from "lib/fetcher";
 import GameLoadingScreen from "components/game/LoadingGame";
 import PostHog from "components/scripts/posthog";
 
+interface Props {
+  host: string
+}
 
-
-const Home: NextPage = () => {
+const Home: NextPage<Props> = ({ host }: Props) => {
   const { data, error } = useSWR<GameData>('/api/game', fetcher);
   let today = new Date();
   let date = `date=${today.toISOString().split("T")[0]}`;
-  const image_url = `/api/image?${date}`
+  const image_url = `${host}/api/image?${date}`
 
   return (
     <div>
@@ -33,7 +35,7 @@ const Home: NextPage = () => {
       <Header />
 
       <main>
-        
+
         {error && "Sorry, couldn't load game."}
         {!data && <GameLoadingScreen />}
         {data && <Game game={data} />}
@@ -43,5 +45,8 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+export const getStaticProps: GetStaticProps<Props> =
+  async context => ({ props: { host: process.env['HOST'] || "" } });
 
 export default Home;
