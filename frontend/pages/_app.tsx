@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
-import {createGlobalStyle, ThemeProvider} from 'styled-components'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { create } from 'domain'
+import { usePostHog } from 'next-use-posthog'
 
 const GlobalStyle = createGlobalStyle`
   body, html {
@@ -32,12 +33,19 @@ const theme = {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  usePostHog('phc_zSbEipHlAYW6S66mc9Qtpl7YhuNFzTFN9iRKE1DbCU5', {
+    api_host: 'https://app.posthog.com',
+    loaded: (posthog) => {
+      if (process.env.NODE_ENV === 'development') posthog.opt_out_capturing()
+    },
+  });
+
   return (
     <>
-    <GlobalStyle />
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
-    </ThemeProvider>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </>
   )
 }

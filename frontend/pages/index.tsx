@@ -6,7 +6,6 @@ import Header from "../components/page/Header";
 import { GameData } from "../models/game_manager";
 import { fetcher } from "lib/fetcher";
 import GameLoadingScreen from "components/game/LoadingGame";
-import PostHog from "components/scripts/posthog";
 
 interface Props {
   host?: string
@@ -42,8 +41,6 @@ const Home: NextPage<Props> = ({ host }: Props) => {
         {!data && <GameLoadingScreen />}
         {data && <Game game={data} />}
       </main>
-
-      <PostHog />
     </div>
   );
 };
