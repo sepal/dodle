@@ -19,13 +19,14 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>dodle - the AI guessing game</title>
+        <title>dodle - The daily AI guessing game</title>
         <meta name="description" content="Guess what the dodle AI tried to draw." />
-        <meta property="og:title" content="dodle - the AI guessing game" />
-        <meta property="og:description" content="Guess what the dodle AI tried to draw." />
+        <meta property="og:title" content="dodle - The daily AI guessing game" />
+        <meta property="og:description" content="Guess what the dodle AI tried to draw in 5 tries. Every day the AI gives a you a new picture to guess." />
         <meta property="og:image" content={image_url} />
         <meta property="twitter:image" content={image_url} />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:description" content="Guess what the dodle AI tried to draw in 5 tries. Every day the AI gives a you a new picture to guess." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
