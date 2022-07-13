@@ -9,14 +9,16 @@ import GameLoadingScreen from "components/game/LoadingGame";
 import PostHog from "components/scripts/posthog";
 
 interface Props {
-  host: string
+  host?: string
 }
 
 const Home: NextPage<Props> = ({ host }: Props) => {
   const { data, error } = useSWR<GameData>('/api/game', fetcher);
   let today = new Date();
   let date = `date=${today.toISOString().split("T")[0]}`;
-  const image_url = `${host}/api/image?${date}`
+
+  const base_url = host ? `https://${host}` : '';
+  const image_url = `${base_url}/api/image?${date}`
 
   return (
     <div>
@@ -47,6 +49,6 @@ const Home: NextPage<Props> = ({ host }: Props) => {
 };
 
 export const getStaticProps: GetStaticProps<Props> =
-  async context => ({ props: { host: process.env['VERCEL_URL'] || "" } });
+  async context => ({ props: { host: process.env['VERCEL_URL'] || undefined } });
 
 export default Home;
