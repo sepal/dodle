@@ -47,6 +47,6 @@ const Home: NextPage<Props> = ({ host }: Props) => {
 };
 
 export const getStaticProps: GetStaticProps<Props> =
-  async context => ({ props: { host: process.env['HOST'] || "" } });
+  async context => ({ props: { host: process.env['VERCEL_URL'] || "" } });
 
 export default Home;
