@@ -29,7 +29,7 @@ const ImageWrapper = styled.div`
 
 export default function Canvas({ image }: CanvasInput) {
   return (
-    <Frame>
+    <Frame data-event-component="frame">
       <div>
         <Easel />
       </div>

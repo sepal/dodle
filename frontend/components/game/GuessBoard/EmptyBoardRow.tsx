@@ -14,6 +14,7 @@ export default function EmptyBoardRow({ wordLen, currentGuess, currentLetter, on
         const letter = currentGuess[i] ?? "";
         return (
             <Tile 
+                data-event-component="board-input-tile"
                 letter={letter} key={i} 
                 type={LetterStatus.INPUT} 
                 active={currentLetter===i}

@@ -56,7 +56,7 @@ export function Keyboard({
     }, [onChar, onDelete, onEnter, handleKeyEvent]);
 
     return (
-        <Wrapper>
+        <Wrapper data-event-component="keyboard">
             <Row>
                 {["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"].map((v) => (
                     <Key 

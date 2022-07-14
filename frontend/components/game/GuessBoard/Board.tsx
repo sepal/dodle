@@ -33,7 +33,7 @@ export default function Board({ round, guesses, input, playstate, currentLetter,
     ));
 
     return (
-        <BoardWrapper length={round.word.length}>
+        <BoardWrapper length={round.word.length} data-event-component="board">
             {completed}
             {playstate == PlayState.playing 
                 && <EmptyBoardRow 

@@ -58,7 +58,7 @@ export function Key({children, keyValue, type, isSpecial, onClick} : Props) {
         }
     };
     return (
-        <Wrapper type={type} isSpecial={isSpecial} onClick={handleOnClick}>
+        <Wrapper type={type} isSpecial={isSpecial} onClick={handleOnClick} data-event-component="key">
             {children}
         </Wrapper>
     )

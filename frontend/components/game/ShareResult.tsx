@@ -30,7 +30,7 @@ export default function ShareResult({solution, guesses, maxGuesses, gameId} : Pr
 
     return (
         <>
-            <Button onClick={handleOnClick}>{label}</Button>
+            <Button onClick={handleOnClick} data-event-component="share-results-button">{label}</Button>
         </>
     )
 }

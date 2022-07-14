@@ -53,8 +53,15 @@ const TileWrapper = styled.div<TileWrapperProps>`
 export function Tile({letter, type, active, onClick} : TileProps) {
     const content = (type == LetterStatus.INPUT && active) ? 
         "|" : letter;
+
+    const component_name = type == LetterStatus.INPUT ? "board-tile--input" : "board-tile"; 
+
     return (
-        <TileWrapper type={type} onClick={onClick} active={active}>
+        <TileWrapper 
+            type={type} 
+            onClick={onClick} 
+            active={active} 
+            data-event-component={component_name}>
             {content}
         </TileWrapper>
     )
