@@ -10,7 +10,7 @@ export default function ExternalLink({ href, children }: Props) {
         <a
             href=""
             target="_blank"
-            rel="nofollow">
+            rel="noopener">
             {children}
         </a>
     );
