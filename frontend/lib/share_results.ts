@@ -21,7 +21,7 @@ function getGuessShareTiles(solution: string, guess: string) : string {
 
 export function getShareText(solution: string, guesses: string[], maxGuesses: number, gameId: number) : string {
     const tiles = guesses.map(guess => getGuessShareTiles(solution, guess)).join("\n");
-    const url = window.location.href;
+    const url = window.location.href + `?gameId=${gameId}`;
     
     return `Dodle game #${gameId} ${guesses.length}/${maxGuesses}\n\n${tiles}\n\n${url}`;
 
