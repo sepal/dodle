@@ -6,16 +6,17 @@ import CloseIcon from './icon--close.svg'
 
 const ModalStyle = styled.div`
     min-height: 18rem;
-    margin: 2em;
-    padding: 2.5em;
+    margin: 1em;
+    padding: 1em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: white;
     border-radius: 0.25rem;
     overflow: scroll;
-    max-height: 90%;
+    max-height: 95%;
     position: relative;
+
 `;
 
 const OverlayStyle = styled.div`
@@ -29,12 +30,13 @@ right: 0;
 bottom: 0;
 z-index: 3500;
 background: #212b3277;
+margin:0;
 `;
 
 const CloseButton = styled.a`
 position: absolute;
-top: 2em;
-right: 2em;
+top: 1.25em;
+right: 1em;
 cursor: pointer;
 `
 

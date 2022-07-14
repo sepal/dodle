@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import useSWR from 'swr';
@@ -20,10 +19,6 @@ import GameLoadingScreen from "components/game/LoadingGame";
 
 const HelpSection = styled.section`
     max-width: 512px;
-`
-
-const Center = styled.div`
-    text-align: center;
 `
 
 
@@ -49,39 +44,55 @@ const Help: NextPage = () => {
                     <ModalHeader>How to play</ModalHeader>
                     <HelpSection>
                         <p>
-                            Guess what an <b>AI</b> tried to <b>doodle</b> in 5 tries!
+                            Guess what an A.I. tried to <b>doodle</b> in 5 tries!
                         </p>
-                        <Center>
-                            <Image
-                                alt="A.I. drawing"
-                                src={"/toad0.png"}
-                                quality={100}
-                                width={256}
-                                height={256}
-                                />
-                        </Center>
+                        <p>
+                            The goal of the game is to try to guess what an A.I. tried to draw.
+                            With each guess you get a new image, that represents the <b>same</b>
+                            &nbsp;word. Each new image <i>should</i> be better then the
+                            previous one and thus theoretically make it clearer what the word
+                            to guess is.<br />
+                            Unfortunately the A.I. is sometimes kind of a abstract artist and thus
+                            a new image might not make clearer it 😄.
+                        </p>
+                        <p>
+                            With each guess the tiles will also change color as an additional hint,
+                            which indicates which letters were correct.
+                        </p>
+                        <h3>Examples</h3>
                         <div>
                             <ExampleBoard>
-                                <CompletedBoardRow solution="toads" guess="frogs" />
+                                <EmptyBoardRow wordLen={5} currentGuess="dodle" />
+                                <CompletedBoardRow solution="dodle" guess="wordl" />
                             </ExampleBoard>
-                        </div>
-                        <p>
-                            After each guess, a new picture appears for the same word. 
-                            Additionally, the colors of the tiles will change to indicate
-                            how close you are to the solution.
                             <ul>
                                 <li>
                                     Green means an exact match.
                                 </li>
                                 <li>
-                                    Yellow means the letter is present in the word to guess,
-                                    but at another position.
+                                    Yellow means the letter is present in the word to guess but at
+                                    another position.
                                 </li>
                                 <li>
                                     Gray means the letter is absent in the solution.
                                 </li>
                             </ul>
+                        </div>
+                        <p>
+                            A game can be played once a day. Normally every day there should be a
+                            new image to guess. Since the game is WIP that might currently not
+                            happen.
                         </p>
+                        <div>
+                            The game tracks the following <b>anonymous</b> stats in order to improve it:
+                            <ul>
+                                <li>If was completed and if it was successful</li>
+                                <li>Stats from the stats page</li>
+                                <li>The entered guesses per game</li>
+                            </ul>
+                            No private or identifiable data is tracked.
+                            You can still opt out by clicking though:
+                        </div>
                         <form>
                             <input
                                 type="checkbox"
@@ -91,9 +102,19 @@ const Help: NextPage = () => {
                                 onChange={(e) => setAllowTracking(e.target.checked)}
                             />
                             <label htmlFor="tracking">
-                                Allow to track guesses to improve the game.
+                                Allow to track game statistics.
                             </label>
                         </form>
+                        <hr/>
+                        <p>
+                            Created by&nbsp;
+                            <a href="https://twitter.com/sepgil" 
+                            target="_blank" rel="noreferrer">@sepgil</a><br/>
+                            Code can be found on&nbsp;
+                            <a href="https://github.com/sepal/dodle"
+                            target="_blank" rel="noreferrer">github/sepal/dodle</a>
+                        </p>
+
                     </HelpSection>
                 </Modal>
 
