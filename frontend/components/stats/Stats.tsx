@@ -28,6 +28,7 @@ interface StatsProps {
     game: GameData
 }
 
+
 function Stats({ game }: StatsProps) {
     const [histoHighlight, setHistoHighlight] = useState<number|undefined>(undefined);
     const [guesses, setGuesses] = useLocalStorage<Guess[]>("guesses", []);
@@ -48,7 +49,7 @@ function Stats({ game }: StatsProps) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [game.id, guesses.length]);
 
-    const solved = stats.played <= 0 ? 0 : stats.solved / stats.played * 100;
+    const solved = Math.round(stats.played <= 0 ? 0 : stats.solved / stats.played * 100);
 
     return (
         <StatsWrapper>
