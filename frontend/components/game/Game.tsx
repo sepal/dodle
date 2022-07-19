@@ -120,8 +120,9 @@ const Game = ({ game }: GameProps) => {
   const handleOnEmptyRowClick = () => {
     if (keyboardRef && keyboardRef.current) {
       keyboardRef.current.scrollIntoView();
-
+      if (currentLetter == undefined || currentLetter < 0) {
         setCurrentLetter(0);
+      }
     }
   };
 
