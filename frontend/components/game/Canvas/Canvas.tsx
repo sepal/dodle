@@ -37,9 +37,10 @@ export default function Canvas({ image }: CanvasInput) {
         <Image
           alt="A.I. drawing"
           src={image}
-          quality={100}
-          width={256}
-          height={256}
+          quality="75"
+          width="256"
+          height="256"
+          priority={true}
         />
       </ImageWrapper>
     </Frame>
