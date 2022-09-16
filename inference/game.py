@@ -12,17 +12,22 @@ from botocore.exceptions import ClientError
 
 class Game:
 
-    def __init__(self, n_images=5) -> None:
-        self.__word = ""
-        self.__prompt = ""
+    def __init__(self, n_images=5, word=None, prompt=None) -> None:
+        self.__word = word
+        self.__prompt = prompt
         self.__files = []
         self.__images = []
         self.__n_images = n_images
         self.__prefix = None
 
     def generate_game(self):
-        logging.info("Generating new game")
-        self.__word, prompt = generate_prompt()
+        if self.__word == None or self.__prompt == None:
+            logging.info("Generating new random game")
+            self.__word, prompt = generate_prompt()
+        else:
+            logging.info("Using given word and prompt")
+            prompt = self.__prompt
+        
         logging.info("Drawing images for prompt %s" % prompt)
         self.__prompt, images, scores = draw_sketch(prompt, self.__n_images)
 
@@ -52,6 +57,14 @@ class Game:
         }
         return json.dumps(data)
 
+    def save_game(self, dir="./"):
+        for i in range(self.__n_images):
+            fn = f'{i}.png'
+            with open(fn, "wb") as file:
+                file.write(self.__files[i].getbuffer())
+
+        with open('game.json', 'w') as file:
+            json.dump(self.game_data, file)
 
     def upload_files(self, bucket):
         s3_client = boto3.client('s3')
