@@ -16,7 +16,7 @@ from PIL import Image
 os.environ['WANDB_MODE'] = "offline"
 
 # can be wandb artifact or 🤗 Hub or local folder or google bucket
-DALLE_MODEL = "dalle-mini/dalle-mini/wzoooa1c:latest"
+DALLE_MODEL = "dalle-mini/dalle-mini/mega-1-fp16:latest"
 DALLE_COMMIT_ID = None
 
 # VQGAN model
@@ -24,7 +24,7 @@ VQGAN_REPO = "dalle-mini/vqgan_imagenet_f16_16384"
 VQGAN_COMMIT_ID = "e93a26e7707683d349bf5d5c41c5b0ef69b677a9"
 
 # CLIP model
-CLIP_REPO = "openai/clip-vit-large-patch14"
+CLIP_REPO = "openai/clip-vit-base-patch32"
 CLIP_COMMIT_ID = None
 
 model = DalleBart.from_pretrained(DALLE_MODEL, revision=DALLE_COMMIT_ID)
