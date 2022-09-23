@@ -5,7 +5,6 @@ import time
 import logging
 
 from matplotlib.cbook import get_sample_data
-from dalle_sketch import generate_prompt, draw_sketch
 import boto3
 from botocore.exceptions import ClientError
 
@@ -21,6 +20,8 @@ class Game:
         self.__prefix = None
 
     def generate_game(self):
+        from dalle_sketch import generate_prompt, draw_sketch
+
         if self.__word == None or self.__prompt == None:
             logging.info("Generating new random game")
             self.__word, prompt = generate_prompt()
@@ -59,11 +60,11 @@ class Game:
 
     def save_game(self, dir="./"):
         for i in range(self.__n_images):
-            fn = f'{i}.png'
+            fn = f'games/{self.__word}_{i}.png'
             with open(fn, "wb") as file:
                 file.write(self.__files[i].getbuffer())
 
-        with open('game.json', 'w') as file:
+        with open(f'games/{self.__word}_game.json', 'w') as file:
             json.dump(self.game_data, file)
 
     def upload_files(self, bucket):

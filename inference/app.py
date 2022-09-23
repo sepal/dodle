@@ -66,9 +66,10 @@ def main():
                 game = Game(n_images=5, word=row["word"], prompt=row["prompt"])
                 game.generate_game()
                 game.save_game()
-            break;
+                game.upload_files(args.bucket)
+                game.push_game_data(args.sqs)
 
-        df.to_csv(args.from_csv)    
+        df.to_csv(args.from_csv, index=False)    
     else:
         game = Game(args.n_images)
         game.generate_game()
