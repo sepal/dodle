@@ -7,6 +7,8 @@ export function splitWord(word: string) {
 export function getGuessesLetterStates(solution: string, guesses: string[]){
     let states : { [key : string]: LetterStatus } = {};
 
+    solution = solution.toLowerCase();
+
     guesses.forEach((guess) => {
         splitWord(guess).forEach((letter, i) => {
             if (!solution.includes(letter)) {
@@ -25,7 +27,7 @@ export function getGuessesLetterStates(solution: string, guesses: string[]){
 }
 
 export function getGuessLetterStates(solution: string, guess: string): LetterStatus[] {
-    const splitSolution = splitWord(solution);
+    const splitSolution = splitWord(solution.toLocaleLowerCase());
     const splitGuess = splitWord(guess);
 
     let charsTaken = splitSolution.map(() => false);

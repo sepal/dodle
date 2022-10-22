@@ -83,7 +83,7 @@ const Game = ({ game }: GameProps) => {
 
     let guess: Guess = {
       word: currentGuess,
-      correct: currentGuess.toLowerCase() == game.word,
+      correct: currentGuess.toLowerCase() == game.word.toLowerCase(),
     };
 
     const nGuesses = [...guesses, guess];
@@ -152,12 +152,12 @@ const Game = ({ game }: GameProps) => {
             onDelete={handleOnDelete}
             onEnter={handleGuess}
             guesses={guesses.map((g) => g.word)}
-            word={game.word} />
+            word={game.word.toLowerCase()} />
         </div>
       ) : (
         <>
         <EndMessage state={playState} 
-          word={game.word} 
+          word={game.word.toLowerCase()} 
           prompt={game.prompt}
           gameId={game.id}
           guesses={guesses.map(guess => guess.word)} 
